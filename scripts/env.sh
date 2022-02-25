@@ -1,6 +1,8 @@
+
 function uclash(){
-    echo xsro\'s manage clash profiles $clash_ui_folder,$clash_config_folder
-    clash_command="node $clash_config_folder run --configuration 3  --auto-update 0.5d --git-push  --deploy --secret lucky --ui $clash_ui_folder"
+    echo xsro\'s manage clash profiles $uclash_folder
+    clash_ui_folder="$uclash_folder/_ui"
+    clash_command="node $uclash_folder exec --auto-update 0.5d --git-push  --deploy --secret lucky --ui $clash_ui_folder"
     case $1 in
     exec)
         $clash_command
@@ -28,7 +30,7 @@ function uclash(){
         done
         ;;
     u|upgrade)
-        cd $clash_config_folder
+        cd $uclash_folder
         git fetch
         git reset --hard origin/master
         cd -
@@ -38,10 +40,10 @@ function uclash(){
         cd -
         ;;
     g)
-        node $clash_config_folder update -c3
+        node $uclash_folder update -c3
         ;;
     *)
-        node $clash_config_folder $*
+        node $uclash_folder $*
     esac
 }
 

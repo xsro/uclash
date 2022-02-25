@@ -17,10 +17,13 @@ async function getConfig(conf) {
     if (conf === "2") {
         configPath = asAbsolutePath("config/GreenFish.yml")
     }
-    if (conf === "3" || conf === undefined) {
+    if (conf === "3") {
         configPath = asAbsolutePath("config/SS-Rule-Snippet.yml")
     }
-    if (!isAbsolute(conf)) {
+    if (conf === undefined) {
+        configPath = asAbsolutePath("_config/GreenFish.yml")
+    }
+    if (!isAbsolute(configPath)) {
         configPath = resolve(process.cwd(), configPath)
     }
     const configText = await fs.readFile(configPath, { encoding: "utf-8" });
