@@ -4,7 +4,7 @@ function uclash(){
     clash_ui_folder="$uclash_folder/_ui"
     clash_command="node $uclash_folder exec --auto-update 0.5d --git-push  --deploy --secret lucky --ui $clash_ui_folder"
     case $1 in
-    exec)
+    run)
         $clash_command
         ;;
     screen)
@@ -29,10 +29,10 @@ function uclash(){
             $clash_command
         done
         ;;
-    u|upgrade)
+    u|update)
         cd $uclash_folder
         git fetch
-        git reset --hard origin/master
+        git reset --hard origin/main
         cd -
         cd $clash_ui_folder
         git fetch

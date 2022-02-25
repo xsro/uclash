@@ -12,14 +12,25 @@ import { existsSync } from "fs";
 
 async function getConfig(conf) {
     let configPath = conf;
-    if (conf === "1") {
-        configPath = asAbsolutePath("config/GreenFish.json")
+    if (existsSync(asAbsolutePath("_config"))) {
+        const files = await fs.readdir(asAbsolutePath("_config/"));
+        const cfgs = files
+            .filter(file => !file.startsWith("_") && file.endsWith(".yml"))
+            .map(file => asAbsolutePath("_config/" + file));
+        logger.info("finded " + Object.entries(cfgs).map(val => { let [k, v] = val; return `${k} ${v}` }).join("\t\n"))
+        let i = conf ? parseInt(conf) : 0;
+        configPath = cfgs[i]
     }
-    if (conf === "2") {
-        configPath = asAbsolutePath("config/GreenFish.yml")
-    }
-    if (conf === "3") {
-        configPath = asAbsolutePath("config/SS-Rule-Snippet.yml")
+    else {
+        if (conf === "1") {
+            configPath = asAbsolutePath("config/GreenFish.json")
+        }
+        if (conf === "2") {
+            configPath = asAbsolutePath("config/GreenFish.yml")
+        }
+        if (conf === "3") {
+            configPath = asAbsolutePath("config/SS-Rule-Snippet.yml")
+        }
     }
 
     if (!isAbsolute(configPath)) {
@@ -63,7 +74,7 @@ program
     .action(async function (configuration, options) {
         if (configuration) options.configuration = configuration;
         if (options.configuration === undefined) {
-            if (!existsSync("_config")) {
+            if (!existsSync(asAbsolutePath("_config"))) {
                 console.error("can't find configs");
                 return
             }
@@ -103,7 +114,7 @@ program
             }
             logger.info(1, options)
 
-            //define configuration file
+
             const { config } = await getConfig(options.configuration)
 
             const profileDst = config.parser.destination;
