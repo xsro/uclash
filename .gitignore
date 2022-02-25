@@ -3,4 +3,4 @@ _clash/
 tmp/
 !tmp/empty
 _*.*
-_config/
+_*/

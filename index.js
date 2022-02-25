@@ -4,7 +4,7 @@ import Clash from "./lib/clash.js";
 import { asAbsolutePath } from "./lib/util.js";
 import * as fs from "fs/promises";
 import { logger } from "./lib/logger.js";
-import { extname } from "path";
+import { extname, resolve, isAbsolute, dirname } from "path";
 import YAML from "yaml";
 import { ips } from "./lib/ip.js";
 import genPAC from "./lib/pac.js";
@@ -20,6 +20,9 @@ async function getConfig(conf) {
     if (conf === "3" || conf === undefined) {
         configPath = asAbsolutePath("config/SS-Rule-Snippet.yml")
     }
+    if (!isAbsolute(conf)) {
+        configPath = resolve(process.cwd(), configPath)
+    }
     const configText = await fs.readFile(configPath, { encoding: "utf-8" });
     let config = null
     switch (extname(configPath).toLowerCase()) {
@@ -34,26 +37,30 @@ async function getConfig(conf) {
     if (config === null) {
         throw new Error("can't read config file")
     }
-    return config
+    config.parser.destination = isAbsolute(config.parser.destination)
+        ? config.parser.destination
+        : resolve(dirname(configPath), config.parser.destination);
+    return { configPath, config }
 }
 
 program
-    .command("update")
-    .description("update a profile from a configuration file with self update and")
+    .command("generate [configuration]")
+    .description("generate a profile from a configuration file")
     .option("-c,--configuration [string]", "use configuration")
     .option("-f,--copy-profile <string>", "the destination for copy profile to")
     .option("-G,--no-git", "don't use git to commit generated clash profile")
     .option("--git-push", "push to remote if clash config profile changed")
-    .action(async function (options) {
-        const config = await getConfig(options.configuration)
-        const profileDst = asAbsolutePath(config.parser.destination);
-        await updateClashProfile(config, profileDst, options.copyProfile, options.git, options.gitPush)
+    .action(async function (configuration, options) {
+        if (configuration) options.configuration = configuration;
+        const { config } = await getConfig(options.configuration)
+
+        await updateClashProfile(config, options.copyProfile, options.git, options.gitPush)
     })
 
 
 program
-    .command("run")
-    .description("run clash via child_process and update profile")
+    .command("exec")
+    .description("execute clash via child_process and update profile")
     .option("-c,--configuration [string]", "use configuration")
     .option("-a,--auto-update [string]", "auto update profile")
     .option("-G,--no-git", "don't use git to commit generated clash profile")
@@ -74,9 +81,9 @@ program
             logger.info(1, options)
 
             //define configuration file
-            const config = await getConfig(options.configuration)
+            const { config } = await getConfig(options.configuration)
 
-            const profileDst = asAbsolutePath(config.parser.destination);
+            const profileDst = config.parser.destination;
 
             //run clash
             const profile_text = await fs.readFile(profileDst, { encoding: "utf-8" })
@@ -110,7 +117,7 @@ pacs: ${pacs.join(", ")}`
             }
             logger.info(4, msg);
 
-            await updateClashProfile(config, profileDst, options.copyProfile, options.git, options.gitPush).catch(console.error)
+            await updateClashProfile(config, options.copyProfile, options.git, options.gitPush).catch(console.error)
             if (typeof options.autoUpdate === "string") {
                 const autoUpdate = options.autoUpdate
                     .replace(/d/g, "*24h").replace(/h/g, "*60min")
@@ -121,7 +128,7 @@ pacs: ${pacs.join(", ")}`
                 let updateCount = 1;
                 setInterval(async function () {
                     logger.info(4, `${updateCount++} auto update profile at ${new Date().toLocaleString()}`)
-                    const { changed } = await updateClashProfile(config, profileDst, options.copyProfile, options.git, options.gitPush).catch(console.error);
+                    const { changed } = await updateClashProfile(config, options.copyProfile, options.git, options.gitPush).catch(console.error);
                     if (changed)
                         clash._cp.kill()
                 }, autoUpdate)
