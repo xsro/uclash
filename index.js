@@ -8,6 +8,7 @@ import { extname, resolve, isAbsolute, dirname } from "path";
 import YAML from "yaml";
 import { ips } from "./lib/ip.js";
 import genPAC from "./lib/pac.js";
+import { existsSync } from "fs";
 
 async function getConfig(conf) {
     let configPath = conf;
@@ -20,9 +21,7 @@ async function getConfig(conf) {
     if (conf === "3") {
         configPath = asAbsolutePath("config/SS-Rule-Snippet.yml")
     }
-    if (conf === undefined) {
-        configPath = asAbsolutePath("_config/GreenFish.yml")
-    }
+
     if (!isAbsolute(configPath)) {
         configPath = resolve(process.cwd(), configPath)
     }
@@ -40,9 +39,17 @@ async function getConfig(conf) {
     if (config === null) {
         throw new Error("can't read config file")
     }
-    config.parser.destination = isAbsolute(config.parser.destination)
-        ? config.parser.destination
-        : resolve(dirname(configPath), config.parser.destination);
+
+    const { parser } = config;
+    parser.destination = isAbsolute(parser.destination)
+        ? parser.destination
+        : resolve(dirname(configPath), parser.destination);
+    if (parser[process.platform]) {
+        for (const key in parser[process.platform]) {
+            parser[key] = parser[process.platform][key];
+        }
+    }
+
     return { configPath, config }
 }
 
@@ -55,10 +62,23 @@ program
     .option("--git-push", "push to remote if clash config profile changed")
     .action(async function (configuration, options) {
         if (configuration) options.configuration = configuration;
-        const { config } = await getConfig(options.configuration)
-
-        await updateClashProfile(config, options.copyProfile, options.git, options.gitPush)
-    })
+        if (options.configuration === undefined) {
+            if (!existsSync("_config")) {
+                console.error("can't find configs");
+                return
+            }
+            const files = await fs.readdir(asAbsolutePath("_config/"));
+            for (const file of files) {
+                if (!file.startsWith("_") && file.endsWith(".yml")) {
+                    const { config } = await getConfig("_config/" + file);
+                    await updateClashProfile(config, undefined, options.git, options.gitPush)
+                }
+            }
+        } else {
+            const { config } = await getConfig(options.configuration)
+            await updateClashProfile(config, options.copyProfile, options.git, options.gitPush)
+        }
+    });
 
 
 program
