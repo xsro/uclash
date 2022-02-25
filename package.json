@@ -1,0 +1,15 @@
+{
+  "name": "uclash",
+  "description": "tool to manage clash and configuration profile for my use",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@gitee.com:xsro/my-clash-configuration.git",
+  "author": "Liu Y Cheng <xsro@foxmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^9.0.0",
+    "log-update": "^5.0.0",
+    "yaml": "^1.10.2"
+  }
+}

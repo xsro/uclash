@@ -1,0 +1,139 @@
+import updateClashProfile from "./lib/update.js";
+import { program } from "commander";
+import Clash from "./lib/clash.js";
+import { asAbsolutePath } from "./lib/util.js";
+import * as fs from "fs/promises";
+import { logger } from "./lib/logger.js";
+import { extname } from "path";
+import YAML from "yaml";
+import { ips } from "./lib/ip.js";
+import genPAC from "./lib/pac.js";
+
+async function getConfig(conf) {
+    let configPath = conf;
+    if (conf === "1") {
+        configPath = asAbsolutePath("config/GreenFish.json")
+    }
+    if (conf === "2") {
+        configPath = asAbsolutePath("config/GreenFish.yml")
+    }
+    if (conf === "3" || conf === undefined) {
+        configPath = asAbsolutePath("config/SS-Rule-Snippet.yml")
+    }
+    const configText = await fs.readFile(configPath, { encoding: "utf-8" });
+    let config = null
+    switch (extname(configPath).toLowerCase()) {
+        case ".yml":
+        case ".yaml":
+            config = YAML.parse(configText)
+            break;
+        case ".json":
+            config = JSON.parse(configText)
+            break
+    }
+    if (config === null) {
+        throw new Error("can't read config file")
+    }
+    return config
+}
+
+program
+    .command("update")
+    .description("update a profile from a configuration file with self update and")
+    .option("-c,--configuration [string]", "use configuration")
+    .option("-f,--copy-profile <string>", "the destination for copy profile to")
+    .option("-G,--no-git", "don't use git to commit generated clash profile")
+    .option("--git-push", "push to remote if clash config profile changed")
+    .action(async function (options) {
+        const config = await getConfig(options.configuration)
+        const profileDst = asAbsolutePath(config.parser.destination);
+        await updateClashProfile(config, profileDst, options.copyProfile, options.git, options.gitPush)
+    })
+
+
+program
+    .command("run")
+    .description("run clash via child_process and update profile")
+    .option("-c,--configuration [string]", "use configuration")
+    .option("-a,--auto-update [string]", "auto update profile")
+    .option("-G,--no-git", "don't use git to commit generated clash profile")
+    .option("--git-push", "push to remote if clash config profile changed")
+    .option("-f,--copy-profile <string>", "the destination for copy profile to")
+    .option("-d,--deploy", "try to run clash to start proxy server")
+    .option("-D,--dryrun-deploy", "only generate clash command")
+    .option("-s,--secret [string]", "set secret for API")
+    .option("-l,--log-level [string]", "set log level: 0:clash输出   2:  3:软件执行进度  4:部分重要执行结果 5:连接日志")
+    .option("-u,--ui <path>", "start the ui from the path")
+    .action(
+        async function (options) {
+            if (options.logLevel === true) {
+                logger.level = 0
+            } else if (typeof options.logLevel === "string") {
+                logger.level = parseInt(options.logLevel)
+            }
+            logger.info(1, options)
+
+            //define configuration file
+            const config = await getConfig(options.configuration)
+
+            const profileDst = asAbsolutePath(config.parser.destination);
+
+            //run clash
+            const profile_text = await fs.readFile(profileDst, { encoding: "utf-8" })
+            const profile_obj = YAML.parse(profile_text);
+            const clash = new Clash({
+                f: profileDst,
+                extUi: options.ui,
+                clashLog: options.clashLog,
+                secret: options.secret,
+                dryrun: options.dryrunDeploy
+            });
+            if (options.dryrunDeploy) {
+                return
+            }
+
+            let msg = `代理服务端口: ${profile_obj["port"]} socks: ${profile_obj["socks-port"]}`
+            for (const net in ips) {
+                for (const ip of ips[net]) {
+                    const host = profile_obj["external-controller"].replace("0.0.0.0", ip)
+                    msg += `
+网络: ${net} ip地址:${ip}
+api: http://${host}`
+                    if (clash.secret) msg += ` secret: ${clash.secret}`;
+                    if (options.ui) {
+                        const pacs = await genPAC(options.ui, host, profile_obj, ip)
+                        msg += `
+ui: http://${host}/ui
+pacs: ${pacs.join(", ")}`
+                    }
+                }
+            }
+            logger.info(4, msg);
+
+            await updateClashProfile(config, profileDst, options.copyProfile, options.git, options.gitPush).catch(console.error)
+            if (typeof options.autoUpdate === "string") {
+                const autoUpdate = options.autoUpdate
+                    .replace(/d/g, "*24h").replace(/h/g, "*60min")
+                    .replace(/min/g, "60s").replace(/s/g, "*1000")
+                    .split("*").reduce((pre, cur) => pre * cur);
+                logger.info(4, `update interval ${autoUpdate / 1000} s`)
+
+                let updateCount = 1;
+                setInterval(async function () {
+                    logger.info(4, `${updateCount++} auto update profile at ${new Date().toLocaleString()}`)
+                    const { changed } = await updateClashProfile(config, profileDst, options.copyProfile, options.git, options.gitPush).catch(console.error);
+                    if (changed)
+                        clash._cp.kill()
+                }, autoUpdate)
+            }
+            return
+        }
+    )
+
+program.parse()
+
+
+
+
+
+

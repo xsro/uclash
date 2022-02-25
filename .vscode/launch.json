@@ -1,0 +1,15 @@
+{
+    "configurations": [
+    {
+        "name": "Launch Program",
+        "program": "${workspaceFolder}/index.js",
+        "args": ["run","-dstest","-c3","--ui","./tmp/"],
+        "request": "launch",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "pwa-node"
+    }
+    ]
+
+}
