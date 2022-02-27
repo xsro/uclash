@@ -101,6 +101,7 @@ program
     .option("--git-push", "push to remote if clash config profile changed")
     .option("-f,--copy-profile <string>", "the destination for copy profile to")
     .option("-d,--deploy", "try to run clash to start proxy server")
+    .option("-u,--update", "update profile")
     .option("-D,--dryrun-deploy", "only generate clash command")
     .option("-s,--secret [string]", "set secret for API")
     .option("-l,--log-level [string]", "set log level: 0:clash输出   2:  3:软件执行进度  4:部分重要执行结果 5:连接日志")
@@ -121,6 +122,10 @@ program
             const { config } = await getConfig(options.configuration)
 
             const profileDst = config.parser.destination;
+
+            if (options.update) {
+                await updateClashProfile(config, options.copyProfile, options.git, options.gitPush).catch(console.error)
+            }
 
             //run clash
             const profile_text = await fs.readFile(profileDst, { encoding: "utf-8" })
@@ -154,7 +159,6 @@ pacs: ${pacs.join(", ")}`
             }
             logger.info(4, msg);
 
-            await updateClashProfile(config, options.copyProfile, options.git, options.gitPush).catch(console.error)
             if (typeof options.autoUpdate === "string") {
                 const autoUpdate = options.autoUpdate
                     .replace(/d/g, "*24h").replace(/h/g, "*60min")
