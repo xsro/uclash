@@ -2,6 +2,7 @@
 function uclash(){
     echo xsro\'s manage clash profiles $uclash_folder
     clash_ui_folder="$uclash_folder/_ui"
+    clash_config_folder="$uclash_folder/_config"
     clash_command="node $uclash_folder exec --auto-update 0.5d --git-push --secret lucky"
     case $1 in
     run)
@@ -31,6 +32,10 @@ function uclash(){
         ;;
     u|update)
         cd $uclash_folder
+        git fetch
+        git reset --hard origin/main
+        cd -
+        cd $clash_config_folder
         git fetch
         git reset --hard origin/main
         cd -
