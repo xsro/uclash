@@ -12,24 +12,27 @@ import { existsSync } from "fs";
 
 async function getConfig(conf) {
     let configPath = conf;
-    if (existsSync(asAbsolutePath("_config"))) {
-        const files = await fs.readdir(asAbsolutePath("_config/"));
-        const cfgs = files
-            .filter(file => !file.startsWith("_") && file.endsWith(".yml"))
-            .map(file => asAbsolutePath("_config/" + file));
-        logger.info("finded " + Object.entries(cfgs).map(val => { let [k, v] = val; return `${k} ${v}` }).join("\t\n"))
-        let i = conf ? parseInt(conf) : 0;
-        configPath = cfgs[i]
-    }
-    else {
-        if (conf === "1") {
-            configPath = asAbsolutePath("config/GreenFish.json")
+    let configIdx = typeof conf === "string" && parseInt(conf) >= 0 ? parseInt(conf) : undefined;
+    if (typeof configIdx === "number") {
+        if (existsSync(asAbsolutePath("_config"))) {
+            const files = await fs.readdir(asAbsolutePath("_config/"));
+            const cfgs = files
+                .filter(file => !file.startsWith("_") && file.endsWith(".yml"))
+                .map(file => asAbsolutePath("_config/" + file));
+            logger.info("finded " + Object.entries(cfgs).map(val => { let [k, v] = val; return `${k} ${v}` }).join("\t\n"))
+            let i = conf ? parseInt(conf) : 0;
+            configPath = cfgs[i]
         }
-        if (conf === "2") {
-            configPath = asAbsolutePath("config/GreenFish.yml")
-        }
-        if (conf === "3") {
-            configPath = asAbsolutePath("config/SS-Rule-Snippet.yml")
+        else {
+            if (conf === 1) {
+                configPath = asAbsolutePath("config/GreenFish.json")
+            }
+            if (conf === 2) {
+                configPath = asAbsolutePath("config/GreenFish.yml")
+            }
+            if (conf === 3) {
+                configPath = asAbsolutePath("config/SS-Rule-Snippet.yml")
+            }
         }
     }
 
@@ -68,7 +71,6 @@ program
     .command("generate [configuration]")
     .description("generate a profile from a configuration file")
     .option("-c,--configuration [string]", "use configuration")
-    .option("-f,--copy-profile <string>", "the destination for copy profile to")
     .option("-G,--no-git", "don't use git to commit generated clash profile")
     .option("--git-push", "push to remote if clash config profile changed")
     .action(async function (configuration, options) {
@@ -82,12 +84,12 @@ program
             for (const file of files) {
                 if (!file.startsWith("_") && file.endsWith(".yml")) {
                     const { config } = await getConfig("_config/" + file);
-                    await updateClashProfile(config, undefined, options.git, options.gitPush)
+                    await updateClashProfile(config, options.git, options.gitPush)
                 }
             }
         } else {
             const { config } = await getConfig(options.configuration)
-            await updateClashProfile(config, options.copyProfile, options.git, options.gitPush)
+            await updateClashProfile(config, options.git, options.gitPush)
         }
     });
 
@@ -99,7 +101,6 @@ program
     .option("-a,--auto-update [string]", "auto update profile")
     .option("-G,--no-git", "don't use git to commit generated clash profile")
     .option("--git-push", "push to remote if clash config profile changed")
-    .option("-f,--copy-profile <string>", "the destination for copy profile to")
     .option("-d,--deploy", "try to run clash to start proxy server")
     .option("-u,--update", "update profile")
     .option("-D,--dryrun-deploy", "only generate clash command")
@@ -124,7 +125,7 @@ program
             const profileDst = config.parser.destination;
 
             if (options.update) {
-                await updateClashProfile(config, options.copyProfile, options.git, options.gitPush).catch(console.error)
+                await updateClashProfile(config, options.git, options.gitPush).catch(console.error)
             }
 
             //run clash
@@ -169,7 +170,7 @@ pacs: ${pacs.join(", ")}`
                 let updateCount = 1;
                 setInterval(async function () {
                     logger.info(4, `${updateCount++} auto update profile at ${new Date().toLocaleString()}`)
-                    const { changed } = await updateClashProfile(config, options.copyProfile, options.git, options.gitPush).catch(console.error);
+                    const { changed } = await updateClashProfile(config, options.git, options.gitPush).catch(console.error);
                     if (changed)
                         clash._cp.kill()
                 }, autoUpdate)
