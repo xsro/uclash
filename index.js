@@ -114,6 +114,9 @@ program
             }
             logger.info(1, options)
 
+            if (existsSync(asAbsolutePath("_ui"))) {
+                options.ui = asAbsolutePath("_ui");
+            }
 
             const { config } = await getConfig(options.configuration)
 
@@ -141,9 +144,6 @@ program
 网络: ${net} ip地址:${ip}
 api: http://${host}`
                     if (clash.secret) msg += ` secret: ${clash.secret}`;
-                    if (existsSync(asAbsolutePath("_ui"))) {
-                        options.ui = asAbsolutePath("_ui");
-                    }
                     if (options.ui) {
                         const pacs = await genPAC(options.ui, host, profile_obj, ip)
                         msg += `

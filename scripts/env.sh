@@ -2,7 +2,7 @@
 function uclash(){
     echo xsro\'s manage clash profiles $uclash_folder
     clash_ui_folder="$uclash_folder/_ui"
-    clash_command="node $uclash_folder exec --auto-update 0.5d --git-push  --deploy --secret lucky --ui $clash_ui_folder"
+    clash_command="node $uclash_folder exec --auto-update 0.5d --git-push --secret lucky"
     case $1 in
     run)
         $clash_command
