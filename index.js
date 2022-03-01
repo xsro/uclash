@@ -9,6 +9,7 @@ import YAML from "yaml";
 import { ips } from "./lib/ip.js";
 import genPAC from "./lib/pac.js";
 import { existsSync } from "fs";
+import { execSync } from "child_process";
 
 async function getConfig(conf) {
     let configPath = conf;
@@ -63,7 +64,6 @@ async function getConfig(conf) {
             parser[key] = parser[process.platform][key];
         }
     }
-
     return { configPath, config }
 }
 
@@ -131,11 +131,18 @@ program
             //run clash
             const profile_text = await fs.readFile(profileDst, { encoding: "utf-8" })
             const profile_obj = YAML.parse(profile_text);
+            let daemon = "screen"
+            try {
+                execSync("command -v screen", { encoding: "utf-8" });
+            } catch (e) {
+                daemon = undefined;
+            }
             const clash = new Clash({
                 f: profileDst,
                 extUi: options.ui,
-                clashLog: options.clashLog,
                 secret: options.secret,
+                clashLog: options.clashLog,
+                daemon,
                 dryrun: options.dryrunDeploy
             });
             if (options.dryrunDeploy) {
