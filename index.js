@@ -8,7 +8,7 @@ import { extname, resolve, isAbsolute, dirname } from "path";
 import YAML from "yaml";
 import { ips } from "./lib/ip.js";
 import genPAC from "./lib/pac.js";
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { execSync } from "child_process";
 
 async function getConfig(conf) {
@@ -160,20 +160,40 @@ api: http://${controller}`
                     if (options.ui) {
                         const pacs = await genPAC(options.ui, controller, profile_obj, ip);
                         const uihosts = [
-                            "http://yacd.haishan.me/", "http://clash.razord.top/"
+                            {
+                                //https://github.com/haishanh/yacd
+                                "website": "http://yacd.haishan.me/",
+                                "host": "host",
+                                "port": "port"
+                            },
+                            {
+                                //https://github.com/Dreamacro/clash-dashboard
+                                "website": "http://clash.razord.top/",
+                                "host": "host",
+                                "port": "port"
+                            },
+
                         ];
-                        if (existsSync(resolve(options.ui, "index.html"))) {
-                            uihosts.push(`http://${controller}/ui`)
+                        if (existsSync(resolve(options.ui, "CNAME"))) {
+                            const originalWebsiteName = readFileSync(resolve(options.ui, "CNAME"), "utf-8");
+                            const site = uihosts.find(val => val.website.includes(originalWebsiteName.trim()));
+                            if (site) {
+                                site.website = `http://${controller}/ui`;
+                                uihosts.push(site)
+                            }
                         }
                         const dashboards = uihosts.map(h => {
-                            const url = new URL(h);
-                            url.searchParams.set("host", controller.split(":")[0]);
-                            url.searchParams.set("port", controller.split(":")[1]);
+                            const url = new URL(h.website);
+                            if (h.host)
+                                url.searchParams.set(h.host, controller.split(":")[0]);
+                            if (h.port)
+                                url.searchParams.set(h.port, controller.split(":")[1]);
                             return url.toString();
                         });
                         msg += `
 ui: http://${controller}/ui
-controller: ${dashboards.join(",")}
+controller: 
+    ${dashboards.join(", ")},
 pacs: ${pacs.join(", ")}`
                     }
                 }
