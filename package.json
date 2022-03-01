@@ -9,7 +9,6 @@
   "license": "MIT",
   "dependencies": {
     "commander": "^9.0.0",
-    "log-update": "^5.0.0",
     "yaml": "^1.10.2"
   }
 }

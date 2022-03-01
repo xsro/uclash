@@ -145,15 +145,28 @@ program
             let msg = `代理服务端口: ${profile_obj["port"]} socks: ${profile_obj["socks-port"]}`
             for (const net in ips) {
                 for (const ip of ips[net]) {
-                    const host = profile_obj["external-controller"].replace("0.0.0.0", ip)
+                    const controller = profile_obj["external-controller"].replace("0.0.0.0", ip)
                     msg += `
 网络: ${net} ip地址:${ip}
-api: http://${host}`
+api: http://${controller}`
                     if (clash.secret) msg += ` secret: ${clash.secret}`;
                     if (options.ui) {
-                        const pacs = await genPAC(options.ui, host, profile_obj, ip)
+                        const pacs = await genPAC(options.ui, controller, profile_obj, ip);
+                        const uihosts = [
+                            "http://yacd.haishan.me/", "http://clash.razord.top/"
+                        ];
+                        if (existsSync(resolve(options.ui, "index.html"))) {
+                            uihosts.push(`http://${controller}/ui`)
+                        }
+                        const dashboards = uihosts.map(h => {
+                            const url = new URL(h);
+                            url.searchParams.set("host", controller.split(":")[0]);
+                            url.searchParams.set("port", controller.split(":")[1]);
+                            return url.toString();
+                        });
                         msg += `
-ui: http://${host}/ui
+ui: http://${controller}/ui
+controller: ${dashboards.join(",")}
 pacs: ${pacs.join(", ")}`
                     }
                 }
