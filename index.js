@@ -99,7 +99,7 @@ program
     .description("execute clash via child_process")
     .argument("<uclash-profile>", "use configuration from a file")
     .option("-u,--ui <path>", "start the ui from the path")
-    .option("-D,--dryrun-deploy", "only generate clash command")
+    .option("-D,--dryrun", "dry run")
     .option("-d,--daemon <screen|pm2>", "use daemon to run clash")
     .option("-c,--clash-log <redirect|all|force>", "clash log")
     .option("-s,--secret [string]", "set secret for API")
@@ -141,11 +141,8 @@ program
                 secret: options.secret,
                 clashLog: options.clashLog,
                 daemon,
-                dryrun: options.dryrunDeploy
+                dryrun: options.dryrun
             });
-            if (options.dryrunDeploy) {
-                return
-            }
 
             let msg = `代理服务端口: ${profile_obj["port"]} socks: ${profile_obj["socks-port"]}`
             for (const net in ips) {
