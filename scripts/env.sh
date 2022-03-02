@@ -7,33 +7,17 @@ function uclash(){
     case $1 in
     a|autoupdate)
         crond
-        echo "add following command to the prompt window"
-        echo "30 2 * * * node $uclash_folder generate >> ~/clash_gen.log"
-        crontab -e 
-    run)
+        echo "start cron to exec"
+        echo "30 6 * * * node $uclash_folder generate >> ~/clash_gen.log" > $TMPDIR/uclash_crontab.txt
+        crontab $TMPDIR/uclash_crontab.txt
+        ;;
+    c|configlog)
+        cd $clash_config_folder
+        git log
+        cd -
+        ;;
+    r|run)
         $clash_command
-        ;;
-    screen)
-        if [ "$2" = "" ]
-		then
-			screen -S uclash -m $clash_command
-        elif [ "$2" = "d" ]; then
-            screen -S uclash -dm $clash_command
-		elif [ "$2" = "stop" ]; then
-			screen -X -S uclash quit
-		fi
-        ;;
-    pm2)
-        pm2 $clash_command
-        ;;
-    loop)
-        for i in {1..100}
-        do
-            git fetch
-            git reset --hard origin/master
-            echo "Hai $i"
-            $clash_command
-        done
         ;;
     u|update)
         cd $uclash_folder
@@ -46,14 +30,15 @@ function uclash(){
         cd -
         cd $clash_ui_folder
         git fetch
-        git reset --hard origin/gh-pages
+        git reset --hard "origin/gh-pages"
         cd -
         ;;
-    g)
-        node $uclash_folder update -c3
+    generate|exec|help)
+        node $uclash_folder $*
         ;;
     *)
-        node $uclash_folder $*
+        echo "no such command $*"
+        ;;
     esac
 }
 

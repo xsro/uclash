@@ -12,7 +12,7 @@
     },{
         "name": "Launch exec Program",
         "program": "${workspaceFolder}/index.js",
-        "args": ["exec","-c1"],
+        "args": ["exec","0","-c force"],
         "request": "launch",
         "skipFiles": [
             "<node_internals>/**"

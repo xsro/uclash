@@ -68,14 +68,13 @@ async function getConfig(conf) {
 }
 
 program
-    .command("generate [configuration]")
-    .description("generate a profile from a configuration file")
-    .option("-c,--configuration [string]", "use configuration")
+    .command("generate")
+    .description("generate a profile from a uclash profile")
+    .argument("[uclash_profile]", "use configuration from file, when undefined, all config will be used in _config")
     .option("-G,--no-git", "don't use git to commit generated clash profile")
     .option("--git-push", "push to remote if clash config profile changed")
-    .action(async function (configuration, options) {
-        if (configuration) options.configuration = configuration;
-        if (options.configuration === undefined) {
+    .action(async function (uclashProfile, options) {
+        if (uclashProfile === undefined) {
             if (!existsSync(asAbsolutePath("_config"))) {
                 console.error("can't find configs");
                 return
@@ -83,12 +82,13 @@ program
             const files = await fs.readdir(asAbsolutePath("_config/"));
             for (const file of files) {
                 if (!file.startsWith("_") && file.endsWith(".yml")) {
-                    const { config } = await getConfig("_config/" + file);
+                    const { config, configPath } = await getConfig("_config/" + file);
+                    logger.info(4, "update " + configPath)
                     await updateClashProfile(config, options.git, options.gitPush)
                 }
             }
         } else {
-            const { config } = await getConfig(options.configuration)
+            const { config } = await getConfig(uclashProfile)
             await updateClashProfile(config, options.git, options.gitPush)
         }
     });
@@ -97,14 +97,15 @@ program
 program
     .command("exec")
     .description("execute clash via child_process")
-    .option("-c,--configuration [string]", "use configuration")
+    .argument("<uclash-profile>", "use configuration from a file")
     .option("-u,--ui <path>", "start the ui from the path")
-    .option("-d,--deploy", "try to run clash to start proxy server")
     .option("-D,--dryrun-deploy", "only generate clash command")
+    .option("-d,--daemon <screen|pm2>", "use daemon to run clash")
+    .option("-c,--clash-log <redirect|all|force>", "clash log")
     .option("-s,--secret [string]", "set secret for API")
     .option("-l,--log-level [string]", "set log level: 0:clash输出   2:  3:软件执行进度  4:部分重要执行结果 5:连接日志")
     .action(
-        async function (options) {
+        async function (uclashProfile, options) {
             if (options.logLevel === true) {
                 logger.level = 0
             } else if (typeof options.logLevel === "string") {
@@ -116,7 +117,7 @@ program
                 options.ui = asAbsolutePath("_ui");
             }
 
-            const { config } = await getConfig(options.configuration)
+            const { config } = await getConfig(uclashProfile)
 
             const profileDst = config.parser.destination;
 
@@ -127,10 +128,11 @@ program
             //run clash
             const profile_text = await fs.readFile(profileDst, { encoding: "utf-8" })
             const profile_obj = YAML.parse(profile_text);
-            let daemon = "screen"
+            let daemon = options.daemon ? options.daemon : "screen"
             try {
-                execSync("command -v screen", { encoding: "utf-8" });
+                execSync("command -v " + daemon, { encoding: "utf-8" });
             } catch (e) {
+                logger.info(4, `command ${daemon} not found`)
                 daemon = undefined;
             }
             const clash = new Clash({
