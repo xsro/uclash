@@ -96,17 +96,13 @@ program
 
 program
     .command("exec")
-    .description("execute clash via child_process and update profile")
+    .description("execute clash via child_process")
     .option("-c,--configuration [string]", "use configuration")
-    .option("-a,--auto-update [string]", "auto update profile")
-    .option("-G,--no-git", "don't use git to commit generated clash profile")
-    .option("--git-push", "push to remote if clash config profile changed")
+    .option("-u,--ui <path>", "start the ui from the path")
     .option("-d,--deploy", "try to run clash to start proxy server")
-    .option("-u,--update", "update profile")
     .option("-D,--dryrun-deploy", "only generate clash command")
     .option("-s,--secret [string]", "set secret for API")
     .option("-l,--log-level [string]", "set log level: 0:clash输出   2:  3:软件执行进度  4:部分重要执行结果 5:连接日志")
-    .option("-u,--ui <path>", "start the ui from the path")
     .action(
         async function (options) {
             if (options.logLevel === true) {
@@ -199,22 +195,6 @@ pacs: ${pacs.join(", ")}`
                 }
             }
             logger.info(4, msg);
-
-            if (typeof options.autoUpdate === "string") {
-                const autoUpdate = options.autoUpdate
-                    .replace(/d/g, "*24h").replace(/h/g, "*60min")
-                    .replace(/min/g, "60s").replace(/s/g, "*1000")
-                    .split("*").reduce((pre, cur) => pre * cur);
-                logger.info(4, `update interval ${autoUpdate / 1000} s`)
-
-                let updateCount = 1;
-                setInterval(async function () {
-                    logger.info(4, `${updateCount++} auto update profile at ${new Date().toLocaleString()}`)
-                    const { changed } = await updateClashProfile(config, options.git, options.gitPush).catch(console.error);
-                    if (changed)
-                        clash._cp.kill()
-                }, autoUpdate)
-            }
             return
         }
     )
