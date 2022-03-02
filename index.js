@@ -150,48 +150,43 @@ program
                 for (const ip of ips[net]) {
                     const controller = profile_obj["external-controller"].replace("0.0.0.0", ip)
                     msg += `
-网络: ${net} ip地址:${ip}
+===网络: ${net} ip地址:${ip}===
 api: http://${controller}`
                     if (clash.secret) msg += ` secret: ${clash.secret}`;
-                    if (options.ui) {
-                        const pacs = await genPAC(options.ui, controller, profile_obj, ip);
-                        const uihosts = [
-                            {
-                                //https://github.com/haishanh/yacd
-                                "website": "http://yacd.haishan.me/",
-                                "host": "host",
-                                "port": "port"
-                            },
-                            {
-                                //https://github.com/Dreamacro/clash-dashboard
-                                "website": "http://clash.razord.top/",
-                                "host": "host",
-                                "port": "port"
-                            },
-
-                        ];
-                        if (existsSync(resolve(options.ui, "CNAME"))) {
-                            const originalWebsiteName = readFileSync(resolve(options.ui, "CNAME"), "utf-8");
-                            const site = uihosts.find(val => val.website.includes(originalWebsiteName.trim()));
-                            if (site) {
-                                site.website = `http://${controller}/ui`;
-                                uihosts.push(site)
-                            }
+                    const pacs = await genPAC(options.ui, controller, profile_obj, ip);
+                    const uihosts = [
+                        {
+                            //https://github.com/Dreamacro/clash-dashboard
+                            "website": "http://clash.razord.top/",
+                            "host": "host",
+                            "port": "port"
+                        },
+                        {
+                            //https://github.com/haishanh/yacd
+                            "website": "http://yacd.haishan.me/",
+                        },
+                    ];
+                    if (options.ui && existsSync(resolve(options.ui, "CNAME"))) {
+                        const originalWebsiteName = readFileSync(resolve(options.ui, "CNAME"), "utf-8");
+                        const site = uihosts.find(val => val.website.includes(originalWebsiteName.trim()));
+                        if (site) {
+                            uihosts.push({ ...site, website: `http://${controller}/ui` })
                         }
-                        const dashboards = uihosts.map(h => {
-                            const url = new URL(h.website);
-                            if (h.host)
-                                url.searchParams.set(h.host, controller.split(":")[0]);
-                            if (h.port)
-                                url.searchParams.set(h.port, controller.split(":")[1]);
-                            return url.toString();
-                        });
-                        msg += `
+                    }
+                    const dashboards = uihosts.map(h => {
+                        const url = new URL(h.website);
+                        if (h.host)
+                            url.searchParams.set(h.host, controller.split(":")[0]);
+                        if (h.port)
+                            url.searchParams.set(h.port, controller.split(":")[1]);
+                        return url.toString();
+                    });
+                    msg += `
 ui: http://${controller}/ui
 controller: 
-    ${dashboards.join(", ")},
-pacs: ${pacs.join(", ")}`
-                    }
+    ${dashboards.join("   ")},
+pacs: 
+    ${pacs.join("   ")}`
                 }
             }
             logger.info(4, msg);
