@@ -71,9 +71,12 @@ program
     .command("generate")
     .description("generate a profile from a uclash profile")
     .argument("[uclash_profile]", "use configuration from file, when undefined, all config will be used in _config")
-    .option("-G,--no-git", "don't use git to commit generated clash profile")
-    .option("--git-push", "push to remote if clash config profile changed")
+    .option("-c,--git-commit", "generate a git commit if config changed")
+    .option("-p,--git-push", "push to remote if config changed")
+    .option("-b,--before [string]", "command will be run before update profile,default is git pull")
+    .option("-a,--allow-cache")
     .action(async function (uclashProfile, options) {
+        const configs = [];
         if (uclashProfile === undefined) {
             if (!existsSync(asAbsolutePath("_config"))) {
                 console.error("can't find configs");
@@ -82,15 +85,28 @@ program
             const files = await fs.readdir(asAbsolutePath("_config/"));
             for (const file of files) {
                 if (!file.startsWith("_") && file.endsWith(".yml")) {
-                    const { config, configPath } = await getConfig("_config/" + file);
-                    logger.info(4, "update " + configPath)
-                    await updateClashProfile(config, options.git, options.gitPush)
+                    const c = await getConfig("_config/" + file);
+                    configs.push(c)
                 }
             }
         } else {
-            const { config } = await getConfig(uclashProfile)
-            await updateClashProfile(config, options.git, options.gitPush)
+            const c = await getConfig(uclashProfile);
+            configs.push(c)
         }
+        for (const c of configs) {
+            logger.info(4, "update " + configPath)
+            await updateClashProfile(
+                c,
+                {
+                    before: options.before ? options.before : "git pull",
+                    add: options.gitCommit,
+                    commit: options.gitCommit,
+                    after: options.gitPush ? "git push" : false
+                },
+                options.allowCache
+            )
+        }
+
     });
 
 

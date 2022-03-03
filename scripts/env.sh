@@ -8,7 +8,7 @@ function uclash(){
     a|autoupdate)
         crond
         echo "start cron to exec"
-        echo "30 6 * * * node $uclash_folder generate >> ~/clash_gen.log" > $TMPDIR/uclash_crontab.txt
+        echo "30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log" > $TMPDIR/uclash_crontab.txt
         crontab $TMPDIR/uclash_crontab.txt
         ;;
     c|configlog)
