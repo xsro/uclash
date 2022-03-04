@@ -1,9 +1,20 @@
 # clash-nodejs-utility
 
-自用clash nodejs 管理工具。
-主要为了更好地在termux中管理配置。
+uclash is a nodejs CLI package for managing clash profile writen in javascript use esm
+uclash is originnally for using in Termux 
 
-## 参考链接
+## Install
+
+```shell
+npm install -g https://github.com/xsro/uclash
+yarn global add https://github.com/xsro/uclash
+```
+
+## Usage
+
+type `uclash help`
+
+## references
 
 1. https://github.com/oslook/clash-freenode
 2. https://github.com/ThekingMX1998/free-v2ray-code

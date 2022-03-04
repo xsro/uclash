@@ -1,17 +1,20 @@
+#!/usr/bin/env node
 import updateClashProfile from "./lib/update.js";
 import { program } from "commander";
 import Clash from "./lib/clash.js";
-import { asAbsolutePath } from "./lib/util.js";
+import { asAbsolutePath, projectFolder } from "./lib/util.js";
 import * as fs from "fs/promises";
 import { logger } from "./lib/logger.js";
 import { join, resolve } from "path";
 import YAML from "yaml";
 import { ips } from "./lib/ip.js";
 import genPAC from "./lib/pac.js";
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { execSync } from "child_process";
 import { getConfig } from "./lib/getConfig.js";
 import { config, defaultConfig } from "./lib/local.config.js";
+
+const execOpts = { cwd: projectFolder, stdio: "inherit", encoding: "utf-8" };
 
 program
     .command("config [key] [value]")
@@ -25,7 +28,42 @@ program
         if (options.listDefault) {
             console.log("\t" + Object.entries(defaultConfig).map(val => val[0] + ":\t" + val[1]).join("\n\t"))
         }
-        config[key] = value
+        config[key] = value;
+    })
+
+program
+    .command("init")
+    .option("-f,--force", "rm all")
+    .action(async function (options) {
+
+        if (options.force) {
+            execSync("rm -rf _ui", execOpts)
+            execSync("rm -rf _config", execOpts)
+        }
+        if (!existsSync(asAbsolutePath("_ui")) && config["ui-repo"]) {
+            execSync(`git clone ${config["ui-repo"]} _ui -b ${config["ui-branch"]}`,)
+        }
+        if (!existsSync(asAbsolutePath("_config")) && config["config-repo"]) {
+            execSync(`git clone ${config["config-repo"]} _config -b ${config["config-branch"]}`, execOpts)
+        }
+    })
+
+program
+    .command("reset")
+    .action(async function (options) {
+        if (!existsSync(asAbsolutePath("_ui")) && config["ui-repo"]) {
+            execSync(`git reset --hard origin/${config["ui-branch"]}`, { ...execOpts, cwd: asAbsolutePath("_config") })
+        }
+        if (!existsSync(asAbsolutePath("_config")) && config["config-repo"]) {
+            execSync(`git reset --hard origin/${config["config-branch"]}`, { ...execOpts, cwd: asAbsolutePath("_config") })
+        }
+    })
+
+program
+    .command("crontab")
+    .action(async function () {
+        writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", asAbsolutePath("tmp/tab.txt"), "utf-8")
+        execSync(`crontab ` + asAbsolutePath("tmp/tab.txt"), execOpts)
     })
 
 program
