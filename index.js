@@ -55,7 +55,7 @@ program
             configs.push(c)
         }
         for (const c of configs) {
-            logger.info(4, "update " + configPath)
+            logger.info(4, "update " + c)
             await updateClashProfile(
                 c,
                 {
