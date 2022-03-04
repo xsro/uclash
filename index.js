@@ -2,7 +2,7 @@
 import updateClashProfile from "./lib/update.js";
 import { program } from "commander";
 import Clash from "./lib/clash.js";
-import { asAbsolutePath, projectFolder } from "./lib/util.js";
+import { config, defaultConfig, setConfig, projectFolder } from "./lib/util.js";
 import * as fs from "fs/promises";
 import { logger } from "./lib/logger.js";
 import { join, resolve } from "path";
@@ -12,7 +12,6 @@ import genPAC from "./lib/pac.js";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { execSync } from "child_process";
 import { getConfig } from "./lib/getConfig.js";
-import { config, defaultConfig } from "./lib/local.config.js";
 
 const execOpts = { cwd: projectFolder, stdio: "inherit", encoding: "utf-8" };
 
@@ -28,42 +27,41 @@ program
         if (options.listDefault) {
             console.log("\t" + Object.entries(defaultConfig).map(val => val[0] + ":\t" + val[1]).join("\n\t"))
         }
-        config[key] = value;
+        key && setConfig(key, value)
     })
 
 program
     .command("init")
     .option("-f,--force", "rm all")
     .action(async function (options) {
-
         if (options.force) {
             execSync("rm -rf _ui", execOpts)
             execSync("rm -rf _config", execOpts)
         }
-        if (!existsSync(asAbsolutePath("_ui")) && config["ui-repo"]) {
-            execSync(`git clone ${config["ui-repo"]} _ui -b ${config["ui-branch"]}`,)
+        if (!existsSync(config['ui-folder']) && config["ui-repo"]) {
+            execSync(`git clone ${config["ui-repo"]} ${config['ui-folder']} -b ${config["ui-branch"]}`, execOpts)
         }
-        if (!existsSync(asAbsolutePath("_config")) && config["config-repo"]) {
-            execSync(`git clone ${config["config-repo"]} _config -b ${config["config-branch"]}`, execOpts)
+        if (!existsSync(config['config-folder']) && config["config-repo"]) {
+            execSync(`git clone ${config["config-repo"]} ${config['config-folder']} -b ${config["config-branch"]}`, execOpts)
         }
     })
 
 program
     .command("reset")
     .action(async function (options) {
-        if (!existsSync(asAbsolutePath("_ui")) && config["ui-repo"]) {
-            execSync(`git reset --hard origin/${config["ui-branch"]}`, { ...execOpts, cwd: asAbsolutePath("_config") })
+        if (!existsSync(config['ui-folder']) && config["ui-repo"]) {
+            execSync(`git reset --hard origin/${config["ui-branch"]}`, { ...execOpts, cwd: config['config-folder'] })
         }
-        if (!existsSync(asAbsolutePath("_config")) && config["config-repo"]) {
-            execSync(`git reset --hard origin/${config["config-branch"]}`, { ...execOpts, cwd: asAbsolutePath("_config") })
+        if (!existsSync(config['config-folder']) && config["config-repo"]) {
+            execSync(`git reset --hard origin/${config["config-branch"]}`, { ...execOpts, cwd: config['config-folder'] })
         }
     })
 
 program
     .command("crontab")
     .action(async function () {
-        writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", asAbsolutePath("tmp/tab.txt"), "utf-8")
-        execSync(`crontab ` + asAbsolutePath("tmp/tab.txt"), execOpts)
+        writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", asCachePath("tab.txt"), "utf-8")
+        execSync(`crontab ` + asCachePath("tab.txt"), execOpts)
     })
 
 program
@@ -77,11 +75,11 @@ program
     .action(async function (uclashProfile, options) {
         const configs = [];
         if (uclashProfile === undefined) {
-            if (!existsSync(asAbsolutePath("_config"))) {
+            if (!existsSync(config['config-folder'])) {
                 console.error("can't find configs");
                 return
             }
-            const files = await fs.readdir(asAbsolutePath("_config/"));
+            const files = await fs.readdir(config['config-folder']);
             for (const file of files) {
                 if (!file.startsWith("_") && file.endsWith(".yml")) {
                     const c = await getConfig("_config/" + file);
@@ -93,9 +91,9 @@ program
             configs.push(c)
         }
         for (const c of configs) {
-            logger.info(4, "update " + c)
+            logger.info(4, "update " + c.configPath)
             await updateClashProfile(
-                c,
+                c.config,
                 {
                     before: options.before ? options.before : "git pull",
                     add: options.gitCommit,
@@ -122,8 +120,8 @@ program
         async function (uclashProfile, options) {
             logger.info(1, options)
 
-            if (existsSync(asAbsolutePath("_ui"))) {
-                options.ui = asAbsolutePath("_ui");
+            if (existsSync(config['ui-folder'])) {
+                options.ui = config['ui-folder'];
             }
 
             const { config } = await getConfig(uclashProfile)

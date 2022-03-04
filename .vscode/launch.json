@@ -3,7 +3,9 @@
     {
         "name": "Launch Program",
         "program": "${workspaceFolder}/index.js",
-        "args": ["config"],
+        "args": [
+            "generate"
+        ],
         "request": "launch",
         "skipFiles": [
             "<node_internals>/**"
