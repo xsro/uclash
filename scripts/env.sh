@@ -33,7 +33,7 @@ function uclash(){
         git reset --hard "origin/gh-pages"
         cd -
         ;;
-    generate|exec|help)
+    config|generate|exec|help|-h|--help)
         node $uclash_folder $*
         ;;
     *)
