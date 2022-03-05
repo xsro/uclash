@@ -64,7 +64,7 @@ external-controller: 0.0.0.0:9090
 # secret: ""
 
 # 出站网卡接口
-interface-name: 以太网
+# interface-name: 
 
 # DNS 服务器和建立连接时的 静态 Hosts, 仅在 dns.enhanced-mode 模式为 redir-host 生效
 # 支持通配符域名 (例如: *.clash.dev, *.foo.*.example.com )

@@ -2,17 +2,18 @@
   "name": "uclash",
   "description": "CLI tool to manage clash and configuration profile for my use",
   "type": "module",
+  "main": "index.js",
   "bin":{
     "uclash":"./index.js"
   },
   "files": [
     "index.js", 
     "lib/**/*.js",
-    "tmp/",
-    "config/"
+    "config/",
+    "tmp/http*",
+    "tmp/3.yml"
   ],
-  "version": "0.1.1",
-  "main": "index.js",
+  "version": "0.1.2",
   "repository": "https://github.com/xsro/uclash",
   "author": "Liu Y Cheng <xsro@foxmail.com>",
   "license": "MIT",
