@@ -110,11 +110,18 @@ program
             configs.push(c)
         }
         for (const c of configs) {
-            logger.info(4, "update " + c.configPath)
+            logger.info(4, "update " + c.configPath);
+            let before = "git pull";
+            if (c.configPath.includes(projectFolder)) {
+                before = ""
+            }
+            if (options.before) {
+                before = options.before
+            }
             await updateClashProfile(
                 c.config,
                 {
-                    before: options.before ? options.before : "git pull",
+                    before,
                     add: options.gitCommit,
                     commit: options.gitCommit,
                     after: options.gitPush ? "git push" : false

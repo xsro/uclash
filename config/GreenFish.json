@@ -1,7 +1,7 @@
 {
     "parser":{
         "type":1,
-        "destination":"_clash/1.yml",
+        "destination":"../tmp/1.yml",
         "date": "节点更新时间([\\d/\\_]+)",
         "area": "(.*?)gf"
     },

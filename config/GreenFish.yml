@@ -2,7 +2,7 @@
 #official config wiki: https://github.com/Dreamacro/clash/wiki/configuration
 parser:
   type: 2
-  destination: "_clash/2.yml"
+  destination: "../tmp/2.yml"
   date: "节点更新时间([\\d/\\_]+)"
   area: "(.*?)gf"
 port: 7890

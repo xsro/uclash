@@ -10,7 +10,7 @@
 
 parser:
   type: 2
-  destination: "_clash/3.yml"
+  destination: "../tmp/3.yml"
   date: "节点更新时间([\\d/\\_]+)"
   area: "(.*?)gf"
 
