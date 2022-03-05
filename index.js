@@ -5,7 +5,7 @@ import Clash from "./lib/clash.js";
 import { config, defaultConfig, setConfig, projectFolder } from "./lib/util.js";
 import * as fs from "fs/promises";
 import { logger } from "./lib/logger.js";
-import { join, resolve } from "path";
+import { resolve } from "path";
 import YAML from "yaml";
 import { ips } from "./lib/ip.js";
 import genPAC from "./lib/pac.js";
@@ -32,22 +32,36 @@ program
 
 program
     .command("init")
+    .description("setup ui folder and clash config folder")
     .option("-f,--force", "rm all")
     .action(async function (options) {
         if (options.force) {
-            execSync("rm -rf _ui", execOpts)
-            execSync("rm -rf _config", execOpts)
+            execSync("rm -rf " + config['ui-folder'], execOpts)
+            execSync("rm -rf " + config['config-folder'], execOpts)
         }
-        if (!existsSync(config['ui-folder']) && config["ui-repo"]) {
-            execSync(`git clone ${config["ui-repo"]} ${config['ui-folder']} -b ${config["ui-branch"]}`, execOpts)
+        if (config["ui-repo"]) {
+            if (existsSync(config['ui-folder'])) {
+                logger.info(4, `${config['ui-folder']} has exists`)
+            } else {
+                execSync(`git clone ${config["ui-repo"]} ${config['ui-folder']} -b ${config["ui-branch"]}`, execOpts)
+            }
+        } else {
+            logger.info(4, "`ui-repo` is not setted")
         }
-        if (!existsSync(config['config-folder']) && config["config-repo"]) {
-            execSync(`git clone ${config["config-repo"]} ${config['config-folder']} -b ${config["config-branch"]}`, execOpts)
+        if (config["config-repo"]) {
+            if (existsSync(config['config-folder'])) {
+                logger.info(4, `${config['config-folder']} has exists`)
+            } else {
+                execSync(`git clone ${config["config-repo"]} ${config['config-folder']} -b ${config["config-branch"]}`, execOpts)
+            }
+        } else {
+            logger.info(4, "`config-repo` is not setted")
         }
     })
 
 program
     .command("reset")
+    .description("reset ui and config folder")
     .action(async function (options) {
         if (!existsSync(config['ui-folder']) && config["ui-repo"]) {
             execSync(`git reset --hard origin/${config["ui-branch"]}`, { ...execOpts, cwd: config['config-folder'] })
@@ -59,6 +73,7 @@ program
 
 program
     .command("crontab")
+    .description("add crontab to update schedully")
     .action(async function () {
         writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", asCachePath("tab.txt"), "utf-8")
         execSync(`crontab ` + asCachePath("tab.txt"), execOpts)
