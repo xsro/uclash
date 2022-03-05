@@ -14,6 +14,11 @@ yarn global add https://github.com/xsro/uclash
 
 type `uclash help`
 
+## Troubleshoot
+
+- shebang interpreter Error: Install [termux-exec](https://github.com/termux/termux-exec)
+- Problems about esm: Upgrade nodejs
+
 ## references
 
 1. https://github.com/oslook/clash-freenode
