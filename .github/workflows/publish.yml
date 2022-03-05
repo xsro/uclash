@@ -26,11 +26,13 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: yarn
-      - run: |
+      - name: "generate cache files"
+        run: |
           node . generate 1
           node . generate 2
           node . generate 3
-      - run: node . exec 3 --dryrun
+          rm tmp/empty
+          node . exec 3 --dryrun --ui tmp/
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
