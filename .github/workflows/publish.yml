@@ -16,9 +16,6 @@ jobs:
         with:
           node-version: 16
       - run: yarn
-      - run: node . generate 3
-      - run: node . exec 3
-
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
@@ -29,6 +26,8 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: yarn
+      - run: node . generate 3
+      - run: node . exec 3 --dryrun
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}

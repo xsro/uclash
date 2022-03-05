@@ -7,12 +7,11 @@
   },
   "files": [
     "index.js", 
-    "lib/*.js",
-    "bin/*.js",
+    "lib/**/*.js",
     "tmp/",
     "config/"
   ],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.js",
   "repository": "https://github.com/xsro/uclash",
   "author": "Liu Y Cheng <xsro@foxmail.com>",

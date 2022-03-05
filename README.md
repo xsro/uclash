@@ -6,8 +6,10 @@ uclash is originnally for using in Termux
 ## Install
 
 ```shell
-npm install -g https://github.com/xsro/uclash
-yarn global add https://github.com/xsro/uclash
+# npm install -g https://github.com/xsro/uclash
+npm install -g uclash
+# yarn global add https://github.com/xsro/uclash
+yarn global add uclash
 ```
 
 ## Usage
