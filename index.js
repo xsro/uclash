@@ -11,7 +11,7 @@ import { ips } from "./lib/ip.js";
 import genPAC from "./lib/pac.js";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { execSync } from "child_process";
-import { getConfig } from "./lib/getConfig.js";
+import { getClashConfig } from "./lib/getClashConfig.js";
 
 const execOpts = { cwd: projectFolder, stdio: "inherit", encoding: "utf-8" };
 
@@ -82,12 +82,12 @@ program
             const files = await fs.readdir(config['config-folder']);
             for (const file of files) {
                 if (!file.startsWith("_") && file.endsWith(".yml")) {
-                    const c = await getConfig("_config/" + file);
+                    const c = await getClashConfig(resolve(config['config-folder'], file));
                     configs.push(c)
                 }
             }
         } else {
-            const c = await getConfig(uclashProfile);
+            const c = await getClashConfig(uclashProfile);
             configs.push(c)
         }
         for (const c of configs) {
@@ -124,12 +124,12 @@ program
                 options.ui = config['ui-folder'];
             }
 
-            const { config } = await getConfig(uclashProfile)
+            const clashConf = await getClashConfig(uclashProfile)
 
-            const profileDst = config.parser.destination;
+            const profileDst = clashConf.config.parser.destination;
 
             if (options.update) {
-                await updateClashProfile(config, options.git, options.gitPush).catch(console.error)
+                await updateClashProfile(clashConf.config, options.git, options.gitPush).catch(console.error)
             }
 
             //run clash
