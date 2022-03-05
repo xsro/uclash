@@ -1,13 +1,20 @@
 {
   "name": "uclash",
-  "description": "tool to manage clash and configuration profile for my use",
+  "description": "CLI tool to manage clash and configuration profile for my use",
   "type": "module",
   "bin":{
     "uclash":"./index.js"
   },
-  "version": "1.0.0",
+  "files": [
+    "index.js", 
+    "lib/*.js",
+    "bin/*.js",
+    "tmp/",
+    "config/"
+  ],
+  "version": "0.1.0",
   "main": "index.js",
-  "repository": "git@gitee.com:xsro/my-clash-configuration.git",
+  "repository": "https://github.com/xsro/uclash",
   "author": "Liu Y Cheng <xsro@foxmail.com>",
   "license": "MIT",
   "dependencies": {
