@@ -21,11 +21,15 @@ program
     .option("-l,--list", "list the current config")
     .option("-d,--list-default", "list default config")
     .action(function (key, value, options) {
+        console.log(key, value)
         if (options.list) {
             console.log("\t" + Object.entries(config).map(val => val[0] + ":\t" + val[1]).join("\n\t"))
         }
         if (options.listDefault) {
             console.log("\t" + Object.entries(defaultConfig).map(val => val[0] + ":\t" + val[1]).join("\n\t"))
+        }
+        if (value === undefined) {
+            value = null
         }
         key && setConfig(key, value)
     })
