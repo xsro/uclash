@@ -157,7 +157,7 @@ program
     .argument("<uclash-profile>", "use configuration from a file")
     .option("-u,--ui <path>", "start the ui from the path")
     .option("-D,--dryrun", "dry run")
-    .option("-d,--daemon <screen|pm2>", "use daemon to run clash")
+    .option("-d,--daemon <screen|pm2|nohup&>", "use daemon to run clash, default is screen")
     .option("-c,--clash-log <redirect|all|force>", "clash log")
     .option("-s,--secret [string]", "set secret for API")
     .action(
@@ -179,19 +179,24 @@ program
             //run clash
             const profile_text = await fs.readFile(profileDst, { encoding: "utf-8" })
             const profile_obj = YAML.parse(profile_text);
-            let daemon = options.daemon ? options.daemon : "screen"
-            try {
-                execSync("command -v " + daemon, { encoding: "utf-8" });
-            } catch (e) {
-                logger.info(4, `command ${daemon} not found`)
-                daemon = undefined;
+            options.daemon = options.daemon ? options.daemon : "screen";
+            let daemonCommand = options.daemon.replace("&", "").trim();
+            if (daemonCommand) {
+                try {
+                    execSync("command -v " + daemonCommand, { encoding: "utf-8" });
+                } catch (e) {
+                    logger.info(4, `command ${daemonCommand} not found`);
+                    console.error(e)
+                    options.daemon = undefined;
+                }
             }
+
             const clash = new Clash({
                 f: profileDst,
                 extUi: options.ui,
                 secret: options.secret,
                 clashLog: options.clashLog,
-                daemon,
+                daemon: options.daemon,
                 dryrun: options.dryrun
             });
 
