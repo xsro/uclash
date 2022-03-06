@@ -36,30 +36,48 @@ program
 
 program
     .command("init")
+    .argument("[folder]", "config or ui")
     .description("setup ui folder and clash config folder")
     .option("-f,--force", "rm all")
-    .action(async function (options) {
-        if (options.force) {
-            execSync("rm -rf " + config['ui-folder'], execOpts)
-            execSync("rm -rf " + config['config-folder'], execOpts)
-        }
-        if (config["ui-repo"]) {
-            if (existsSync(config['ui-folder'])) {
-                logger.info(4, `${config['ui-folder']} has exists`)
-            } else {
-                execSync(`git clone ${config["ui-repo"]} ${config['ui-folder']} -b ${config["ui-branch"]}`, execOpts)
+    .action(async function (folder, options) {
+        if (folder === "config" || folder === undefined) {
+            if (options.force) {
+                execSync("rm -rf " + config['config-folder'], execOpts)
             }
-        } else {
-            logger.info(4, "`ui-repo` is not setted")
-        }
-        if (config["config-repo"]) {
-            if (existsSync(config['config-folder'])) {
-                logger.info(4, `${config['config-folder']} has exists`)
+            if (config['config-folder']) {
+                if (config["config-repo"]) {
+                    if (existsSync(config['config-folder'])) {
+                        logger.info(4, `${config['config-folder']} has exists`)
+                    } else {
+                        execSync(`git clone ${config["config-repo"]} ${config['config-folder']} -b ${config["config-branch"]}`, execOpts)
+                    }
+                } else {
+                    logger.info(4, "`config-repo` is not setted")
+                    await fs.mkdir(config['config-folder'])
+                }
             } else {
-                execSync(`git clone ${config["config-repo"]} ${config['config-folder']} -b ${config["config-branch"]}`, execOpts)
+                logger.info(4, "`config-folder` is not setted")
             }
-        } else {
-            logger.info(4, "`config-repo` is not setted")
+        }
+        if (folder === "ui" || folder === undefined) {
+            if (options.force) {
+                execSync("rm -rf " + config['ui-folder'], execOpts)
+            }
+            if (config['ui-folder']) {
+                if (config["ui-repo"]) {
+                    if (existsSync(config['ui-folder'])) {
+                        logger.info(4, `${config['ui-folder']} has exists`)
+                    } else {
+                        execSync(`git clone ${config["ui-repo"]} ${config['ui-folder']} -b ${config["ui-branch"]}`, execOpts)
+                    }
+                } else {
+                    logger.info(4, "`ui-repo` is not setted, create a empty folder " + config['ui-folder']);
+                    await fs.mkdir(config['ui-folder'])
+                }
+            }
+            else {
+                logger.info(4, "`ui-folder` is not setted")
+            }
         }
     })
 
