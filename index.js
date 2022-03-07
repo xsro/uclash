@@ -1,37 +1,57 @@
 #!/usr/bin/env node
-import updateClashProfile from "./lib/update.js";
+import { execSync } from "child_process";
 import { program } from "commander";
-import Clash from "./lib/clash.js";
-import { config, defaultConfig, setConfig, projectFolder } from "./lib/util.js";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import * as fs from "fs/promises";
-import { logger } from "./lib/logger.js";
+import * as os from "os";
 import { resolve } from "path";
 import YAML from "yaml";
-import { ips } from "./lib/ip.js";
-import genPAC from "./lib/pac.js";
-import { existsSync, readFileSync, writeFileSync } from "fs";
-import { execSync } from "child_process";
+import Clash from "./lib/clash.js";
 import { getClashConfig } from "./lib/getClashConfig.js";
+import { ips } from "./lib/ip.js";
+import { logger } from "./lib/logger.js";
+import genPAC from "./lib/pac.js";
+import updateClashProfile from "./lib/update.js";
+import { config, defaultConfig, projectFolder, rawConfig, setConfig } from "./lib/util.js";
 
 const execOpts = { cwd: projectFolder, stdio: "inherit", encoding: "utf-8" };
+const pack = JSON.parse(readFileSync(resolve(projectFolder, "./package.json"), "utf-8"))
+
+program
+    .version(`${pack.version}
+from: ${projectFolder} 
+args: ${process.argv0}; ${process.argv} 
+runs on ${os.platform}-${os.arch} ${os.version()}`)
+    .description(pack.description)
 
 program
     .command("config [key] [value]")
-    .description("manage configs")
+    .description(`update uclash configs in ${config["uclash-config"]}, 
+    if value set to null, the property will be removed, 
+    if no value passed, the property will use the default.`)
     .option("-l,--list", "list the current config")
     .option("-d,--list-default", "list default config")
+    .option("-r,--raw", "list raw config, with -l or -d")
     .action(function (key, value, options) {
-        console.log(key, value)
         if (options.list) {
-            console.log("\t" + Object.entries(config).map(val => val[0] + ":\t" + val[1]).join("\n\t"))
+            console.log("\t" + Object.entries(
+                options.raw ? rawConfig._config : config)
+                .filter(val => val[0].match(key ? new RegExp(key) : undefined))
+                .map(val => val[0] + ":\t" + val[1]).join("\n\t"))
         }
-        if (options.listDefault) {
-            console.log("\t" + Object.entries(defaultConfig).map(val => val[0] + ":\t" + val[1]).join("\n\t"))
+        else if (options.listDefault) {
+            console.log("\t" + Object.entries(
+                options.raw ? rawConfig._defaultConfig : defaultConfig)
+                .filter(val => val[0].match(key ? new RegExp(key) : undefined))
+                .map(val => val[0] + ":\t" + val[1]).join("\n\t"))
         }
-        if (value === undefined) {
-            value = null
+        else if (key) {
+            if (value === "null") {
+                value = null
+            }
+            key && setConfig(key, value)
         }
-        key && setConfig(key, value)
+        logger.info(0, key, value)
     })
 
 program
@@ -147,7 +167,6 @@ program
                 options.allowCache
             )
         }
-
     });
 
 
