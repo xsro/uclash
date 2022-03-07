@@ -183,16 +183,12 @@ program
         async function (uclashProfile, options) {
             logger.info(1, options)
 
-            if (existsSync(config['ui-folder'])) {
-                options.ui = config['ui-folder'];
-            }
-
             const clashConf = await getClashConfig(uclashProfile)
 
             const profileDst = clashConf.config.parser.destination;
 
-            if (options.update) {
-                await updateClashProfile(clashConf.config, options.git, options.gitPush).catch(console.error)
+            if (existsSync(config['ui-folder'])) {
+                options.ui = config['ui-folder'];
             }
 
             //run clash
@@ -205,7 +201,7 @@ program
                     execSync("command -v " + daemonCommand, { encoding: "utf-8" });
                 } catch (e) {
                     logger.info(4, `command ${daemonCommand} not found`);
-                    console.error(e)
+                    // console.error(e)
                     options.daemon = undefined;
                 }
             }
@@ -219,54 +215,84 @@ program
                 dryrun: options.dryrun
             });
 
-            let msg = `代理服务端口: ${profile_obj["port"]} socks: ${profile_obj["socks-port"]}`
-            for (const net in ips) {
-                for (const ip of ips[net]) {
+            let msg = `代理服务端口: ${profile_obj["port"]} socks: ${profile_obj["socks-port"]}`;
 
-                    const controller = profile_obj["external-controller"].replace("0.0.0.0", ip)
-                    msg += `
-===网络: ${net} ip地址:${ip}===
-api: http://${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}`
-
-                    if (options.ui) {
-                        const pacs = await genPAC(options.ui, controller, profile_obj, ip);
-                        msg += `
-ui: http://${controller}/ui
-pacs: 
-    ${pacs.join("   ")}`
-                    }
-
-                    const dashboardLinks = [
-                        {
-                            //https://github.com/Dreamacro/clash-dashboard
-                            "website": "http://clash.razord.top/",
-                            "host": "host",
-                            "port": "port"
-                        },
-                        {
-                            //https://github.com/haishanh/yacd
-                            "website": "http://yacd.haishan.me/",
-                        },
-                    ];
-                    if (options.ui && existsSync(resolve(options.ui, "CNAME"))) {
-                        const originalWebsiteName = readFileSync(resolve(options.ui, "CNAME"), "utf-8");
-                        const site = dashboardLinks.find(val => val.website.includes(originalWebsiteName.trim()));
-                        if (site) {
-                            dashboardLinks.push({ ...site, website: `http://${controller}/ui` })
-                        }
-                    }
-                    const dashboards = dashboardLinks.map(h => {
-                        const url = new URL(h.website);
-                        if (h.host)
-                            url.searchParams.set(h.host, controller.split(":")[0]);
-                        if (h.port)
-                            url.searchParams.set(h.port, controller.split(":")[1]);
-                        return url.toString();
-                    });
-                    msg += `
-controller: 
-    ${dashboards.join("   ")},`;
+            let ui = {
+                local: undefined,
+                subFolder: undefined,
+                subFolderSeg: undefined,
+                link: undefined
+            };
+            if (options.ui) {
+                const subFolderSeg = config["ui-subfolder"]
+                const subFolder = resolve(config["ui-folder"], subFolderSeg);
+                !existsSync(subFolder) && await fs.mkdir(subFolder);
+                ui = {
+                    local: options.ui,
+                    //sub path for put files by uclash
+                    subFolder, subFolderSeg
                 }
+            }
+            const net = []; let count = 0;
+            for (const [name, _ips] of Object.entries(ips)) {
+                for (const ip of _ips) {
+                    const controller = "http://" + profile_obj["external-controller"].replace("0.0.0.0", ip)
+                    if (ui.local) {
+                        const uilink = new URL(controller + "/ui/");
+                        const subsubSeg = count === 0 ? "" : (count.toString() + "/")
+                        const subsubFolder = resolve(ui.subFolder, subsubSeg);
+                        count++;
+                        !existsSync(subsubFolder) && await fs.mkdir(subsubFolder);
+                        const _pacs = await genPAC(subsubFolder, profile_obj, ip);
+                        const pacs = _pacs.map(pac => {
+                            const paclink = new URL(ui.subFolderSeg + '/' + subsubSeg + pac, uilink)
+                            return paclink
+                        })
+                        net.push({ name, ip, controller, uilink, pacs })
+                    } else {
+                        net.push({ name, ip, controller })
+                    }
+                }
+            }
+
+            const dashboardLinks = [
+                {
+                    //https://github.com/Dreamacro/clash-dashboard
+                    "website": "http://clash.razord.top/",
+                    "host": "host",
+                    "port": "port"
+                },
+                {
+                    //https://github.com/haishanh/yacd
+                    "website": "http://yacd.haishan.me/",
+                },
+            ];
+            if (options.ui && existsSync(resolve(options.ui, "CNAME"))) {
+                const originalWebsiteName = readFileSync(resolve(ui.local, "CNAME"), "utf-8");
+                const site = dashboardLinks.find(val => val.website.includes(originalWebsiteName.trim()));
+                if (site) {
+                    dashboardLinks.push({ ...site, website: `http://${controller}/ui` })
+                }
+            }
+
+            for (const { name, ip, controller, uilink, pacs } of net) {
+                const dashboards = dashboardLinks.map(h => {
+                    const url = new URL(h.website);
+                    if (h.host)
+                        url.searchParams.set(h.host, ip);
+                    if (h.port)
+                        url.searchParams.set(h.port, controller.split(":")[2]);
+                    return url.toString();
+                });
+                msg += `
+===网络: ${name} ip地址:${ip}===
+api: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
+ui: ${uilink}
+pacs: 
+    ${pacs.join("   ")}
+controller: 
+    ${dashboards.join("   ")}
+`;
             }
             logger.info(4, msg);
             return
