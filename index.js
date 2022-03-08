@@ -12,10 +12,9 @@ import { ips } from "./lib/ip.js";
 import { logger } from "./lib/logger.js";
 import genPAC from "./lib/pac.js";
 import updateClashProfile from "./lib/update.js";
-import { config, defaultConfig, projectFolder, rawConfig, setConfig } from "./lib/util.js";
+import { config, defaultConfig, projectFolder, rawConfig, setConfig, uclashConfigPath, pack } from "./lib/util.js";
 
 const execOpts = { cwd: projectFolder, stdio: "inherit", encoding: "utf-8" };
-const pack = JSON.parse(readFileSync(resolve(projectFolder, "./package.json"), "utf-8"))
 
 program
     .version(`${pack.version}
@@ -26,7 +25,7 @@ runs on ${os.platform}-${os.arch} ${os.version()}`)
 
 program
     .command("config [key] [value]")
-    .description(`update uclash configs in ${config["uclash-config"]}, 
+    .description(`update uclash configs in ${uclashConfigPath}, 
     if value set to null, the property will be removed, 
     if no value passed, the property will use the default.`)
     .option("-l,--list", "list the current config")

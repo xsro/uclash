@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "type": "object",
+    "properties": {
+        "log-level": {
+            "type": "number",
+            "default": 4
+        },
+        "ui-repo": {
+            "type": "string",
+            "description": "",
+            "enum": [
+                "https://github.com/Dreamacro/clash-dashboard",
+                "https://github.com/haishanh/yacd"
+            ]
+        },
+        "ui-branch": {
+            "type": "string",
+            "default": "gh-pages"
+        },
+        "ui-folder": {
+            "default": "{project}/_ui"
+        },
+        "config-repo": {
+            "type": "string",
+            "default": "undefined"
+        },
+        "config-branch": {
+            "type": "string",
+            "default": "main"
+        },
+        "config-folder": {
+            "type": "string",
+            "default": "{HOME}/.config/uclash/_config/"
+        },
+        "cache-folder": {
+            "type": "string",
+            "default": "{project}/tmp/"
+        },
+        "ui-subfolder": {
+            "type": "string",
+            "default": "c"
+        }
+    }
+}
