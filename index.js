@@ -284,14 +284,15 @@ program
                         url.searchParams.set(h.port, controller.split(":")[2]);
                     return url.toString();
                 });
+                const tab = num => os.EOL + " ".repeat(num)
                 msg += `
 ===网络: ${name} ip地址:${ip}===
 api: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
-ui: ${uilink}
+ui: ${uilink ? uilink : "not setted"}
 pacs: 
-    ${pacs.join("   ")}
-controller: 
-    ${dashboards.join("   ")}
+    ${pacs.join(tab(4))}
+dashboards: 
+    ${dashboards.join(tab(4))}
 `;
             }
             logger.info(4, msg);
