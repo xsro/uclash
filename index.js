@@ -118,6 +118,7 @@ program
     .description("add crontab to update schedully")
     .action(async function () {
         writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", asCachePath("tab.txt"), "utf-8")
+        execSync(`crond`, execOpts)
         execSync(`crontab ` + asCachePath("tab.txt"), execOpts)
     })
 
@@ -215,7 +216,7 @@ program
                 dryrun: options.dryrun
             });
 
-            let msg = `代理服务端口: ${profile_obj["port"]} socks: ${profile_obj["socks-port"]}`;
+            let msg = `代理服务端口: ` + Object.keys(profile_obj).filter(val => val.includes("port")).map(key => `${key}:${profile_obj[key]}`);
 
             let ui = {
                 local: undefined,
@@ -231,27 +232,6 @@ program
                     local: options.ui,
                     //sub path for put files by uclash
                     subFolder, subFolderSeg
-                }
-            }
-            const net = []; let count = 0;
-            for (const [name, _ips] of Object.entries(ips)) {
-                for (const ip of _ips) {
-                    const controller = "http://" + profile_obj["external-controller"].replace("0.0.0.0", ip)
-                    if (ui.local) {
-                        const uilink = new URL(controller + "/ui/");
-                        const subsubSeg = count === 0 ? "" : (count.toString() + "/")
-                        const subsubFolder = resolve(ui.subFolder, subsubSeg);
-                        count++;
-                        !existsSync(subsubFolder) && await fs.mkdir(subsubFolder);
-                        const _pacs = await genPAC(subsubFolder, profile_obj, ip);
-                        const pacs = _pacs.map(pac => {
-                            const paclink = new URL(ui.subFolderSeg + '/' + subsubSeg + pac, uilink)
-                            return paclink
-                        })
-                        net.push({ name, ip, controller, uilink, pacs })
-                    } else {
-                        net.push({ name, ip, controller, pacs: [] })
-                    }
                 }
             }
 
@@ -274,16 +254,38 @@ program
                     dashboardLinks.push({ ...site, website: `http://${controller}/ui` })
                 }
             }
+            const net = []; let count = 0;
+            for (const [name, _ips] of Object.entries(ips)) {
+                for (const ip of _ips) {
+                    const controller = "http://" + profile_obj["external-controller"].replace("0.0.0.0", ip);
+                    const dashboards = dashboardLinks.map(h => {
+                        const url = new URL(h.website);
+                        if (h.host)
+                            url.searchParams.set(h.host, ip);
+                        if (h.port)
+                            url.searchParams.set(h.port, controller.split(":")[2]);
+                        return url;
+                    });
+                    if (ui.local) {
+                        const uilink = new URL(controller + "/ui/");
+                        const subsubSeg = count === 0 ? "" : (count.toString() + "/")
+                        const subsubFolder = resolve(ui.subFolder, subsubSeg);
+                        count++;
+                        !existsSync(subsubFolder) && await fs.mkdir(subsubFolder);
+                        const _pacs = await genPAC(subsubFolder, profile_obj, ip);
+                        const pacs = _pacs.map(pac => {
+                            const paclink = new URL(ui.subFolderSeg + '/' + subsubSeg + pac, uilink)
+                            return paclink
+                        })
+                        net.push({ name, ip, controller, uilink, pacs, dashboards })
+                    } else {
+                        net.push({ name, ip, controller, pacs: [], dashboards })
+                    }
 
-            for (const { name, ip, controller, uilink, pacs } of net) {
-                const dashboards = dashboardLinks.map(h => {
-                    const url = new URL(h.website);
-                    if (h.host)
-                        url.searchParams.set(h.host, ip);
-                    if (h.port)
-                        url.searchParams.set(h.port, controller.split(":")[2]);
-                    return url.toString();
-                });
+                }
+            }
+
+            for (const { name, ip, controller, uilink, pacs, dashboards } of net) {
                 const tab = num => os.EOL + " ".repeat(num)
                 msg += `
 ===网络: ${name} ip地址:${ip}===
@@ -296,6 +298,23 @@ dashboards:
 `;
             }
             logger.info(4, msg);
+
+            if (ui.local) {
+                const temp = await fs.readFile(resolve(projectFolder, "resources", "index.html"), "utf-8");
+                const htmlmsg = temp
+                    .replace("{net}", net.map(val => `
+<h2>${val.name}: ${val.ip}</h2>
+<ul>
+  <li>RESTful Api: <a href="${val.controller}">${val.controller}</a></li>
+  <li>ui link: <a href="${val.uilink}">${val.uilink}</a></li>
+  <li>dashboard: ${val.dashboards.map(p => `<a href="${p.toString()}">${p.hostname}</a>`).join(", ")}</li>
+  <li>pacs: ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname.lastIndexOf("/") + 1)}</a>`).join(", ")}</li>
+</ul>
+                    
+                    `))
+                await fs.writeFile(resolve(ui.subFolder, "index.html"), htmlmsg, "utf-8");
+                logger.info(8, `visit this message from ${resolve(ui.subFolder, "index.html")}`)
+            }
             return
         }
     )
