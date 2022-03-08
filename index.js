@@ -252,7 +252,22 @@ program
                     dashboardLinks.push({ ...site, website: `http://${controller}/ui` })
                 }
             }
-            const net = []; let count = 0;
+            const net = []; const subsubSegs = [];
+            const getSubsubSeg = (ip) => {
+                let seg = "";
+                if (ip === "127.0.0.1") {
+                    subsubSegs.push(seg)
+                    return seg
+                }
+                for (const c of ip.trim().split("").reverse()) {
+                    seg = seg + c;
+                    if (!subsubSegs.includes(seg)) {
+                        subsubSegs.push(seg)
+                        return seg + "/"
+                    }
+                }
+
+            }
             for (const [name, _ips] of Object.entries(ips)) {
                 for (const ip of _ips) {
                     const controller = "http://" + profile_obj["external-controller"].replace("0.0.0.0", ip);
@@ -266,16 +281,15 @@ program
                     });
                     if (ui.local) {
                         const uilink = new URL(controller + "/ui/");
-                        const subsubSeg = count === 0 ? "" : (count.toString() + "/")
+                        const subsubSeg = getSubsubSeg(ip)
                         const subsubFolder = resolve(ui.subFolder, subsubSeg);
-                        count++;
                         !existsSync(subsubFolder) && await fs.mkdir(subsubFolder);
                         const _pacs = await genPAC(subsubFolder, profile_obj, ip);
                         const pacs = _pacs.map(pac => {
                             const paclink = new URL(ui.subFolderSeg + '/' + subsubSeg + pac, uilink)
                             return paclink
                         })
-                        net.push({ name, ip, controller, uilink, pacs, dashboards })
+                        net.push({ name, ip, controller, subsubSeg, uilink, pacs, dashboards })
                     } else {
                         net.push({ name, ip, controller, pacs: [], dashboards })
                     }
@@ -283,12 +297,12 @@ program
                 }
             }
 
-            for (const { name, ip, controller, uilink, pacs, dashboards } of net) {
+            for (const { name, ip, controller, uilink, subsubSeg, pacs, dashboards } of net) {
                 const tab = num => os.EOL + " ".repeat(num)
                 msg += `
 ===网络: ${name} ip地址:${ip}===
 api: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
-ui: ${uilink ? uilink : "not setted"}
+ui links: ${uilink ? uilink + subsubSeg : "not setted"}
 pacs: 
     ${pacs.join(tab(4))}
 dashboards: 
