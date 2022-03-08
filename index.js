@@ -72,8 +72,8 @@ program
                         execSync(`git clone ${config["config-repo"]} ${config['config-folder']} -b ${config["config-branch"]}`, execOpts)
                     }
                 } else {
-                    logger.info(4, "`config-repo` is not setted")
-                    !existsSync(config['config-folder']) && await fs.mkdir(config['config-folder'])
+                    logger.info(4, "`config-repo` is not setted, skip")
+                    //!existsSync(config['config-folder']) && await fs.mkdir(config['config-folder'])
                 }
             } else {
                 logger.info(4, "`config-folder` is not setted")
