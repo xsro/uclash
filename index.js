@@ -62,7 +62,7 @@ program
     .action(async function (folder, options) {
         if (folder === "config" || folder === undefined) {
             if (options.force) {
-                execSync("rm -rf " + config['config-folder'], execOpts)
+                await fs.rm(config['config-folder'], { force: true, recursive: true })
             }
             if (config['config-folder']) {
                 if (config["config-repo"]) {
@@ -81,7 +81,7 @@ program
         }
         if (folder === "ui" || folder === undefined) {
             if (options.force) {
-                execSync("rm -rf " + config['ui-folder'], execOpts)
+                await fs.rm(config['ui-folder'], { force: true, recursive: true })
             }
             if (config['ui-folder']) {
                 if (config["ui-repo"]) {
@@ -161,7 +161,6 @@ program
                 c.config,
                 {
                     before,
-                    add: options.gitCommit,
                     commit: options.gitCommit,
                     after: options.gitPush ? "git push" : false
                 },

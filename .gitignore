@@ -4,3 +4,4 @@ tmp/
 !tmp/empty
 _*.*
 _*/
+**/.DS_store
