@@ -8,6 +8,7 @@
     "uclash":"./index.js"
   },
   "files": [
+    "resources",
     "index.js", 
     "lib/**/*.js",
     "config/",
