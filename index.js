@@ -260,7 +260,7 @@ program
                     return seg
                 }
                 for (const c of ip.trim().split("").reverse()) {
-                    seg = seg + c;
+                    seg = c + seg;
                     if (!subsubSegs.includes(seg)) {
                         subsubSegs.push(seg)
                         return seg + "/"
@@ -302,7 +302,7 @@ program
                 msg += `
 ===网络: ${name} ip地址:${ip}===
 api: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
-ui links: ${uilink ? uilink + subsubSeg : "not setted"}
+ui links: ${uilink ? uilink + ui.subFolderSeg + '/' + subsubSeg : "not setted"}
 pacs: 
     ${pacs.join(tab(4))}
 dashboards: 
@@ -314,16 +314,19 @@ dashboards:
             if (ui.local) {
                 const temp = await fs.readFile(resolve(projectFolder, "resources", "index.html"), "utf-8");
                 const htmlmsg = temp
+                    .replace("{version}", pack.version)
+                    .replace("{description}", pack.description)
                     .replace("{net}", net.map(val => `
+<div id="${val.ip}"}>
 <h2>${val.name}: ${val.ip}</h2>
 <ul>
   <li>RESTful Api: <a href="${val.controller}">${val.controller}</a></li>
   <li>ui link: <a href="${val.uilink}">${val.uilink}</a></li>
   <li>dashboard: ${val.dashboards.map(p => `<a href="${p.toString()}">${p.hostname}</a>`).join(", ")}</li>
-  <li>pacs: ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname.lastIndexOf("/") + 1)}</a>`).join(", ")}</li>
+  <li><a href="${val.uilink + ui.subFolderSeg + '/' + val.subsubSeg}">pacs:</a> ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname.lastIndexOf("/") + 1)}</a>`).join(", ")}</li>
 </ul>
-                    
-                    `))
+</div>
+`).join(""))
                 await fs.writeFile(resolve(ui.subFolder, "index.html"), htmlmsg, "utf-8");
                 logger.info(8, `visit this message from ${resolve(ui.subFolder, "index.html")}`)
             }

@@ -1,19 +1,26 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8"> 
 <title>uclash 概览</title>
 </head>
  
 <body>
-    <h>UCLASH</h>
-    <div>
+    <h1>uclash {version}</h1>
+    <p>{description}</p>
+    <article>
         {net}
-    </div>
+    </article>
     <footer>
         <img alt="npm" src="https://img.shields.io/npm/v/uclash?logo=npm">
         <img alt="GitHub package.json version (branch)" src="https://img.shields.io/github/package-json/v/xsro/uclash/main?logo=github">
         <a href="https://github.com/xsro/uclash/actions/workflows/publish.yml"><img src="https://github.com/xsro/uclash/actions/workflows/publish.yml/badge.svg"></a>
     </footer>
+    <script>
+        const url=new URL(document.location);
+        const ele=document.getElementById(url.hostname);
+        ele.style.backgroundColor="aqua"
+    </script>
 </body>
  
 </html>
