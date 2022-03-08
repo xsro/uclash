@@ -28,11 +28,12 @@ jobs:
       - run: yarn
       - name: "generate cache files"
         run: |
+          node . init
           node . generate 1
           node . generate 2
           node . generate 3
           rm tmp/empty
-          node . exec 3 --dryrun --ui tmp/
+          node . exec 3 --dryrun
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
