@@ -73,7 +73,7 @@ program
                     }
                 } else {
                     logger.info(4, "`config-repo` is not setted")
-                    await fs.mkdir(config['config-folder'])
+                    !existsSync(config['config-folder']) && await fs.mkdir(config['config-folder'])
                 }
             } else {
                 logger.info(4, "`config-folder` is not setted")
@@ -92,7 +92,7 @@ program
                     }
                 } else {
                     logger.info(4, "`ui-repo` is not setted, create a empty folder " + config['ui-folder']);
-                    await fs.mkdir(config['ui-folder'])
+                    !existsSync(config['ui-folder']) && await fs.mkdir(config['ui-folder'])
                 }
             }
             else {
@@ -250,7 +250,7 @@ program
                         })
                         net.push({ name, ip, controller, uilink, pacs })
                     } else {
-                        net.push({ name, ip, controller })
+                        net.push({ name, ip, controller, pacs: [] })
                     }
                 }
             }

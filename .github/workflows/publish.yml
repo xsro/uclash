@@ -4,20 +4,17 @@
 name: Node.js Package
 
 on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   release:
     types: [created]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16
-      - run: yarn
   publish-npm:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -35,5 +32,6 @@ jobs:
           rm tmp/empty
           node . exec 3 --dryrun
       - run: yarn publish
+        if: success() && startsWith( github.ref, 'refs/tags/') 
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
