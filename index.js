@@ -302,7 +302,7 @@ program
                 msg += `
 ===网络: ${name} ip地址:${ip}===
 api: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
-ui links: ${uilink ? uilink + ui.subFolderSeg + '/' + subsubSeg : "not setted"}
+ui links: ${uilink ? uilink + ui.subFolderSeg : "not setted"}
 pacs: 
     ${pacs.join(tab(4))}
 dashboards: 
@@ -320,10 +320,9 @@ dashboards:
 <div id="${val.ip}"}>
 <h2>${val.name}: ${val.ip}</h2>
 <ul>
-  <li>RESTful Api: <a href="${val.controller}">${val.controller}</a></li>
-  <li>ui link: <a href="${val.uilink}">${val.uilink}</a></li>
+  <li>RESTful Api: <a href="${val.controller}">${val.controller}</a> , <a href="${val.uilink}">external-ui</a>,  <a href="${val.uilink + ui.subFolderSeg}">subfolder</a>
   <li>dashboard: ${val.dashboards.map(p => `<a href="${p.toString()}">${p.hostname}</a>`).join(", ")}</li>
-  <li><a href="${val.uilink + ui.subFolderSeg + '/' + val.subsubSeg}">pacs:</a> ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname.lastIndexOf("/") + 1)}</a>`).join(", ")}</li>
+  <li><a href="${val.uilink + ui.subFolderSeg + '/' + val.subsubSeg}">pacs</a>: ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname.lastIndexOf("/") + 1)}</a>`).join(", ")}</li>
 </ul>
 </div>
 `).join(""))
