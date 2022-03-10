@@ -306,7 +306,7 @@ dashboards:
                     .replace("{description}", pack.description)
                     .replace("{net}", net.map(val => `
 <div id="${val.ip}"}>
-<h2>${val.name}: ${val.ip}</h2>
+<h3>${val.name}: <a href="#${val.ip}">${val.ip}</a></h3>
 <ul>
   <li>RESTful Api: <a href="${val.controller}">${val.controller}</a> , <a href="${val.uilink}">external-ui</a>,  <a href="${val.uilink + ui.subFolderSeg}">subfolder</a>
   <li>dashboard: ${val.dashboards.map(p => `<a href="${p.toString()}">${p.hostname}</a>`).join(", ")}</li>

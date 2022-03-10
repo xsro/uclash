@@ -4,7 +4,7 @@
         "name": "Launch Program",
         "program": "${workspaceFolder}/index.js",
         "args": [
-            "generate 3"
+            "generate"
         ],
         "request": "launch",
         "skipFiles": [

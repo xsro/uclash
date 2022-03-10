@@ -1,26 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8"> 
-<title>uclash 概览</title>
+    <meta charset="utf-8">
+    <title>uclash 概览</title>
 </head>
- 
+
 <body>
     <h1>uclash {version}</h1>
     <p>{description}</p>
-    <article>
-        {net}
-    </article>
-    <footer>
+    <header>
         <img alt="npm" src="https://img.shields.io/npm/v/uclash?logo=npm">
-        <img alt="GitHub package.json version (branch)" src="https://img.shields.io/github/package-json/v/xsro/uclash/main?logo=github">
-        <a href="https://github.com/xsro/uclash/actions/workflows/publish.yml"><img src="https://github.com/xsro/uclash/actions/workflows/publish.yml/badge.svg"></a>
+        <img alt="GitHub package.json version (branch)"
+            src="https://img.shields.io/github/package-json/v/xsro/uclash/main?logo=github">
+        <a href="https://github.com/xsro/uclash/actions/workflows/publish.yml"><img
+                src="https://github.com/xsro/uclash/actions/workflows/publish.yml/badge.svg"></a>
+    </header>
+    <section>
+        <h2>networks</h2>
+        <p>If you are in following networks. you can connect with following configuration</p>
+        {net}
+        <script>
+            const url = new URL(document.location);
+            const ele = document.getElementById(url.hostname);
+            ele && (ele.style.backgroundColor = "aqua")
+        </script>
+    </section>
+    
+    <aside>
+        <h2>Quotes</h2>
+        <div id="somequotes">
+            loading some quotes ...
+            use api from https://github.com/vv314/quotes
+        </div>
+        <script>
+            const quoteProvider =
+                [
+                    async function () {
+                        const res = await fetch("http://quotes.stormconsultancy.co.uk/random.json");
+                        const text = await res.text();
+                        const obje = JSON.parse(text);
+                        const obj = obje ? obje : { "author": "E. W. Dijkstra", "id": 14, "quote": "If debugging is the process of removing software bugs, then programming must be the process of putting them in.", "permalink": "http://quotes.stormconsultancy.co.uk/quotes/14" }
+                        return `<a href="${obj.permalink}">${obj.id}</a> <em>${obj.author}</em>: <q> ${obj.quote}</q>`
+                    },
+                    //https://www.jinrishici.com/doc/#json-fast-custom
+                    async function () {
+                        const res = await fetch("https://v2.jinrishici.com/one.json");
+                        const text = await res.text();
+                        const obje = JSON.parse(text);
+                        const obj = obje.data
+                        return `      
+<details>
+<summary>[${obj.origin.dynasty}]${obj.origin.author} 《${obj.origin.title}》 </summary>
+${obj.origin.content.join("<br>")}
+</details>
+<q>${obj.content} </q>
+`
+                    },
+                    async function () {
+                        const res = await fetch("http://v3.wufazhuce.com:8000/api/channel/one/0/0");
+                        const text = await res.text();
+                        const obje = JSON.parse(text);
+                        const obj = obje.data;
+                        const quotes = obj["content_list"].map(val => `<a href="${val["share_url"]}">${obj.id}</a> <q> ${val.forward}</q>`)
+                        return `${quotes.join("<br>")}`
+                    },
+                    // async function () {
+                    //     const res = await fetch("http://open.iciba.com/dsapi/");
+                    //     const text = await res.text();
+                    //     const obje = JSON.parse(text);
+                    // },
+                    // async function () {
+                    //     const res = await fetch("https://apiv3.shanbay.com/weapps/dailyquote/quote/");
+                    //     const text = await res.text();
+                    //     const obje = JSON.parse(text);
+                    // },
+                ];
+            Promise.all(quoteProvider.map(a => a())).then(quotes => {
+                document.getElementById("somequotes").innerHTML = quotes.map(val => `<p>${val}</p>`).join("")
+            })
+        </script>
+    </aside>
+    <footer>
+        
     </footer>
-    <script>
-        const url=new URL(document.location);
-        const ele=document.getElementById(url.hostname);
-        ele.style.backgroundColor="aqua"
-    </script>
 </body>
- 
+
 </html>
