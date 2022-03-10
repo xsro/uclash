@@ -254,19 +254,7 @@ program
             }
             const net = []; const subsubSegs = [];
             const getSubsubSeg = (ip) => {
-                let seg = "";
-                if (ip === "127.0.0.1") {
-                    subsubSegs.push(seg)
-                    return seg
-                }
-                for (const c of ip.trim().split("").reverse()) {
-                    seg = c + seg;
-                    if (!subsubSegs.includes(seg)) {
-                        subsubSegs.push(seg)
-                        return seg + "/"
-                    }
-                }
-
+                return ip.split(".").map(parseFloat).map(val => val.toString(16)).map(val => val.length === 2 ? val : "0" + val).join("") + "/"
             }
             for (const [name, _ips] of Object.entries(ips)) {
                 for (const ip of _ips) {
