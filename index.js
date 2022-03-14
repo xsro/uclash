@@ -6,7 +6,7 @@ import * as os from "os";
 import { resolve } from "path";
 import YAML from "yaml";
 import Clash from "./lib/clash.js";
-import { getClashConfig } from "./lib/getClashConfig.js";
+import { configMap, getClashConfig } from "./lib/getClashConfig.js";
 import { ips } from "./lib/ip.js";
 import { logger } from "./lib/logger.js";
 import genPAC from "./lib/pac.js";
@@ -40,6 +40,8 @@ program
                 options.raw ? rawConfig._config : config)
                 .filter(val => val[0].match(key ? new RegExp(key) : undefined))
                 .map(val => val[0] + ":\t" + val[1]).join("\n\t"))
+            console.log("configs mapper")
+            console.log(Array.from(configMap.entries()).map(val => `\t${val[0]}:\t${val[1]}`).join(os.EOL))
         }
         else if (options.listDefault) {
             console.log("\t" + Object.entries(
@@ -138,11 +140,9 @@ program
             if (!fs.existsSync(config['config-folder'])) {
                 console.error("can't find configs");
                 return
-            }
-            const files = fs.readdirSync(config['config-folder']);
-            for (const file of files) {
-                if (!file.startsWith("_") && file.endsWith(".yml")) {
-                    const c = await getClashConfig(resolve(config['config-folder'], file));
+            } else {
+                for (const profile of configMap.values()) {
+                    const c = await getClashConfig(profile);
                     configs.push(c)
                 }
             }
