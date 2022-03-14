@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 import { execSync } from "child_process";
 import { program } from "commander";
-import { existsSync, readFileSync, writeFileSync } from "fs";
-import * as fs from "fs/promises";
+import * as fs from "fs";
 import * as os from "os";
 import { resolve } from "path";
 import YAML from "yaml";
@@ -17,10 +16,14 @@ import { config, defaultConfig, projectFolder, rawConfig, setConfig, uclashConfi
 const execOpts = { cwd: projectFolder, stdio: "inherit", encoding: "utf-8" };
 
 program
-    .version(`${pack.version}
-from: ${projectFolder} 
-args: ${process.argv0}; ${process.argv} 
-runs on ${os.platform}-${os.arch} ${os.version()}`)
+    .version(`
+${fs.readFileSync(resolve(projectFolder, "resources/banner.txt"), "utf-8").trim()}
+
+${pack.version}  ${os.platform}-${os.arch}
+project dir:  ${projectFolder} 
+process args: ${process.argv0}; ${process.argv} 
+os version:   ${os.version()}
+`)
     .description(pack.description)
 
 program
@@ -61,18 +64,18 @@ program
     .action(async function (folder, options) {
         if (folder === "config" || folder === undefined) {
             if (options.force) {
-                await fs.rm(config['config-folder'], { force: true, recursive: true })
+                fs.rm(config['config-folder'], { force: true, recursive: true })
             }
             if (config['config-folder']) {
                 if (config["config-repo"]) {
-                    if (existsSync(config['config-folder'])) {
+                    if (fs.existsSync(config['config-folder'])) {
                         logger.info(4, `${config['config-folder']} has exists`)
                     } else {
                         execSync(`git clone ${config["config-repo"]} ${config['config-folder']} -b ${config["config-branch"]}`, execOpts)
                     }
                 } else {
                     logger.info(4, "`config-repo` is not setted, skip")
-                    //!existsSync(config['config-folder']) && await fs.mkdir(config['config-folder'])
+                    //!fs.existsSync(config['config-folder']) && await fs.mkdir(config['config-folder'])
                 }
             } else {
                 logger.info(4, "`config-folder` is not setted")
@@ -80,18 +83,18 @@ program
         }
         if (folder === "ui" || folder === undefined) {
             if (options.force) {
-                await fs.rm(config['ui-folder'], { force: true, recursive: true })
+                fs.rm(config['ui-folder'], { force: true, recursive: true })
             }
             if (config['ui-folder']) {
                 if (config["ui-repo"]) {
-                    if (existsSync(config['ui-folder'])) {
+                    if (fs.existsSync(config['ui-folder'])) {
                         logger.info(4, `${config['ui-folder']} has exists`)
                     } else {
                         execSync(`git clone ${config["ui-repo"]} ${config['ui-folder']} -b ${config["ui-branch"]}`, execOpts)
                     }
                 } else {
                     logger.info(4, "`ui-repo` is not setted, create a empty folder " + config['ui-folder']);
-                    !existsSync(config['ui-folder']) && await fs.mkdir(config['ui-folder'])
+                    !fs.existsSync(config['ui-folder']) && fs.mkdirSync(config['ui-folder'])
                 }
             }
             else {
@@ -104,10 +107,10 @@ program
     .command("reset")
     .description("reset ui and config folder")
     .action(async function (options) {
-        if (!existsSync(config['ui-folder']) && config["ui-repo"]) {
+        if (!fs.existsSync(config['ui-folder']) && config["ui-repo"]) {
             execSync(`git reset --hard origin/${config["ui-branch"]}`, { ...execOpts, cwd: config['config-folder'] })
         }
-        if (!existsSync(config['config-folder']) && config["config-repo"]) {
+        if (!fs.existsSync(config['config-folder']) && config["config-repo"]) {
             execSync(`git reset --hard origin/${config["config-branch"]}`, { ...execOpts, cwd: config['config-folder'] })
         }
     })
@@ -116,7 +119,7 @@ program
     .command("crontab")
     .description("add crontab to update schedully")
     .action(async function () {
-        writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", asCachePath("tab.txt"), "utf-8")
+        fs.writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", asCachePath("tab.txt"), "utf-8")
         execSync(`crond`, execOpts)
         execSync(`crontab ` + asCachePath("tab.txt"), execOpts)
     })
@@ -132,11 +135,11 @@ program
     .action(async function (uclashProfile, options) {
         const configs = [];
         if (uclashProfile === undefined) {
-            if (!existsSync(config['config-folder'])) {
+            if (!fs.existsSync(config['config-folder'])) {
                 console.error("can't find configs");
                 return
             }
-            const files = await fs.readdir(config['config-folder']);
+            const files = fs.readdirSync(config['config-folder']);
             for (const file of files) {
                 if (!file.startsWith("_") && file.endsWith(".yml")) {
                     const c = await getClashConfig(resolve(config['config-folder'], file));
@@ -186,12 +189,12 @@ program
 
             const profileDst = clashConf.config.parser.destination;
 
-            if (existsSync(config['ui-folder'])) {
+            if (fs.existsSync(config['ui-folder'])) {
                 options.ui = config['ui-folder'];
             }
 
             //run clash
-            const profile_text = await fs.readFile(profileDst, { encoding: "utf-8" })
+            const profile_text = fs.readFileSync(profileDst, { encoding: "utf-8" })
             const profile_obj = YAML.parse(profile_text);
             options.daemon = options.daemon ? options.daemon : "screen";
             let daemonCommand = options.daemon.replace("&", "").trim();
@@ -225,7 +228,7 @@ program
             if (options.ui) {
                 const subFolderSeg = config["ui-subfolder"]
                 const subFolder = resolve(config["ui-folder"], subFolderSeg);
-                !existsSync(subFolder) && await fs.mkdir(subFolder);
+                !fs.existsSync(subFolder) && fs.mkdirSync(subFolder);
                 ui = {
                     local: options.ui,
                     //sub path for put files by uclash
@@ -245,8 +248,8 @@ program
                     "website": "http://yacd.haishan.me/",
                 },
             ];
-            if (options.ui && existsSync(resolve(options.ui, "CNAME"))) {
-                const originalWebsiteName = readFileSync(resolve(ui.local, "CNAME"), "utf-8");
+            if (options.ui && fs.existsSync(resolve(options.ui, "CNAME"))) {
+                const originalWebsiteName = fs.readFileSync(resolve(ui.local, "CNAME"), "utf-8");
                 const site = dashboardLinks.find(val => val.website.includes(originalWebsiteName.trim()));
                 if (site) {
                     dashboardLinks.push({ ...site, website: `http://${controller}/ui` })
@@ -271,7 +274,7 @@ program
                         const uilink = new URL(controller + "/ui/");
                         const subsubSeg = getSubsubSeg(ip)
                         const subsubFolder = resolve(ui.subFolder, subsubSeg);
-                        !existsSync(subsubFolder) && await fs.mkdir(subsubFolder);
+                        !fs.existsSync(subsubFolder) && fs.mkdirSync(subsubFolder);
                         const _pacs = await genPAC(subsubFolder, profile_obj, ip);
                         const pacs = _pacs.map(pac => {
                             const paclink = new URL(ui.subFolderSeg + '/' + subsubSeg + pac, uilink)
@@ -300,7 +303,7 @@ dashboards:
             logger.info(4, msg);
 
             if (ui.local) {
-                const temp = await fs.readFile(resolve(projectFolder, "resources", "index.html"), "utf-8");
+                const temp = fs.readFileSync(resolve(projectFolder, "resources", "index.html"), "utf-8");
                 const htmlmsg = temp
                     .replace("{version}", pack.version)
                     .replace("{description}", pack.description)
@@ -316,8 +319,8 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
 </ul>
 </div>
 `).join(""))
-                await fs.writeFile(resolve(ui.subFolder, "index.html"), htmlmsg, "utf-8");
-                await fs.writeFile(resolve(ui.subFolder, "index.txt"), msg, "utf-8");
+                fs.writeFileSync(resolve(ui.subFolder, "index.html"), htmlmsg, "utf-8");
+                fs.writeFileSync(resolve(ui.subFolder, "index.txt"), msg, "utf-8");
                 logger.info(8, `visit this message from ${resolve(ui.subFolder, "index.html")}`)
             }
             return
