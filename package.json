@@ -6,7 +6,7 @@
   "main": "index.js",
   "bin": {
     "uclash": "./index.js",
-    "uclash-find-proxy-osx":"scripts/find-proxy-osx.sh"
+    "uclash-find-proxy-osx": "scripts/find-proxy-osx.sh"
   },
   "files": [
     "resources",
@@ -19,6 +19,7 @@
   "author": "Liu Y Cheng <xsro@foxmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@network-utils/arp-lookup": "^2.0.1",
     "commander": "^9.0.0",
     "node-fetch": "^3.2.2",
     "yaml": "^1.10.2"
