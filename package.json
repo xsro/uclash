@@ -5,7 +5,8 @@
   "type": "module",
   "main": "index.js",
   "bin": {
-    "uclash": "./index.js"
+    "uclash": "./index.js",
+    "uclash-find-proxy-osx":"scripts/find-proxy-osx.sh"
   },
   "files": [
     "resources",
