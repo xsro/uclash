@@ -11,8 +11,6 @@
 parser:
   type: 2
   destination: "../tmp/3.yml"
-  date: "节点更新时间([\\d/\\_]+)"
-  area: "(.*?)gf"
 
 # HTTP 代理端口
 port: 7890
@@ -220,13 +218,7 @@ proxies:
   #   rc4-md5 chacha20 chacha20-ietf xchacha20
   #   chacha20-ietf-poly1305 xchacha20-ietf-poly1305
   - use: 
-    - https://raw.gitfast.tk/ThekingMX1998/free-v2ray-code/master/Subscription/Clash/GreenFishYYDS
-    - https://raw.githubusercontent.com/ThekingMX1998/free-v2ray-code/master/Subscription/Clash/GreenFishYYDS
-    rename:
-      from: \(绿头外网集团\)\(Public\)
-      to: gf
-    info:
-      date: 节点更新时间([\\d/\\_]+)
+    - https://cdn.jsdelivr.net/gh/git-yusteven/openit@main/Clash.yaml
 
 proxy-groups:
 
@@ -235,8 +227,7 @@ proxy-groups:
     type: url-test
     proxies:
       - use: all 
-        filter: "gf"
-        remove: ["中国","🇨🇳","中國"]
+        
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
@@ -245,8 +236,7 @@ proxy-groups:
     type: fallback
     proxies:
       - use: all 
-        filter: "gf"
-        remove: ["中国","🇨🇳","中國"]
+        
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
@@ -255,8 +245,7 @@ proxy-groups:
     type: load-balance
     proxies:
       - use: all 
-        filter: "gf"
-        remove: ["中国","🇨🇳","中國"]
+        
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
@@ -269,8 +258,7 @@ proxy-groups:
       - fallback-auto
       - load-balance
       - use: all 
-        filter: "gf"
-        remove: ["中国","🇨🇳","中國"]
+        
 
   - name: Others
     type: select
