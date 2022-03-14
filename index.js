@@ -177,6 +177,7 @@ program
     .description("execute clash via child_process")
     .argument("<uclash-profile>", "use configuration from a file")
     .option("-u,--ui <path>", "start the ui from the path")
+    .option("-p,--command [cmd]", "the command to start clash, default is `clash`;-p means use `clash-premium`; -p cmd means use cmd you defined")
     .option("-D,--dryrun", "dry run")
     .option("-d,--daemon <screen|pm2|nohup&>", "use daemon to run clash, default is screen")
     .option("-c,--clash-log <redirect|all|force>", "clash log")
@@ -212,6 +213,7 @@ program
                 f: profileDst,
                 extUi: options.ui,
                 secret: options.secret,
+                clashCMD: options.command === true ? "clash-premium" : options.command,
                 clashLog: options.clashLog,
                 daemon: options.daemon,
                 dryrun: options.dryrun
