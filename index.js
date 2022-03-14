@@ -309,12 +309,15 @@ dashboards:
 <h3>${val.name}: <a href="#${val.ip}">${val.ip}</a></h3>
 <ul>
   <li>RESTful Api: <a href="${val.controller}">${val.controller}</a> , <a href="${val.uilink}">external-ui</a>,  <a href="${val.uilink + ui.subFolderSeg}">subfolder</a>
-  <li>dashboard: ${val.dashboards.map(p => `<a href="${p.toString()}">${p.hostname}</a>`).join(", ")}</li>
-  <li><a href="${val.uilink + ui.subFolderSeg + '/' + val.subsubSeg}">pacs</a>: ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname.lastIndexOf("/") + 1)}</a>`).join(", ")}</li>
+  <li>dashboard: 
+${val.dashboards.map(p => `<a href="${p.toString()}">${p.hostname}</a>`).join(os.EOL)}</li>
+  <li><a href="${val.uilink + ui.subFolderSeg + '/' + val.subsubSeg}">pacs</a>:
+${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname.lastIndexOf("/") + 1)}</a>`).join(os.EOL)}</li>
 </ul>
 </div>
 `).join(""))
                 await fs.writeFile(resolve(ui.subFolder, "index.html"), htmlmsg, "utf-8");
+                await fs.writeFile(resolve(ui.subFolder, "index.txt"), msg, "utf-8");
                 logger.info(8, `visit this message from ${resolve(ui.subFolder, "index.html")}`)
             }
             return
