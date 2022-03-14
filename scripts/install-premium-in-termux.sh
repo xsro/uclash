@@ -14,7 +14,7 @@ arch="armv8"
 platform="linux"
 
 #curl可以通过-x来设置代理，如"-x 127.0.0.1:7890"
-curl_proxy=""#"-x 127.0.0.1:7890"
+# curl_proxy="-x 127.0.0.1:7890"
 
 #下载文件
 filename=$(curl -fsSL $curl_proxy "https://github.com/Dreamacro/clash/releases/tag/premium" | grep -oE "clash-$platform-$arch-[0-9]+.[0-9]+.[0-9]+" | head -1)

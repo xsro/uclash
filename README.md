@@ -20,6 +20,15 @@ yarn global add https://github.com/xsro/uclash
 npm install -g https://github.com/xsro/uclash
 ```
 
+## Install Clash
+
+```sh
+#install clash
+pkg install clash
+#install clash premium
+curl -fsSL "https://raw.githubusercontent.com/xsro/uclash/main/scripts/install-premium-in-termux.sh" | bash
+```
+
 ## Usage
 
 type `uclash help`
