@@ -7,7 +7,7 @@ import { resolve } from "path";
 import YAML from "yaml";
 import Clash from "./lib/clash.js";
 import findProxy from "./lib/find-proxy.js";
-import { configMap, getClashConfig } from "./lib/getClashConfig.js";
+import { profileMap, getClashConfig } from "./lib/get-clash-profile.js";
 import { ips } from "./lib/ip.js";
 import { logger } from "./lib/logger.js";
 import genPAC from "./lib/pac.js";
@@ -45,7 +45,7 @@ program
             setConfig(key, eval(value))
         }
         else if (options.listProfile) {
-            console.log(Array.from(configMap.entries()).map(val => `\t${val[0]}:\t${val[1]}`).join(os.EOL))
+            console.log(Array.from(profileMap.entries()).map(val => `\t${val[0]}:\t${val[1]}`).join(os.EOL))
         }
         else if (options.list) {
             console.log("\t" + Object.entries(
@@ -144,7 +144,7 @@ program
                 console.error("can't find configs");
                 return
             } else {
-                for (const profile of configMap.values()) {
+                for (const profile of profileMap.values()) {
                     const c = await getClashConfig(profile);
                     configs.push(c)
                 }

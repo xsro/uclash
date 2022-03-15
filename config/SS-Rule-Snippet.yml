@@ -10,7 +10,7 @@
 
 parser:
   type: 2
-  destination: "../tmp/3.yml"
+  destination: "../tmp/0.yml"
 
 # HTTP 代理端口
 port: 7890

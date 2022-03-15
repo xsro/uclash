@@ -26,9 +26,9 @@ jobs:
       - name: "generate cache files"
         run: |
           node . init
-          node . generate 3
+          node . generate 0
           rm tmp/empty
-          node . exec 3 --dryrun
+          node . exec 0 --dryrun
           node . find
       - run: yarn publish
         if: success() && startsWith( github.ref, 'refs/tags/') 
