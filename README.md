@@ -1,7 +1,8 @@
 # clash-nodejs-utility
 
 **uclash** is a CLI tool for managing clash profile. 
-It is writen in javascript use [esm](https://nodejs.org/api/esm.html) and runs in nodejs runtime. 
+uclash is writen in javascript using [esm](https://nodejs.org/api/esm.html)
+ and runs in nodejs runtime. 
 uclash is originnally built for using in Termux to share proxy with hotpot. 
 
 Now, it's opinioned and buggy
@@ -20,7 +21,7 @@ yarn global add https://github.com/xsro/uclash
 npm install -g https://github.com/xsro/uclash
 ```
 
-## Install Clash
+## Install Clash in Termux
 
 ```sh
 #install clash
@@ -31,7 +32,9 @@ curl -fsSL "https://raw.githubusercontent.com/xsro/uclash/main/scripts/install-p
 
 ## Usage
 
-type `uclash help`
+type `uclash help`.
+
+When first installed, run `uclash init` to create folder for ui.
 
 ## Troubleshoot
 
