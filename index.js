@@ -6,6 +6,7 @@ import * as os from "os";
 import { resolve } from "path";
 import YAML from "yaml";
 import Clash from "./lib/clash.js";
+import findProxy from "./lib/find-proxy.js";
 import { configMap, getClashConfig } from "./lib/getClashConfig.js";
 import { ips } from "./lib/ip.js";
 import { logger } from "./lib/logger.js";
@@ -322,12 +323,16 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
 </div>
 `).join(""))
                 fs.writeFileSync(resolve(ui.subFolder, "index.html"), htmlmsg, "utf-8");
-                fs.writeFileSync(resolve(ui.subFolder, "index.txt"), msg, "utf-8");
+                fs.writeFileSync(resolve(ui.subFolder, "info.json"), JSON.stringify({ net, profile_obj, ui, clash }), "utf-8");
                 logger.info(8, `visit this message from ${resolve(ui.subFolder, "index.html")}`)
             }
             return
         }
     )
+
+program.command("find [ip-filter] [path] [port]")
+    .description("find proxy in the local net")
+    .action(findProxy)
 
 program.parse()
 
