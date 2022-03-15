@@ -331,8 +331,23 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
     )
 
 program.command("find [ip-filter] [path] [port]")
-    .description("find proxy in the local net")
-    .action(findProxy)
+    .description("find proxy in the local network, powered by system command `arp -a`, can't work in termux")
+    .action(async function (ipFilter, path, port) {
+        const onGet = function ({ net, thisNet, clash, ui }) {
+            const { name, ip, controller, uilink, subsubSeg, pacs, dashboards } = thisNet
+            let msg = `
+===网络: ${name} ip地址:${ip}===
+api: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
+ui links: ${uilink ? uilink + ui.subFolderSeg : "not setted"}
+pacs: 
+\t${pacs.join(os.EOL + "\t")}
+dashboards: 
+\t${dashboards.join(os.EOL + "\t")}`;
+            console.log(msg)
+        }
+        const proxies = await findProxy(ipFilter, path, port, onGet);
+        console.log(`Finded ${proxies.length} possible proxies`);
+    })
 
 program.parse()
 
