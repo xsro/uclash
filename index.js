@@ -12,16 +12,16 @@ import { ips } from "./lib/ip.js";
 import { logger } from "./lib/logger.js";
 import genPAC from "./lib/pac.js";
 import updateClashProfile from "./lib/update.js";
-import { config, defaultConfig, projectFolder, rawConfig, setConfig, uclashConfigPath, pack } from "./lib/util.js";
+import { config, paths, pack } from "./lib/util.js";
 
-const execOpts = { cwd: projectFolder, stdio: "inherit", encoding: "utf-8" };
+const execOpts = { cwd: paths.projectFolder, stdio: "inherit", encoding: "utf-8" };
 
 program
     .version(`
-${fs.readFileSync(resolve(projectFolder, "resources/banner.txt"), "utf-8").trim()}
+${fs.readFileSync(paths.resources("banner.txt"), "utf-8").trim()}
 
 ${pack.version}  ${os.platform}-${os.arch}
-project dir:  ${projectFolder} 
+project dir:  ${paths.projectFolder} 
 process args: ${process.argv0}; ${process.argv} 
 os version:   ${os.version()}
 `)
@@ -29,34 +29,36 @@ os version:   ${os.version()}
 
 program
     .command("config [key] [value]")
-    .description(`update uclash configs in ${uclashConfigPath}, 
+    .description(`update uclash configs in ${config._userConfigPath}, 
     if value set to null, the property will be removed, 
     if no value passed, the property will use the default.`)
     .option("-l,--list", "list the current config")
     .option("-d,--list-default", "list default config")
     .option("-r,--raw", "list raw config, with -l or -d")
+    .option("-p,--list-profile", "list clash config profile")
     .action(function (key, value, options) {
-        if (options.list) {
+        logger.info(0, key, value, options)
+        if (key && value === undefined) {
+            console.log(config.get(key, options.listDefault))
+        }
+        else if (key && value) {
+            setConfig(key, eval(value))
+        }
+        else if (options.listProfile) {
+            console.log(Array.from(configMap.entries()).map(val => `\t${val[0]}:\t${val[1]}`).join(os.EOL))
+        }
+        else if (options.list) {
             console.log("\t" + Object.entries(
-                options.raw ? rawConfig._config : config)
+                options.raw ? config._userConfig : config._parsed)
                 .filter(val => val[0].match(key ? new RegExp(key) : undefined))
                 .map(val => val[0] + ":\t" + val[1]).join("\n\t"))
-            console.log("configs mapper")
-            console.log(Array.from(configMap.entries()).map(val => `\t${val[0]}:\t${val[1]}`).join(os.EOL))
         }
         else if (options.listDefault) {
             console.log("\t" + Object.entries(
-                options.raw ? rawConfig._defaultConfig : defaultConfig)
+                options.raw ? config._defaultConfig : config._parsedDefault)
                 .filter(val => val[0].match(key ? new RegExp(key) : undefined))
                 .map(val => val[0] + ":\t" + val[1]).join("\n\t"))
         }
-        else if (key) {
-            if (value === "null") {
-                value = null
-            }
-            key && setConfig(key, value)
-        }
-        logger.info(0, key, value)
     })
 
 program
@@ -67,18 +69,18 @@ program
     .action(async function (folder, options) {
         if (folder === "config" || folder === undefined) {
             if (options.force) {
-                fs.rm(config['config-folder'], { force: true, recursive: true })
+                fs.rm(config.get("config-folder"), { force: true, recursive: true })
             }
-            if (config['config-folder']) {
-                if (config["config-repo"]) {
-                    if (fs.existsSync(config['config-folder'])) {
-                        logger.info(4, `${config['config-folder']} has exists`)
+            if (config.get("config-folder")) {
+                if (config.get("config-repo")) {
+                    if (fs.existsSync(config.get("config-folder"))) {
+                        logger.info(4, `${config.get("config-folder")} has exists`)
                     } else {
-                        execSync(`git clone ${config["config-repo"]} ${config['config-folder']} -b ${config["config-branch"]}`, execOpts)
+                        execSync(`git clone ${config.get("config-repo")} ${config.get("config-folder")} -b ${config.get("config-branch")}`, execOpts)
                     }
                 } else {
                     logger.info(4, "`config-repo` is not setted, skip")
-                    //!fs.existsSync(config['config-folder']) && await fs.mkdir(config['config-folder'])
+                    //!fs.existsSync(config.get("config-folder")) && await fs.mkdir(config.get("config-folder"))
                 }
             } else {
                 logger.info(4, "`config-folder` is not setted")
@@ -86,18 +88,18 @@ program
         }
         if (folder === "ui" || folder === undefined) {
             if (options.force) {
-                fs.rm(config['ui-folder'], { force: true, recursive: true })
+                fs.rm(config.get("ui-folder"), { force: true, recursive: true })
             }
-            if (config['ui-folder']) {
-                if (config["ui-repo"]) {
-                    if (fs.existsSync(config['ui-folder'])) {
-                        logger.info(4, `${config['ui-folder']} has exists`)
+            if (config.get("ui-folder")) {
+                if (config.get("ui-repo")) {
+                    if (fs.existsSync(config.get("ui-folder"))) {
+                        logger.info(4, `${config.get("ui-folder")} has exists`)
                     } else {
-                        execSync(`git clone ${config["ui-repo"]} ${config['ui-folder']} -b ${config["ui-branch"]}`, execOpts)
+                        execSync(`git clone ${config.get("ui-repo")} ${config.get("ui-folder")} -b ${config.get("ui-branch")}`, execOpts)
                     }
                 } else {
-                    logger.info(4, "`ui-repo` is not setted, create a empty folder " + config['ui-folder']);
-                    !fs.existsSync(config['ui-folder']) && fs.mkdirSync(config['ui-folder'])
+                    logger.info(4, "`ui-repo` is not setted, create a empty folder " + config.get("ui-folder"));
+                    !fs.existsSync(config.get("ui-folder")) && fs.mkdirSync(config.get("ui-folder"))
                 }
             }
             else {
@@ -110,11 +112,11 @@ program
     .command("reset")
     .description("reset ui and config folder")
     .action(async function (options) {
-        if (!fs.existsSync(config['ui-folder']) && config["ui-repo"]) {
-            execSync(`git reset --hard origin/${config["ui-branch"]}`, { ...execOpts, cwd: config['config-folder'] })
+        if (!fs.existsSync(config.get("ui-folder")) && config.get("ui-repo")) {
+            execSync(`git reset --hard origin/${config.get("ui-branch")}`, { ...execOpts, cwd: config.get("config-folder") })
         }
-        if (!fs.existsSync(config['config-folder']) && config["config-repo"]) {
-            execSync(`git reset --hard origin/${config["config-branch"]}`, { ...execOpts, cwd: config['config-folder'] })
+        if (!fs.existsSync(config.get("config-folder")) && config.get("config-repo")) {
+            execSync(`git reset --hard origin/${config.get("config-branch")}`, { ...execOpts, cwd: config.get("config-folder") })
         }
     })
 
@@ -138,7 +140,7 @@ program
     .action(async function (uclashProfile, options) {
         const configs = [];
         if (uclashProfile === undefined) {
-            if (!fs.existsSync(config['config-folder'])) {
+            if (!fs.existsSync(config.get("config-folder"))) {
                 console.error("can't find configs");
                 return
             } else {
@@ -154,7 +156,7 @@ program
         for (const c of configs) {
             logger.info(4, "update " + c.configPath);
             let before = "git pull";
-            if (c.configPath.includes(projectFolder)) {
+            if (c.configPath.includes(paths.projectFolder)) {
                 before = ""
             }
             if (options.before) {
@@ -191,8 +193,8 @@ program
 
             const profileDst = clashConf.config.parser.destination;
 
-            if (fs.existsSync(config['ui-folder'])) {
-                options.ui = config['ui-folder'];
+            if (fs.existsSync(config.get("ui-folder"))) {
+                options.ui = config.get("ui-folder");
             }
 
             //run clash
@@ -229,8 +231,8 @@ program
                 link: undefined
             };
             if (options.ui) {
-                const subFolderSeg = config["ui-subfolder"]
-                const subFolder = resolve(config["ui-folder"], subFolderSeg);
+                const subFolderSeg = config.get("ui-subfolder")
+                const subFolder = resolve(config.get("ui-folder"), subFolderSeg);
                 !fs.existsSync(subFolder) && fs.mkdirSync(subFolder);
                 ui = {
                     local: options.ui,
@@ -258,7 +260,7 @@ program
                     dashboardLinks.push({ ...site, website: `http://${controller}/ui` })
                 }
             }
-            const net = []; const subsubSegs = [];
+            const net = [];
             const getSubsubSeg = (ip) => {
                 return ip.split(".").map(parseFloat).map(val => val.toString(16)).map(val => val.length === 2 ? val : "0" + val).join("") + "/"
             }
@@ -306,7 +308,9 @@ dashboards:
             logger.info(4, msg);
 
             if (ui.local) {
-                const temp = fs.readFileSync(resolve(projectFolder, "resources", "index.html"), "utf-8");
+                const temp = fs.readFileSync(
+                    resolve(paths.projectFolder, "resources", "index.html"),
+                    "utf-8");
                 const htmlmsg = temp
                     .replace("{version}", pack.version)
                     .replace("{description}", pack.description)
