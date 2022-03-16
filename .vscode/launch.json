@@ -4,7 +4,7 @@
         "name": "Launch Program",
         "program": "${workspaceFolder}/index.js",
         "args": [
-            "generate","config/SS-Rule-Snippet.yml"
+            "find"
         ],
         "request": "launch",
         "skipFiles": [

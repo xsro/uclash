@@ -42,7 +42,7 @@ program
             console.log(config.get(key, options.listDefault))
         }
         else if (key && value) {
-            setConfig(key, eval(value))
+            config.set(key, eval(value))
         }
         else if (options.listProfile) {
             console.log(Array.from(profileMap.entries()).map(val => `\t${val[0]}:\t${val[1]}`).join(os.EOL))
@@ -71,7 +71,7 @@ program
     .action(async function (folder, options) {
         if (folder === "config" || folder === undefined) {
             if (options.force) {
-                fs.rm(config.get("config-folder"), { force: true, recursive: true })
+                fs.rmSync(config.get("config-folder"), { force: true, recursive: true })
             }
             if (config.get("config-folder")) {
                 if (config.get("config-repo")) {
@@ -90,7 +90,7 @@ program
         }
         if (folder === "ui" || folder === undefined) {
             if (options.force) {
-                fs.rm(config.get("ui-folder"), { force: true, recursive: true })
+                fs.rmSync(config.get("ui-folder"), { force: true, recursive: true })
             }
             if (config.get("ui-folder")) {
                 if (config.get("ui-repo")) {
@@ -115,7 +115,7 @@ program
     .description("reset ui and config folder")
     .action(async function (options) {
         if (!fs.existsSync(config.get("ui-folder")) && config.get("ui-repo")) {
-            execSync(`git reset --hard origin/${config.get("ui-branch")}`, { ...execOpts, cwd: config.get("config-folder") })
+            execSync(`git reset --hard origin/${config.get("ui-branch")}`, { ...execOpts, cwd: config.get("ui-folder") })
         }
         if (!fs.existsSync(config.get("config-folder")) && config.get("config-repo")) {
             execSync(`git reset --hard origin/${config.get("config-branch")}`, { ...execOpts, cwd: config.get("config-folder") })
@@ -126,7 +126,7 @@ program
     .command("crontab")
     .description("add crontab to update schedully")
     .action(async function () {
-        fs.writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", asCachePath("tab.txt"), "utf-8")
+        fs.writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", paths.cache("tab.txt"), "utf-8")
         execSync(`crond`, execOpts)
         execSync(`crontab ` + asCachePath("tab.txt"), execOpts)
     })
@@ -339,10 +339,10 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
 program.command("find [ip-filter] [path] [port]")
     .description("find proxy in the local network, powered by system command `arp -a`, can't work in termux")
     .action(async function (ipFilter, path, port) {
-        const onGet = function ({ net, thisNet, clash, ui }) {
+        const onGet = function ({ net, thisNet, clash, ui, verified }) {
             const { name, ip, controller, uilink, subsubSeg, pacs, dashboards } = thisNet
             let msg = `
-===网络: ${name} ip地址:${ip}===
+===网络: ${name} ip地址:${ip} clash版本${verified}===
 api: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
 ui links: ${uilink ? uilink + ui.subFolderSeg : "not setted"}
 pacs: 
