@@ -36,6 +36,14 @@ type `uclash help`.
 
 When first installed, run `uclash init` to create folder for ui.
 
+```sh
+uclash config config-repo <repo> # <repo> is private repository link
+uclash init                      # create folder for ui and clone config-repo to config-folder
+uclash generate                  # update profiles in <repo>
+uclash config -p                 # display a list of clash profiles
+uclash exec 0                    # run clash to start proxy server with clash config path
+```
+
 ## Troubleshoot
 
 - shebang interpreter Error: 
