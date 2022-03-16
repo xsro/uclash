@@ -58,6 +58,8 @@ program
                 options.raw ? config._defaultConfig : config._parsedDefault)
                 .filter(val => val[0].match(key ? new RegExp(key) : undefined))
                 .map(val => val[0] + ":\t" + val[1]).join("\n\t"))
+        } else {
+            console.log(config._userConfigPath)
         }
     })
 
