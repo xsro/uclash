@@ -339,13 +339,14 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
 program.command("find [ip-filter] [path] [port]")
     .description("find proxy in the local network, powered by system command `arp -a`, can't work in termux")
     .action(async function (ipFilter, path, port) {
-        const onGet = function ({ net, thisNet, clash, ui, verified }) {
+        const onGet = function ({ net, thisNet, clash, ui, profile_obj, verified }) {
             const { name, ip, controller, uilink, subsubSeg, pacs, dashboards } = thisNet
             let msg = `
 ===网络: ${name} ip地址:${ip} clash版本${verified}===
-api: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
-ui links: ${uilink ? uilink + ui.subFolderSeg : "not setted"}
-pacs: 
+代理服务所在端口: ${Object.keys(profile_obj).filter(key => key.includes("port")).map(key => `${key}:${profile_obj[key]}`)}
+clash 控制器: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
+网页: ${uilink ? uilink + ui.subFolderSeg : "not setted"}
+PACs: 
 \t${pacs.join(os.EOL + "\t")}
 dashboards: 
 \t${dashboards.join(os.EOL + "\t")}`;

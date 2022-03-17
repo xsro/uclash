@@ -34,14 +34,14 @@ curl -fsSL "https://raw.githubusercontent.com/xsro/uclash/main/scripts/install-p
 
 type `uclash help`.
 
-When first installed, run `uclash init` to create folder for ui.
+## Quick start
 
 ```sh
-uclash config config-repo <repo> # <repo> is private repository link
-uclash init                      # create folder for ui and clone config-repo to config-folder
-uclash generate                  # update profiles in <repo>
-uclash config -p                 # display a list of clash profiles
-uclash exec 0                    # run clash to start proxy server with clash config path
+#uclash config config-repo <repo>     # set a repo for uclash profiles
+uclash init                 # create folder for ui and clone `config-repo` to `config-folder`
+uclash config -p            # display a list of clash profiles with id, 0 is built in profile
+uclash generate 0           # update profiles, `0` can be the path of your config or config id
+uclash exec 0               # exec clash to start proxy server with clash config path or id
 ```
 
 ## Troubleshoot
