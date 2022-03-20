@@ -255,30 +255,33 @@ program
                     "website": "http://yacd.haishan.me/",
                 },
             ];
-            if (options.ui && fs.existsSync(resolve(options.ui, "CNAME"))) {
-                const originalWebsiteName = fs.readFileSync(resolve(ui.local, "CNAME"), "utf-8");
-                const site = dashboardLinks.find(val => val.website.includes(originalWebsiteName.trim()));
-                if (site) {
-                    dashboardLinks.push({ ...site, website: `http://${controller}/ui` })
-                }
-            }
             const net = [];
             const getSubsubSeg = (ip) => {
                 return ip.split(".").map(parseFloat).map(val => val.toString(16)).map(val => val.length === 2 ? val : "0" + val).join("") + "/"
             }
             for (const [name, _ips] of Object.entries(ips)) {
                 for (const ip of _ips) {
-                    const controller = "http://" + profile_obj["external-controller"].replace("0.0.0.0", ip);
-                    const dashboards = dashboardLinks.map(h => {
-                        const url = new URL(h.website);
-                        if (h.host)
-                            url.searchParams.set(h.host, ip);
-                        if (h.port)
-                            url.searchParams.set(h.port, controller.split(":")[2]);
-                        return url;
-                    });
+                    const controller = new URL("http://" + profile_obj["external-controller"].replace("0.0.0.0", ip));
+                    const localDashboard = []
+
                     if (ui.local) {
-                        const uilink = new URL(controller + "/ui/");
+                        const uilink = new URL("/ui/", controller);
+                        if (fs.existsSync(resolve(options.ui, "CNAME"))) {
+                            const originalWebsiteName = fs.readFileSync(resolve(ui.local, "CNAME"), "utf-8");
+                            const site = dashboardLinks.find(val => val.website.includes(originalWebsiteName.trim()));
+                            if (site) {
+                                localDashboard.push({ ...site, website: uilink })
+                            }
+                        }
+                        const dashboards = [...dashboardLinks, ...localDashboard].map(
+                            function (h) {
+                                const url = new URL(h.website);
+                                if (h.host)
+                                    url.searchParams.set(h.host, controller.hostname);
+                                if (h.port)
+                                    url.searchParams.set(h.port, controller.port);
+                                return url;
+                            });
                         const subsubSeg = getSubsubSeg(ip)
                         const subsubFolder = resolve(ui.subFolder, subsubSeg);
                         !fs.existsSync(subsubFolder) && fs.mkdirSync(subsubFolder);

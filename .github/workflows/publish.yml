@@ -28,6 +28,7 @@ jobs:
           node . init
           node . generate 0
           rm tmp/empty
+          echo "clash.razord.top/" >> _ui/CNAME
           node . exec 0 --dryrun
           node . find
       - run: yarn publish
