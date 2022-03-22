@@ -40,6 +40,11 @@
         "ui-subfolder": {
             "type": "string",
             "default": "c"
+        },
+        "download-timeout":{
+            "type":"number",
+            "description": "positve number unit is ms, 0 for no timeout",
+            "minimum": 0
         }
     }
 }
