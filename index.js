@@ -186,7 +186,7 @@ program
     .option("-p,--command [cmd]", "the command to start clash, default is `clash`;-p means use `clash-premium`; -p cmd means use cmd you defined")
     .option("-D,--dryrun", "dry run")
     .option("-d,--daemon <screen|pm2|nohup&>", "use daemon to run clash")
-    .option("-c,--clash-log <redirect|all|force>", "clash log")
+    .option("-c,--clash-log <redirect|inhert|ignore>", "clash log, default is inherit to console")
     .option("-s,--secret [string]", "set secret for API")
     .action(
         async function (uclashProfile, options) {
