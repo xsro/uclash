@@ -76,9 +76,12 @@ ${obj.origin.content.join("<br>")}
                     //     const obje = JSON.parse(text);
                     // },
                 ];
+            let quotes = []
             quoteProvider.forEach(a => {
                 a().then(quote => {
-                    document.getElementById("somequotes").innerHTML += `<p>${quote}</p>`
+                    quotes.push(quote)
+                    document.getElementById("somequotes").innerHTML
+                        = quotes.map(q => `<p>${q}</p>`).join("\n")
                 })
             })
         </script>

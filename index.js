@@ -335,8 +335,8 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
 <details>
 <summary> 终端命令
 </summary>
-<textarea>${terminalProxy.cmd.join("\n")}</textarea><br>
-<textarea>${terminalProxy.sh.join("\n")}</textarea><br>
+<textarea style="width:30%;height:60px">${terminalProxy.cmd.join("\n")}</textarea>
+<textarea style="width:30%;height:60px">${terminalProxy.sh.join("\n")}</textarea>
 </details>
 
 </ul>
