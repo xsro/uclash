@@ -43,7 +43,7 @@ program
             console.log(config.get(key, options.listDefault))
         }
         else if (key && value) {
-            config.set(key, eval(value))
+            config.set(key, value)
         }
         else if (options.listProfile) {
             console.log(Array.from(profileMap.entries()).map(val => `\t${val[0]}:\t${val[1]}`).join(os.EOL))
