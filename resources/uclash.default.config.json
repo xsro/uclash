@@ -8,5 +8,5 @@
     "cache-folder": "{project}/tmp/",
     "ui-subfolder": "c",
     "download-timeout": 2000,
-    "downloader": "curl -s ${url}"
+    "downloader": "curl -fsSL ${url}"
 }

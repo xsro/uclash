@@ -50,7 +50,7 @@
             "type":"string",
             "enum": [
                 "<built-in>",
-                "curl -s ${url}"
+                "curl -fsSL ${url}"
             ]
         }
     }
