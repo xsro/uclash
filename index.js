@@ -336,7 +336,12 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
                     "proxies": "removed for security consideration",
                     "proxy-groups": "removed for security consideration",
                 }
-                fs.writeFileSync(resolve(ui.subFolder, "info.json"), JSON.stringify({ net, profile_obj: { ...profile_obj, ..._profile_obj }, ui, clash }), "utf-8");
+                fs.writeFileSync(resolve(ui.subFolder, "info.json"), JSON.stringify({
+                    net,
+                    profile_obj: { ...profile_obj, ..._profile_obj },
+                    ui,
+                    clash: { ...clash, _cp: undefined }
+                }), "utf-8");
                 logger.info(8, `visit this message from ${resolve(ui.subFolder, "index.html")}`)
             }
             return

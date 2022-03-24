@@ -1,26 +1,29 @@
 {
     "configurations": [
-    {
-        "name": "Launch Program",
-        "program": "${workspaceFolder}/index.js",
-        "args": [
-            "generate"
-        ],
-        "request": "launch",
-        "skipFiles": [
-            "<node_internals>/**"
-        ],
-        "type": "pwa-node"
-    },{
-        "name": "Launch exec Program",
-        "program": "${workspaceFolder}/index.js",
-        "args": ["exec","0","-c force","-D"],
-        "request": "launch",
-        "skipFiles": [
-            "<node_internals>/**"
-        ],
-        "type": "pwa-node"
-    }
+        {
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "generate"
+            ],
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
+        {
+            "name": "Launch exec Program",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "exec",
+                "0"
+            ],
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        }
     ]
-
 }
