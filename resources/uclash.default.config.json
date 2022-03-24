@@ -1,0 +1,12 @@
+{
+    "$schema": "./uclash.config.schema.json",
+    "log-level": 4,
+    "ui-branch": "gh-pages",
+    "ui-folder": "{project}/_ui",
+    "config-branch": "main",
+    "config-folder": "{HOME}/.config/uclash/_config/",
+    "cache-folder": "{project}/tmp/",
+    "ui-subfolder": "c",
+    "download-timeout": 2000,
+    "downloader": "curl -s ${url}"
+}
