@@ -185,7 +185,7 @@ program
     .option("-u,--ui <path>", "start the ui from the path")
     .option("-p,--command [cmd]", "the command to start clash, default is `clash`;-p means use `clash-premium`; -p cmd means use cmd you defined")
     .option("-D,--dryrun", "dry run")
-    .option("-d,--daemon <screen|pm2|nohup&>", "use daemon to run clash, default is screen")
+    .option("-d,--daemon <screen|pm2|nohup&>", "use daemon to run clash")
     .option("-c,--clash-log <redirect|all|force>", "clash log")
     .option("-s,--secret [string]", "set secret for API")
     .action(
@@ -203,17 +203,6 @@ program
             //run clash
             const profile_text = fs.readFileSync(profileDst, { encoding: "utf-8" })
             const profile_obj = YAML.parse(profile_text);
-            options.daemon = options.daemon ? options.daemon : "screen";
-            let daemonCommand = options.daemon.replace("&", "").trim();
-            if (daemonCommand) {
-                try {
-                    execSync("command -v " + daemonCommand, { encoding: "utf-8" });
-                } catch (e) {
-                    logger.info(4, `command ${daemonCommand} not found`);
-                    // console.error(e)
-                    options.daemon = undefined;
-                }
-            }
 
             const clash = new Clash({
                 f: profileDst,
