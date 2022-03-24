@@ -11,6 +11,7 @@ import { profileMap, getClashConfig } from "./lib/get-clash-profile.js";
 import { ips } from "./lib/ip.js";
 import { logger } from "./lib/logger.js";
 import genPAC from "./lib/pac.js";
+import { terminalProxyCMD } from "./lib/terminal.js";
 import updateClashProfile from "./lib/update.js";
 import { config, paths, pack } from "./lib/util.js";
 
@@ -316,10 +317,13 @@ dashboards:
                 const temp = fs.readFileSync(
                     resolve(paths.projectFolder, "resources", "index.html"),
                     "utf-8");
+
                 const htmlmsg = temp
                     .replace("{version}", pack.version)
                     .replace("{description}", pack.description)
-                    .replace("{net}", net.map(val => `
+                    .replace("{net}", net.map(val => {
+                        const terminalProxy = terminalProxyCMD(val.ip, profile_obj)
+                        return `
 <div id="${val.ip}"}>
 <h3>${val.name}: <a href="#${val.ip}">${val.ip}</a></h3>
 <ul>
@@ -328,9 +332,16 @@ dashboards:
 ${val.dashboards.map(p => `<a href="${p.toString()}">${p.hostname}</a>`).join(os.EOL)}</li>
   <li><a href="${val.uilink + ui.subFolderSeg + '/' + val.subsubSeg}">pacs</a>:
 ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname.lastIndexOf("/") + 1)}</a>`).join(os.EOL)}</li>
+<details>
+<summary> 终端命令
+</summary>
+<textarea>${terminalProxy.cmd.join("\n")}</textarea><br>
+<textarea>${terminalProxy.sh.join("\n")}</textarea><br>
+</details>
+
 </ul>
 </div>
-`).join(""))
+`}).join(""))
                 fs.writeFileSync(resolve(ui.subFolder, "index.html"), htmlmsg, "utf-8");
                 const _profile_obj = {
                     "proxies": "removed for security consideration",
