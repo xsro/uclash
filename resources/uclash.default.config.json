@@ -6,7 +6,7 @@
     "ui-branch": "gh-pages",
     "ui-folder": "{project}/_ui",
     "config-branch": "main",
-    "config-folder": "{HOME}/.config/uclash/_config/",
+    "config-folder": "{HOME}/.config/uclash/clash/",
     "cache-folder": "{project}/tmp/",
     "ui-subfolder": "c",
     "download-timeout": 2000,
