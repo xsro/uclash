@@ -127,8 +127,9 @@ program
     .command("crontab")
     .description("add crontab to update schedully")
     .action(async function () {
-        fs.writeFileSync("30 6 * * * node $uclash_folder generate -cp >> ~/clash_gen.log", paths.cache("tab.txt"), "utf-8")
-        execSync(`crond`, execOpts)
+        fs.writeFileSync(paths.cache("tab.txt"),
+            "30 6 * * * node $(which uclash) generate -cp >> ~/clash_gen.log",
+            "utf-8")
         execSync(`crontab ` + asCachePath("tab.txt"), execOpts)
     })
 
@@ -139,7 +140,6 @@ program
     .option("-c,--git-commit", "generate a git commit if config changed")
     .option("-p,--git-push", "push to remote if config changed")
     .option("-b,--before [string]", "command will be run before update profile,default is git pull")
-    .option("-a,--allow-cache")
     .action(async function (uclashProfile, options) {
         const configs = [];
         if (uclashProfile === undefined) {
@@ -149,7 +149,8 @@ program
             } else {
                 for (const profile of profileMap.values()) {
                     const c = await getClashConfig(profile);
-                    configs.push(c)
+                    if (!c.configPath.includes(paths.projectFolder))
+                        configs.push(c)
                 }
             }
         } else {
@@ -171,8 +172,7 @@ program
                     before,
                     commit: options.gitCommit,
                     after: options.gitPush ? "git push" : false
-                },
-                options.allowCache
+                }
             )
         }
     });

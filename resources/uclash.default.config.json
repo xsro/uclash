@@ -10,6 +10,8 @@
     "ui-subfolder": "c",
     "download-timeout": 2000,
     "downloader": "curl -fsSL ${url}",
+    "pacs-cache":"first",
+    "profile-cache":"no",
     "pacs": [
         {
             "_": "https://github.com/petronny/gfwlist2pac",
