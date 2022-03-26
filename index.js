@@ -127,10 +127,13 @@ program
     .command("crontab")
     .description("add crontab to update schedully")
     .action(async function () {
-        fs.writeFileSync(paths.cache("tab.txt"),
-            "30 6 * * * node $(which uclash) generate -cp >> ~/clash_gen.log",
+        const next = new Date(Date.now() + 1000 * 60);
+        const hour = next.getHours();
+        const hours = [hour, (hour + 12) % 24]
+        fs.writeFileSync(paths.cache("uclash.crontab"),
+            `${next.getMinutes()} ${hours.join(",")} * * * bash ${paths.resources("uclash.crontab.sh")} >${config.get("crontab-log")} 2>&1`,
             "utf-8")
-        execSync(`crontab ` + asCachePath("tab.txt"), execOpts)
+        execSync(`crontab ` + paths.cache("uclash.crontab"), execOpts)
     })
 
 program
