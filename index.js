@@ -131,7 +131,7 @@ program
         const hour = next.getHours();
         const hours = [hour, (hour + 12) % 24]
         fs.writeFileSync(paths.cache("uclash.crontab"),
-            `${next.getMinutes()} ${hours.join(",")} * * * bash ${paths.resources("uclash.crontab.sh")} >${config.get("crontab-log")} 2>&1`,
+            `${next.getMinutes()} ${hours.join(",")} * * * bash ${paths.resources("uclash.crontab.sh")} >${config.get("crontab-log")} 2>&1` + os.EOL,
             "utf-8")
         execSync(`crontab ` + paths.cache("uclash.crontab"), execOpts)
     })
