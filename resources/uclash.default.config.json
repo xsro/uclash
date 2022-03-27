@@ -2,7 +2,7 @@
     "$schema": "./uclash.config.schema.json",
     "log-level": 4,
     "clash-log": "{HOME}/.config/uclash/clash.log",
-    "crontab-log":"{HOME}/uclash.crontab.log",
+    "crontab-log":"{HOME}/uclash-service.log",
     "ui-branch": "gh-pages",
     "ui-folder": "{project}/_ui",
     "config-branch": "main",

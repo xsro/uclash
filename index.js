@@ -124,16 +124,26 @@ program
     })
 
 program
-    .command("crontab")
-    .description("add crontab to update schedully")
-    .action(async function () {
+    .command("cron")
+    .description("add a crontab to termux")
+    .argument("<profile>")
+    .action(async function (profile) {
         const next = new Date(Date.now() + 1000 * 60);
         const hour = next.getHours();
-        const hours = [hour, (hour + 12) % 24]
-        fs.writeFileSync(paths.cache("uclash.crontab"),
-            `${next.getMinutes()} ${hours.join(",")} * * * bash ${paths.resources("uclash.crontab.sh")} >${config.get("crontab-log")} 2>&1` + os.EOL,
+        const hours = [hour, (hour + 6) % 24, (hour + 12) % 24, (hour + 18) % 24];
+        const script = paths.cache("uclash-service.sh")
+        fs.writeFileSync(script, `
+logPath="${config.get("crontab-log")}"
+echo "===$(date)===" >>$logPath
+uclash generate ${profile} -cp >>$logPath 2>&1
+pkill clash
+uclash exec ${profile} --clash-log inherit --daemon "nohup&" >>$logPath 2>&1
+echo "===$(ps aux | grep clash | head -1 )===" >>$logPath
+            `, "utf-8")
+        fs.writeFileSync(paths.cache("uclash-service.crontab"),
+            `${next.getMinutes()} ${hours.join(",")} * * * bash ${script}` + os.EOL,
             "utf-8")
-        execSync(`crontab ` + paths.cache("uclash.crontab"), execOpts)
+        execSync(`crontab ` + paths.cache("uclash-service.crontab"), execOpts)
     })
 
 program
