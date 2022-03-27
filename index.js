@@ -134,12 +134,15 @@ program
         const script = paths.cache("uclash-service.sh")
         fs.writeFileSync(script, `
 logPath="${config.get("crontab-log")}"
-echo "===$(date)===" >>$logPath
+echo "==>update profile $(date)" >>$logPath
 uclash generate ${profile} -cp >>$logPath 2>&1
-pkill clash
-uclash exec ${profile} --clash-log inherit --daemon "nohup&" >>$logPath 2>&1
-echo "===$(ps aux | grep clash | head -1 )===" >>$logPath
-            `, "utf-8")
+if [ $? -eq 0 ]  
+then 
+    pkill clash
+    uclash exec ${profile} --clash-log inherit --daemon "nohup&" >>$logPath 2>&1
+    ps aux | grep clash | head -1
+    echo "==>restarted clash" >>$logPath
+fi`, "utf-8")
         fs.writeFileSync(paths.cache("uclash-service.crontab"),
             `${next.getMinutes()} ${hours.join(",")} * * * bash ${script}` + os.EOL,
             "utf-8")
