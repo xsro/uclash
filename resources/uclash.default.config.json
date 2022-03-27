@@ -10,7 +10,7 @@
     "cache-folder": "{project}/tmp/",
     "ui-subfolder": "c",
     "download-timeout": 2000,
-    "downloader": "curl -fsSL ${url}",
+    "downloader": "curl -fsSL --max-time {timeout} {url}",
     "pacs-cache":"first",
     "profile-cache":"no",
     "pacs": [

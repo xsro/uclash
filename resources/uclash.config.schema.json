@@ -47,11 +47,7 @@
             "minimum": 0
         },
         "downloader":{
-            "type":"string",
-            "enum": [
-                "<built-in>",
-                "curl -fsSL ${url}"
-            ]
+            "type":"string"
         }
     }
 }
