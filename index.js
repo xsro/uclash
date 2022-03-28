@@ -139,7 +139,7 @@ uclash generate ${profile} -cp >>$logPath 2>&1
 if [ $? -eq 0 ]  
 then 
     pkill clash
-    uclash exec ${profile} --clash-log inherit --daemon "nohup&" >>$logPath 2>&1
+    uclash exec ${profile} --silent --clash-log inherit --daemon "nohup&" >>$logPath 2>&1
     ps aux | grep clash | head -1
     echo "==>restarted clash" >>$logPath
 fi`, "utf-8")
@@ -203,7 +203,8 @@ program
     .option("-D,--dryrun", "dry run")
     .option("-d,--daemon <screen|pm2|nohup&>", "use daemon to run clash")
     .option("-c,--clash-log <redirect|inhert|ignore>", "clash log, default is inherit to console")
-    .option("-s,--secret [string]", "set secret for API")
+    .option("-S,--secret [string]", "set secret for API")
+    .option("-s,--silent", "don't print message for net")
     .action(
         async function (uclashProfile, options) {
             logger.info(1, options)
@@ -316,7 +317,7 @@ dashboards:
     ${dashboards.join(tab(4))}
 `;
             }
-            logger.info(4, msg);
+            (!options.silent) && logger.info(4, msg);
 
             if (ui.local) {
                 const temp = fs.readFileSync(
@@ -358,7 +359,7 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
                     ui,
                     clash: { ...clash, _cp: undefined }
                 }), "utf-8");
-                logger.info(8, `visit this message from ${resolve(ui.subFolder, "index.html")}`)
+                logger.info(8, `visit network message from ${resolve(ui.subFolder, "index.html")}`)
             }
             return
         }
