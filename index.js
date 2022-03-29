@@ -182,14 +182,15 @@ program
             if (options.before) {
                 before = options.before
             }
-            await updateClashProfile(
+            const changed = await updateClashProfile(
                 c.config,
                 {
                     before,
                     commit: options.gitCommit,
                     after: options.gitPush ? "git push" : false
                 }
-            )
+            );
+            process.exitCode = changed ? 0 : 24;//https://tldp.org/LDP/abs/html/exitcodes.html
         }
     });
 
