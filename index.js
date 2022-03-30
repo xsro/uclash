@@ -127,10 +127,10 @@ program
     .command("cron")
     .description("add a crontab to termux")
     .argument("<profile>")
-    .action(async function (profile) {
+    .option("-f,--schedule <string>", "schedule expressions. see https://crontab.guru/")
+    .action(async function (profile, options) {
         const next = new Date(Date.now() + 1000 * 60);
-        const hour = next.getHours();
-        const hours = [hour, (hour + 6) % 24, (hour + 12) % 24, (hour + 18) % 24];
+        const schedule = options.schedule ? options.schedule : `${next.getMinutes()} */2 * * *`
         const script = paths.cache("uclash-service.sh")
         fs.writeFileSync(script, `
 logPath="${config.get("crontab-log")}"
@@ -144,7 +144,7 @@ then
     echo "==>restarted clash" >>$logPath
 fi`, "utf-8")
         fs.writeFileSync(paths.cache("uclash-service.crontab"),
-            `${next.getMinutes()} ${hours.join(",")} * * * bash ${script}` + os.EOL,
+            `${schedule} bash ${script}` + os.EOL,
             "utf-8")
         execSync(`crontab ` + paths.cache("uclash-service.crontab"), execOpts)
     })
