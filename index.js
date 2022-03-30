@@ -263,6 +263,8 @@ program
                 {
                     //https://github.com/haishanh/yacd
                     "website": "http://yacd.haishan.me/",
+                    "host": "hostname",
+                    "port": "port"
                 },
             ];
             const net = [];
