@@ -131,16 +131,18 @@ program
     .action(async function (profile, options) {
         const next = new Date(Date.now() + 1000 * 60);
         const schedule = options.schedule ? options.schedule : `${next.getMinutes()} */2 * * *`
-        const script = paths.cache("uclash-service.sh")
+        const script = paths.cache("uclash-service.sh");
+        const cprofile = await getClashConfig(profile)
         fs.writeFileSync(script, `
 logPath="${config.get("crontab-log")}"
 echo "==>update profile $(date)" >>$logPath
 uclash generate ${profile} -cp >>$logPath 2>&1
 if [ $? -eq 0 ]  
 then 
-    pkill clash
-    uclash exec ${profile} --silent --clash-log inherit --daemon "nohup&" >>$logPath 2>&1
-    ps aux | grep clash | head -1
+    curl -X PUT -H "Content-Type: application/json" \\
+         -d '{"path":"${cprofile.config.parser.destination}"}'\\
+         http://127.0.0.1:9090/configs >>$logPath
+    ps aux | grep clash | head -1 >>$logPath
     echo "==>restarted clash" >>$logPath
 fi`, "utf-8")
         fs.writeFileSync(paths.cache("uclash-service.crontab"),
