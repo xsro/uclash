@@ -258,13 +258,15 @@ program
                     //https://github.com/Dreamacro/clash-dashboard
                     "website": "http://clash.razord.top/",
                     "host": "host",
-                    "port": "port"
+                    "port": "port",
+                    "secret": "secrect",
                 },
                 {
                     //https://github.com/haishanh/yacd
                     "website": "http://yacd.haishan.me/",
                     "host": "hostname",
-                    "port": "port"
+                    "port": "port",
+                    "secret": "secrect",
                 },
             ];
             const net = [];
@@ -292,6 +294,8 @@ program
                                     url.searchParams.set(h.host, controller.hostname);
                                 if (h.port)
                                     url.searchParams.set(h.port, controller.port);
+                                if (h.secret && clash.secret)
+                                    url.searchParams.set(h.secret, clash.secret);
                                 return url;
                             });
                         const subsubSeg = getSubsubSeg(ip)
