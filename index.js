@@ -128,27 +128,38 @@ program
     .description("add a crontab to termux")
     .argument("<profile>")
     .option("-f,--schedule <string>", "schedule expressions. see https://crontab.guru/")
+    .option("--only-script", "generate script only")
     .action(async function (profile, options) {
         const next = new Date(Date.now() + 1000 * 60);
         const schedule = options.schedule ? options.schedule : `${next.getMinutes()} */2 * * *`
         const script = paths.cache("uclash-service.sh");
         const cprofile = await getClashConfig(profile)
         fs.writeFileSync(script, `
-logPath="${config.get("crontab-log")}"
-echo "==>update profile $(date)" >>$logPath
-uclash generate ${profile} -cp >>$logPath 2>&1
-if [ $? -eq 0 ]  
-then 
+if [[ "$(curl -s baidu.com)" == *"www.baidu.com"* ]];then
+    echo "==>update profile $(date)" 
+    uclash generate ${profile} -cp 
+    generated=$?
+fi
+
+if [[ "$(ps aux | grep clash | wc -l)" -eq "1" ]];then
+    echo "clash is not started, try to start it"
+    uclash exec ${profile} --daemon "nohup&"
+elif [ "$generated" -eq "0" ];then
     curl -X PUT -H "Content-Type: application/json" \\
          -d '{"path":"${cprofile.config.parser.destination}"}'\\
-         http://127.0.0.1:9090/configs >>$logPath
-    ps aux | grep clash | head -1 >>$logPath
-    echo "==>restarted clash" >>$logPath
-fi`, "utf-8")
-        fs.writeFileSync(paths.cache("uclash-service.crontab"),
-            `${schedule} bash ${script}` + os.EOL,
-            "utf-8")
-        execSync(`crontab ` + paths.cache("uclash-service.crontab"), execOpts)
+         http://127.0.0.1:9090/configs
+    echo "==>restarted clash"
+fi
+`, "utf-8")
+
+        if (options.onlyScript) {
+            console.log(paths.cache(script))
+        } else {
+            fs.writeFileSync(paths.cache("uclash-service.crontab"),
+                `${schedule} bash ${script} >>"${config.get("crontab-log")}" 2>&1` + os.EOL,
+                "utf-8")
+            execSync(`crontab ` + paths.cache("uclash-service.crontab"), execOpts)
+        }
     })
 
 program
@@ -184,7 +195,7 @@ program
             if (options.before) {
                 before = options.before
             }
-            const changed = await updateClashProfile(
+            const { changed } = await updateClashProfile(
                 c.config,
                 {
                     before,
