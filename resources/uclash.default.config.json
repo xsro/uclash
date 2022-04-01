@@ -9,7 +9,7 @@
     "config-folder": "{HOME}/.config/uclash/clash/",
     "cache-folder": "{project}/tmp/",
     "ui-subfolder": "c",
-    "download-timeout": 4000,
+    "download-timeout": 10000,
     "downloader": "curl -fsSL --max-time {timeout:s} {url}",
     "pacs-cache":"first",
     "profile-cache":"no",
