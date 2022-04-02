@@ -9,7 +9,6 @@
   - 一般都会带着手机，可能便于切换各种网络环境
 - 缺点：
   - 增加手机电池🔋消耗
-  - 由于不同终端和软件限制，无法代理全部流量
 
 ## 相关工具的官网介绍
 
@@ -32,15 +31,19 @@
 
 ```sh
 # 安装clash等依赖
-pkg install git clash nodejs-lts npm yarn screen
+pkg install git clash nodejs-lts npm
 
-# 或
-# npm install -g uclash
-yarn global add https://github.com/xsro/uclash
+npm install -g uclash
+# 或使用如下命令安装
+pkg install yarn
+yarn global add uclash
 
-#初始化
+#初始化相关文件夹
 uclash init
 
+
+#更新配置文件
+uclash generate 0
 #启动clash，并打印相关信息, 0 表示配置文件夹中的第0个配置
 uclash exec 0
 ```
@@ -50,10 +53,13 @@ uclash exec 0
 参看 [/config](../config/)， 如果没有设置配置文件夹(`config-folder`)，会默认使用这里面的配置。
 如果有放配置文件的仓库可以设置`config-repo`，并初始化
 
-```
+```sh
 #设置存放clash配置来源的仓库地址
 uclash config config-repo git@gitee.com:xsro/my-clash-configuration.git
+#克隆仓库到相应路径
 uclash init
+#列出配置文件列表
+uclash config -p
 ```
 
 ## 设置代理
@@ -76,3 +82,7 @@ uclash init
 
 - 点击`双卡与移动网络`，点击上完对应的卡，进入`接入点名称`，在选中的接入点中，设置代理
 - 进入 Wi-Fi，点击连接的 Wifi，下滑在`代理`中选择手动，主机名填入代理服务器地址，端口填写 http 代理服务端口。
+
+如果需要全局代理，可以使用[socksdroid](https://play.google.com/store/apps/details?id=net.typeblog.socks)，通过vpnservice来接管各个软件浏览，然后通过socks将流量转发给clash。其代码位于[github](https://github.com/bndeff/socksdroid)。
+
+注意：一定要将termux添加到白名单，不然会浏览在两个软件之间反复转发。
