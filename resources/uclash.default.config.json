@@ -11,7 +11,7 @@
     "ui-subfolder": "c",
     "download-timeout": 10000,
     "downloader": "curl -fsSL --max-time {timeout:s} {url}",
-    "pacs-cache":"first",
+    "pacs-cache":"30d",
     "profile-cache":"no",
     "pacs": [
         {

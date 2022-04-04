@@ -41,13 +41,22 @@
             "type": "string",
             "default": "c"
         },
-        "download-timeout":{
-            "type":"number",
+        "download-timeout": {
+            "type": "number",
             "description": "positve number unit is ms, 0 for no timeout",
             "minimum": 0
         },
-        "downloader":{
-            "type":"string"
+        "downloader": {
+            "type": "string",
+            "description": "the command to download files, support {url},{timeout},{timeout:s}"
+        },
+        "pacs-cache": {
+            "type": "string",
+            "description": "a interval expression like `30d` or 'allow', 'no'"
+        },
+        "profile-cache": {
+            "type": "string",
+            "description": "a interval expression like `30d` or 'allow', 'no'"
         }
     }
 }
