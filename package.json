@@ -5,7 +5,8 @@
   "type": "module",
   "main": "api.js",
   "bin": {
-    "uclash": "./index.js"
+    "uclash": "./index.js",
+    "cft":"./index.js"
   },
   "files": [
     "resources",
