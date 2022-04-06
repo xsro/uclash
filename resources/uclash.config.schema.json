@@ -42,8 +42,8 @@
             "default": "c"
         },
         "download-timeout": {
-            "type": "number",
-            "description": "positve number unit is ms, 0 for no timeout",
+            "type": "string",
+            "description": "period expression",
             "minimum": 0
         },
         "downloader": {
