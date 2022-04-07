@@ -9,7 +9,7 @@
     "config-folder": "{HOME}/.config/uclash/clash/",
     "cache-folder": "{project}/tmp/",
     "ui-subfolder": "c",
-    "download-timeout": "3min",
+    "download-timeout": "1min",
     "downloader": "curl -fsSL --max-time {timeout:s} {url}",
     "pacs-cache":"30d",
     "profile-cache":"no",
@@ -50,5 +50,6 @@
             "replace": "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080",
             "to": "SOCKS5 @ip:@socks; SOCKS @ip:@socks; HTTPS @ip:@port; HTTP @ip:@port; PROXY @ip:@port"
         }
-    ]
+    ],
+    "githubusercontent-mirror":[]
 }

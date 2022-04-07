@@ -1,88 +1,45 @@
 #---------------------------------------------------#
-## 我使用的配置文件基于：https://github.com/Hackl0us/SS-Rule-Snippet/blob/master/LAZY_RULES/clash.yaml
+## uclash的配置文件基于clash原有配置，只是增加了use这个关键字
+## 来使得配置中可以引用其他位置的配置
+## 该示例规则使用： https://github.com/Hackl0us/SS-Rule-Snippet/blob/master/LAZY_RULES/clash.yaml
 ## clash 配置文档： https://github.com/Dreamacro/clash/wiki/Configuration
 #---------------------------------------------------#
-## 配置文件需要放置在 $HOME/.config/clash/config.yml
-##
-## 如果您不知道如何操作，请参阅 SS-Rule-Snippet 的 Wiki：
-## https://github.com/Hackl0us/SS-Rule-Snippet/wiki/clash(X)
-#---------------------------------------------------#
 
+# uclash定义一些处理文件需要的属性
 parser:
-  type: 2
+  #文件最终写入的路径，如果使用相对路径为相对于本文件
   destination: "../tmp/0.yml"
 
-# HTTP 代理端口
-port: 7890
-
-# SOCKS5 代理端口
-socks-port: 7891
-
-# Linux 和 macOS 的 redir 透明代理端口 (重定向 TCP 和 TProxy UDP 流量)
-# redir-port: 7892
-
-# Linux 的透明代理端口（适用于 TProxy TCP 和 TProxy UDP 流量)
-# tproxy-port: 7893
-
-# HTTP(S) and SOCKS5 共用端口
-# mixed-port: 7890
-
-# 本地 SOCKS5/HTTP(S) 服务验证
-# authentication:
-#  - "user1:pass1"
-#  - "user2:pass2"
-
-# 允许局域网的连接（可用来共享代理）
-allow-lan: true
-bind-address: "*"
-# 此功能仅在 allow-lan 设置为 true 时生效，支持三种参数：
-# "*"                           绑定所有的 IP 地址
-# 192.168.122.11                绑定一个的 IPv4 地址
-# "[aaaa::a8aa:ff:fe09:57d8]"   绑定一个 IPv6 地址
-
-# Clash 路由工作模式
-# 规则模式：rule（规则） / global（全局代理）/ direct（全局直连）
-mode: rule
-
-# Clash 默认将日志输出至 STDOUT
-# 设置日志输出级别 (默认级别：silent，即不输出任何内容，以避免因日志内容过大而导致程序内存溢出）。
-# 5 个级别：silent / info / warning / error / debug。级别越高日志输出量越大，越倾向于调试，若需要请自行开启。
-log-level: silent
-
-# clash 的 RESTful API 监听地址
-external-controller: 0.0.0.0:9090
-
 proxies:
-  # 使用如下链接的节点
-  - use: 
-    - https://cdn.jsdelivr.net/gh/git-yusteven/openit@main/Clash.yaml
+  # 使用如下链接中包含的节点，可以使用数组，链接如果是github的raw/blob格式会自动转化为githubusercontent格式和一些镜像链接
+  - use: "https://github.com/yu-steven/openit/blob/main/Clash.yaml"
+    name: "yu-steven/openit"
+    #可以定义一些其他属性，他不会被使用，但是可以方便阅读
+    homepage: https://doc.openit.ml/
+    link: "https://github.com/yu-steven/openit/"
 
 proxy-groups:
 
-  # url-test 可以自动选择与指定 URL 测速后，延迟最短的服务器
   - name: "auto"
     type: url-test
     proxies:
       - use: true
-        match: "Http"
-        
+        match: "Http" #使用Proxies中名称包含Http的节点
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
-  # select 用来允许用户手动选择 代理服务器 或 服务器组
-  # 您也可以使用 RESTful API 去切换服务器，这种方式推荐在 GUI 中使用
   - name: Proxy
     type: select
     proxies:
       - auto
       - use: true
-        proxies: false
-        groups: true
-        filter: |
+        filter: | #使用下面的javascript代码来过滤节点
          //javascript代码支持val,idx,arr
          console.log(val.name,arr[idx].type)
          if(val.name==="Proxy"||val.name==="auto"||val.name==="Others"||val.name.includes("XSS安全漏洞检测")) return false
          return true
+        proxies: false #过滤的对象是否包含代理节点，默认为true
+        groups: true #过滤的对象是否包含代理节点组，默认为false
 
   - name: Others
     type: select
@@ -108,8 +65,5 @@ rules:
   - DOMAIN,t.co,Proxy
   - DOMAIN,edge.activity.windows.com,DIRECT
   - DOMAIN-SUFFIX,bing.com,DIRECT
-  - use: 
-    - https://cdn.jsdelivr.net/gh/Hackl0us/SS-Rule-Snippet@master/LAZY_RULES/clash.yaml
-    - https://raw.githubusercontent.com/Hackl0us/SS-Rule-Snippet/master/LAZY_RULES/clash.yaml
-    - https://gitee.com/mirrors_Hackl0us/SS-Rule-Snippet/raw/master/LAZY_RULES/clash.yaml
+  - use: https://github.com/Hackl0us/SS-Rule-Snippet/blob/master/LAZY_RULES/clash.yaml
   - MATCH,Others
