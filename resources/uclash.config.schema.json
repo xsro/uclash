@@ -41,22 +41,21 @@
             "type": "string",
             "default": "c"
         },
-        "download-timeout": {
-            "type": "string",
-            "description": "period expression",
-            "minimum": 0
-        },
         "downloader": {
             "type": "string",
-            "description": "the command to download files, support {url},{timeout},{timeout:s}"
+            "description": "the command to download files, support {url},{timeout},{timeout:s} and {dst}"
+        },
+        "download-timeout": {
+            "type": "string",
+            "description": "a period expression"
         },
         "pacs-cache": {
             "type": "string",
-            "description": "a interval expression like `30d` or 'allow', 'no'"
+            "description": "a period expression like `30d` or 'allow', 'no'"
         },
         "profile-cache": {
             "type": "string",
-            "description": "a interval expression like `30d` or 'allow', 'no'"
+            "description": "a period expression like `30d` or 'allow', 'no'"
         }
     }
 }
