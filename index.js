@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { program } from "commander";
 import * as api from "./api.js";
+import { getPublicIP } from "./lib/ip.js";
 import { config, pack } from "./lib/util.js";
 
 program
@@ -63,6 +64,12 @@ program
 program.command("find [ip-filter] [path] [port]")
     .description("find proxy in the local network, powered by system command `arp -a`, can't work in termux")
     .action(api.find)
+
+program.command("ip")
+    .option("-p,--proxy <string>")
+    .action(function (options) {
+        getPublicIP(options.proxy).then(console.log)
+    })
 
 program.parse()
 
