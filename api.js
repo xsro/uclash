@@ -243,10 +243,12 @@ export async function exec(uclashProfile, options) {
     }
     for (const [name, _ips] of Object.entries(ips)) {
         for (const ip of _ips) {
-            const controller = new URL("http://" + profile_obj["external-controller"].replace("0.0.0.0", ip));
+            const controller = profile_obj["external-controller"]
+                ? new URL("http://" + profile_obj["external-controller"].replace("0.0.0.0", ip))
+                : undefined;
             const localDashboard = []
 
-            if (ui.local) {
+            if (ui.local && controller) {
                 const uilink = new URL("/ui/", controller);
                 if (fs.existsSync(resolve(options.ui, "CNAME"))) {
                     const originalWebsiteName = fs.readFileSync(resolve(ui.local, "CNAME"), "utf-8");
@@ -276,7 +278,7 @@ export async function exec(uclashProfile, options) {
                 })
                 net.push({ name, ip, controller, subsubSeg, uilink, pacs, dashboards })
             } else {
-                net.push({ name, ip, controller, pacs: [], dashboards })
+                net.push({ name, ip, controller, pacs: [], dashboards: [] })
             }
 
         }
