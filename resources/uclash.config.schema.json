@@ -6,9 +6,17 @@
             "type": "number",
             "default": 4
         },
+        "crontab-log":{
+            "type":"string",
+            "description": "path for the crontab output"
+        },
+        "uclash-service": {
+            "type":"string",
+            "description": "path for the script to run schedully with crontab"
+        },
         "ui-repo": {
             "type": "string",
-            "description": "",
+            "description": "the git repository to clone to `ui-folder` when run `uclash init`",
             "enum": [
                 "https://github.com/Dreamacro/clash-dashboard",
                 "https://github.com/haishanh/yacd"
@@ -16,22 +24,27 @@
         },
         "ui-branch": {
             "type": "string",
+            "description": "the branch to checkout when run `uclash init`",
             "default": "gh-pages"
         },
         "ui-folder": {
-            "default": "{project}/_ui"
+            "type":"string",
+            "default": "{project}/_ui",
+            "description": "the local disk folder for the ui to host a static website"
         },
         "config-repo": {
             "type": "string",
-            "default": "undefined"
+            "description": "the git repository to clone to `config-folder` when run `uclash init`"
         },
         "config-branch": {
             "type": "string",
-            "default": "main"
+            "description": "the branch to checkout when run `uclash init`",
+            "default":"main"
         },
         "config-folder": {
             "type": "string",
-            "default": "{HOME}/.config/uclash/_config/"
+            "default": "{HOME}/.config/uclash/clash/",
+            "description": "the local disk folder for the ui to host a static website"
         },
         "cache-folder": {
             "type": "string",
