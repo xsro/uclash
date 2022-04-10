@@ -3,6 +3,7 @@
     "log-level": 4,
     "clash-log": "{HOME}/.config/uclash/clash.log",
     "crontab-log":"{HOME}/uclash-service.log",
+    "uclash-service":"{HOME}/.config/uclash/uclash-service.sh",
     "ui-branch": "gh-pages",
     "ui-folder": "{project}/_ui",
     "config-branch": "main",

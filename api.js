@@ -107,25 +107,26 @@ export async function reset(options) {
 }
 
 export async function cron(profile, options) {
-    const next = new Date(Date.now() + 1000 * 60);
-    const schedule = options.schedule ? options.schedule : `${next.getMinutes()} */2 * * *`
-    const script = paths.cache("uclash-service.sh");
+    const next = new Date(Date.now() + 1000 * 60 * 2);
+    const schedule = options.schedule ? options.schedule : `${next.getMinutes()} */6 * * *`
+    const script = config.get("uclash-service");
     const cprofile = await getClashConfig(profile)
     fs.writeFileSync(script, `
 if [[ "$(curl -s baidu.com)" == *"www.baidu.com"* ]];then
-echo "==>update profile $(date)" 
-uclash generate ${profile} -cp 
-generated=$?
+    echo "==>update profile $(date)" 
+    echo "==>$(uclash ip)"
+    uclash generate ${profile} -cp 
+    generated=$?
 fi
 
 if [[ "$(ps aux | grep clash | wc -l)" -eq "1" ]];then
-echo "clash is not started, try to start it"
-uclash exec ${profile} --daemon "nohup&"
+    echo "clash is not started, try to start it"
+    uclash exec ${profile} --daemon "nohup&"
 elif [ "$generated" -eq "0" ];then
-curl -X PUT -H "Content-Type: application/json" \\
-     -d '{"path":"${cprofile.config.parser.destination}"}'\\
-     http://127.0.0.1:9090/configs
-echo "==>restarted clash"
+    curl -X PUT -H "Content-Type: application/json" \\
+        -d '{"path":"${cprofile.config.parser.destination}"}'\\
+        http://127.0.0.1:9090/configs
+    echo "==>restarted clash $(uclash ip -x 7890)"
 fi
 `, "utf-8")
 
