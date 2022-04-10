@@ -66,7 +66,7 @@ program.command("find [ip-filter] [path] [port]")
     .action(api.find)
 
 program.command("ip")
-    .option("-p,--proxy <string>")
+    .option("-x,--proxy <string>")
     .action(function (options) {
         getPublicIP(options.proxy).then(console.log)
     })
