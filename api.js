@@ -108,13 +108,13 @@ export async function reset(options) {
 
 export async function cron(profile, options) {
     const next = new Date(Date.now() + 1000 * 60 * 2);
-    const schedule = options.schedule ? options.schedule : `${next.getMinutes()} */6 * * *`
+    const schedule = options.schedule ? options.schedule : `${next.getMinutes()} 7,12,18,22 * * *`
     const script = config.get("uclash-service");
     const cprofile = await getClashConfig(profile)
     fs.writeFileSync(script, `
 if [[ "$(curl -s baidu.com)" == *"www.baidu.com"* ]];then
-    echo "==>update profile $(date)" 
-    echo "==>$(uclash ip)"
+    echo "" 
+    echo -e "\\033[31m==>\\033[0m update profile  \\033[32m$(date)\\033[0m"
     uclash generate ${profile} -cp 
     generated=$?
 fi
@@ -126,7 +126,7 @@ elif [ "$generated" -eq "0" ];then
     curl -X PUT -H "Content-Type: application/json" \\
         -d '{"path":"${cprofile.config.parser.destination}"}'\\
         http://127.0.0.1:9090/configs
-    echo "==>restarted clash $(uclash ip -x 7890)"
+    echo -e "\\033[31m==>\\033[0mrestarted clash $(uclash ip -x 7890)"
 fi
 `, "utf-8")
 
