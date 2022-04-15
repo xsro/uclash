@@ -2,7 +2,6 @@ import { execSync } from "child_process";
 import * as fs from "fs";
 import * as os from "os";
 import { resolve } from "path";
-import YAML from "yaml";
 import Clash from "./lib/clash.js";
 import findProxy from "./lib/find-proxy.js";
 import { profileMap, getClashConfig } from "./lib/get-clash-profile.js";
@@ -190,20 +189,18 @@ export async function exec(uclashProfile, options) {
     }
 
     //run clash
-    const profile_text = fs.readFileSync(profileDst, { encoding: "utf-8" })
-    const profile_obj = YAML.parse(profile_text);
-
-    const clash = new Clash({
+    const clash = new Clash(
+        options.command,
+    )
+    const profileObj = clash.run({
         f: profileDst,
         extUi: options.ui,
         secret: options.secret,
-        clashCMD: options.command === true ? "clash-premium" : options.command,
         clashLog: options.clashLog,
         daemon: options.daemon,
         dryrun: options.dryrun
     });
-
-    let msg = `代理服务端口: ` + Object.keys(profile_obj).filter(val => val.includes("port")).map(key => `${key}:${profile_obj[key]}`);
+    let msg = `代理服务端口: ` + Object.keys(profileObj).filter(val => val.includes("port")).map(key => `${key}:${profileObj[key]}`);
 
     let ui = {
         local: undefined,
@@ -244,8 +241,8 @@ export async function exec(uclashProfile, options) {
     }
     for (const [name, _ips] of Object.entries(ips)) {
         for (const ip of _ips) {
-            const controller = profile_obj["external-controller"]
-                ? new URL("http://" + profile_obj["external-controller"].replace("0.0.0.0", ip))
+            const controller = profileObj["external-controller"]
+                ? new URL("http://" + profileObj["external-controller"].replace("0.0.0.0", ip))
                 : undefined;
             const localDashboard = []
 
@@ -272,7 +269,7 @@ export async function exec(uclashProfile, options) {
                 const subsubSeg = getSubsubSeg(ip)
                 const subsubFolder = resolve(ui.subFolder, subsubSeg);
                 !fs.existsSync(subsubFolder) && fs.mkdirSync(subsubFolder);
-                const _pacs = await genPAC(subsubFolder, profile_obj, ip);
+                const _pacs = await genPAC(subsubFolder, profileObj, ip);
                 const pacs = _pacs.map(pac => {
                     const paclink = new URL(ui.subFolderSeg + '/' + subsubSeg + pac, uilink)
                     return paclink
@@ -308,7 +305,7 @@ ${dashboards.join(tab(4))}
             .replace("{version}", pack.version)
             .replace("{description}", pack.description)
             .replace("{net}", net.map(val => {
-                const terminalProxy = terminalProxyCMD(val.ip, profile_obj)
+                const terminalProxy = terminalProxyCMD(val.ip, profileObj)
                 return `
 <div id="${val.ip}"}>
 <h3>${val.name}: <a href="#${val.ip}">${val.ip}</a></h3>
@@ -329,27 +326,31 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
 </div>
 `}).join(""))
         fs.writeFileSync(resolve(ui.subFolder, "index.html"), htmlmsg, "utf-8");
-        const _profile_obj = {
-            "proxies": "removed for security consideration",
-            "proxy-groups": "removed for security consideration",
-        }
         fs.writeFileSync(resolve(ui.subFolder, "info.json"), JSON.stringify({
+            version: pack.version,
             net,
-            profile_obj: { ...profile_obj, ..._profile_obj },
             ui,
-            clash: { ...clash, _cp: undefined }
-        }), "utf-8");
+            clash: {
+                ...clash,
+                logs: clash.logs.map(val => {
+                    if (val.profileObj.proxies) val.profileObj.proxies = val.profileObj.proxies.length
+                    if (val.profileObj["proxy-groups"]) val.profileObj["proxy-groups"] = val.profileObj["proxy-groups"].length
+                    return val
+                }),
+                _cp: clash._cp ? { pid: clash._cp.pid } : undefined
+            }
+        }, undefined, "\t"), "utf-8");
         logger.info(8, `visit network message from ${resolve(ui.subFolder, "index.html")}`)
     }
     return
 }
 
 export async function find(ipFilter, path, port) {
-    const onGet = function ({ net, thisNet, clash, ui, profile_obj, verified }) {
+    const onGet = function ({ net, thisNet, clash, ui, profileObj, verified }) {
         const { name, ip, controller, uilink, subsubSeg, pacs, dashboards } = thisNet
         let msg = `
 ===网络: ${name} ip地址:${ip} clash版本${verified}===
-代理服务所在端口: ${Object.keys(profile_obj).filter(key => key.includes("port")).map(key => `${key}:${profile_obj[key]}`)}
+代理服务所在端口: ${Object.keys(profileObj).filter(key => key.includes("port")).map(key => `${key}:${profileObj[key]}`)}
 clash 控制器: ${controller} ${clash.secret ? `secret: ${clash.secret}` : ""}
 网页: ${uilink ? uilink + ui.subFolderSeg : "not setted"}
 PACs: 
