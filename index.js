@@ -61,8 +61,11 @@ program
     .option("-s,--silent", "don't print message for net")
     .action(api.exec)
 
-program.command("find [ip-filter] [path] [port]")
+program.command("find")
     .description("find proxy in the local network, powered by system command `arp -a`, can't work in termux")
+    .argument('[ip-filter]', "the ip to find, or a expression for filter `arp -a` ips ")
+    .argument("[path]", "the path to find infomation,default is `/ui/c/info.json`")
+    .argument("[port]", "the port, default is 9090")
     .action(api.find)
 
 program.command("ip")

@@ -326,20 +326,29 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
 </div>
 `}).join(""))
         fs.writeFileSync(resolve(ui.subFolder, "index.html"), htmlmsg, "utf-8");
-        fs.writeFileSync(resolve(ui.subFolder, "info.json"), JSON.stringify({
-            version: pack.version,
-            net,
-            ui,
-            clash: {
-                ...clash,
-                logs: clash.logs.map(val => {
-                    if (val.profileObj.proxies) val.profileObj.proxies = val.profileObj.proxies.length
-                    if (val.profileObj["proxy-groups"]) val.profileObj["proxy-groups"] = val.profileObj["proxy-groups"].length
+        fs.writeFileSync(resolve(ui.subFolder, "info.json"),
+            JSON.stringify(
+                {
+                    version: {
+                        "uclash": pack.version,
+                        "os": os.version(),
+                        "node": process.version,
+                        "clash": clash.version()
+                    },
+                    net,
+                    ui,
+                    clash
+                },
+                function (key, val) {
+                    if (key === "_cp" && val) {
+                        return val.pid
+                    }
+                    if (key === "proxy-groups" || key === "proxies") {
+                        return val.length
+                    }
+                    if (key === "stream") return undefined
                     return val
-                }),
-                _cp: clash._cp ? { pid: clash._cp.pid } : undefined
-            }
-        }, undefined, "\t"), "utf-8");
+                }, "\t"), "utf-8");
         logger.info(8, `visit network message from ${resolve(ui.subFolder, "index.html")}`)
     }
     return
