@@ -14,6 +14,11 @@ proxies:
   # 使用如下链接中包含的节点，可以使用数组，链接如果是github的raw/blob格式会自动转化为githubusercontent格式和一些镜像链接
   - use: "https://github.com/yu-steven/openit/blob/main/Clash.yaml"
     name: "yu-steven/openit"
+    #可以使用javascript对节点进行过滤，返回false的将被忽略
+    map: |
+      if(val.name) val.name=val.name.replace(/<img .*>/,"")
+      if(val.server==="localhost") return false
+      return val
     #可以定义一些其他属性，他不会被使用，但是可以方便阅读
     homepage: https://doc.openit.ml/
     link: "https://github.com/yu-steven/openit/"
@@ -23,8 +28,8 @@ proxy-groups:
   - name: "auto"
     type: url-test
     proxies:
+      #使用所有的定义的节点
       - use: true
-        match: "Http" #使用Proxies中名称包含Http的节点
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
@@ -33,13 +38,13 @@ proxy-groups:
     proxies:
       - auto
       - use: true
-        filter: | #使用下面的javascript代码来过滤节点
+        #使用下面的javascript代码来过滤节点
+        filter: | 
          //javascript代码支持val,idx,arr
-         console.log(val.name,arr[idx].type)
-         if(val.name==="Proxy"||val.name==="auto"||val.name==="Others"||val.name.includes("XSS安全漏洞检测")) return false
+         if(val.name==="Proxy"||val.name==="auto"||val.name==="Others") return false
          return true
-        proxies: false #过滤的对象是否包含代理节点，默认为true
-        groups: true #过滤的对象是否包含代理节点组，默认为false
+        proxies: true #过滤的对象是否包含代理节点，默认为true
+        groups: false #过滤的对象是否包含代理节点组，默认为false
 
   - name: Others
     type: select
@@ -47,9 +52,6 @@ proxy-groups:
       - DIRECT
       - Proxy
       - auto
-  
-  - use:
-    - https://cdn.jsdelivr.net/gh/git-yusteven/openit@main/Clash.yaml
 
 rules:
   # 自定义规则
