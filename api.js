@@ -355,7 +355,12 @@ ${val.pacs.map(p => `<a href="${p.toString()}">${p.pathname.substring(p.pathname
 }
 
 export async function find(ipFilter, path, port) {
-    const onGet = function ({ net, thisNet, clash, ui, profileObj, verified }) {
+    const onGet = function (result) {
+        if (result.thisNet === undefined) {
+            console.log(`${result.url} has no information of the network`)
+            return
+        }
+        const { net, thisNet, clash, ui, profileObj, verified } = result
         const { name, ip, controller, uilink, subsubSeg, pacs, dashboards } = thisNet
         let msg = `
 ===网络: ${name} ip地址:${ip} clash版本${verified}===

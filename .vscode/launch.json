@@ -24,6 +24,18 @@
                 "<node_internals>/**"
             ],
             "type": "pwa-node"
-        }
+        },
+        {
+            "name": "find proxy ",
+            "program": "${workspaceFolder}/index.js",
+            "args": [
+                "find"
+            ],
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
+        },
     ]
 }
