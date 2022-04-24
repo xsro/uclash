@@ -5,8 +5,8 @@
   "type": "module",
   "main": "api.js",
   "bin": {
-    "uclash": "./index.js",
-    "cft":"./index.js"
+    "uclash": "./bin/uclash.js",
+    "cft":"./bin/cft.sh"
   },
   "files": [
     "resources",

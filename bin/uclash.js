@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { program } from "commander";
-import * as api from "./api.js";
-import { getPublicIP } from "./lib/ip.js";
-import { config, pack } from "./lib/util.js";
+import * as api from "../api.js";
+import { getPublicIP } from "../lib/ip.js";
+import { config, pack } from "../lib/util.js";
 
 program
     .version(api.version)

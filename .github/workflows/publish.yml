@@ -26,9 +26,9 @@ jobs:
 
       - name: "generate cache files"
         run: |
-          node index.js -V
-          node index.js init
-          node index.js generate 0
+          node bin/uclash.js -V
+          node bin/uclash.js init
+          node bin/uclash.js generate 0
           
       - name: "install clash"
         run: |
@@ -38,10 +38,10 @@ jobs:
       - name: "test"
         run: |
           echo "clash.razord.top/" >> _ui/CNAME
-          node index.js exec 0 --dryrun
-          node index.js exec 0 --dryrun --daemon screen
-          node index.js find
-          node index.js ip
+          node bin/uclash.js exec 0 --dryrun
+          node bin/uclash.js exec 0 --dryrun --daemon screen
+          node bin/uclash.js find
+          node bin/uclash.js ip
           
       - run: yarn publish
         if: success() && startsWith( github.ref, 'refs/tags/') 
