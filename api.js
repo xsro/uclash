@@ -11,6 +11,7 @@ import genPAC from "./lib/pac.js";
 import { terminalProxyCMD } from "./lib/terminal.js";
 import updateClashProfile from "./lib/update.js";
 import { config, paths, pack } from "./lib/util.js";
+import * as haship from "./lib/haship.js"
 
 const execOpts = { cwd: paths.projectFolder, stdio: "inherit", encoding: "utf-8" };
 
@@ -236,11 +237,12 @@ export async function exec(uclashProfile, options) {
         },
     ];
     const net = [];
-    const getSubsubSeg = (ip) => {
-        return ip.split(".").map(parseFloat).map(val => val.toString(16)).map(val => val.length === 2 ? val : "0" + val).join("") + "/"
-    }
-    for (const [name, _ips] of Object.entries(ips)) {
-        for (const ip of _ips) {
+    const _ips = Object.entries(ips);
+    const previousIp = fs.readdirSync(ui.subFolder).map(haship.decode).filter(a => a)
+    _ips.unshift(["uclash previous ips", previousIp])
+
+    for (const [name, address] of _ips) {
+        for (const ip of address) {
             const controller = profileObj["external-controller"]
                 ? new URL("http://" + profileObj["external-controller"].replace("0.0.0.0", ip))
                 : undefined;
@@ -266,8 +268,8 @@ export async function exec(uclashProfile, options) {
                             url.searchParams.set(h.secret, clash.secret);
                         return url;
                     });
-                const subsubSeg = getSubsubSeg(ip)
-                const subsubFolder = resolve(ui.subFolder, subsubSeg);
+                const subsubSeg = haship.encode(ip)
+                const subsubFolder = resolve(ui.subFolder, subsubSeg + "/");
                 !fs.existsSync(subsubFolder) && fs.mkdirSync(subsubFolder);
                 const _pacs = await genPAC(subsubFolder, profileObj, ip);
                 const pacs = _pacs.map(pac => {
@@ -278,11 +280,10 @@ export async function exec(uclashProfile, options) {
             } else {
                 net.push({ name, ip, controller, pacs: [], dashboards: [] })
             }
-
         }
     }
-
     for (const { name, ip, controller, uilink, subsubSeg, pacs, dashboards } of net) {
+        if (name == "uclash previous ips") continue
         const tab = num => os.EOL + " ".repeat(num)
         msg += `
 ===网络: ${name} ip地址:${ip}===

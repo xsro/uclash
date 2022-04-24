@@ -2,7 +2,7 @@
     "configurations": [
         {
             "name": "Launch Program",
-            "program": "${workspaceFolder}/index.js",
+            "program": "${workspaceFolder}/bin/uclash.js",
             "args": [
                 "generate 0"
             ],
@@ -14,7 +14,7 @@
         },
         {
             "name": "Launch exec Program",
-            "program": "${workspaceFolder}/index.js",
+            "program": "${workspaceFolder}/bin/uclash.js",
             "args": [
                 "exec",
                 "0"
@@ -27,7 +27,7 @@
         },
         {
             "name": "find proxy ",
-            "program": "${workspaceFolder}/index.js",
+            "program": "${workspaceFolder}/bin/uclash.js",
             "args": [
                 "find"
             ],
