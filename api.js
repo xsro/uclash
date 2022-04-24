@@ -273,7 +273,7 @@ export async function exec(uclashProfile, options) {
                 !fs.existsSync(subsubFolder) && fs.mkdirSync(subsubFolder);
                 const _pacs = await genPAC(subsubFolder, profileObj, ip);
                 const pacs = _pacs.map(pac => {
-                    const paclink = new URL(ui.subFolderSeg + '/' + subsubSeg + pac, uilink)
+                    const paclink = new URL(ui.subFolderSeg + '/' + subsubSeg + "/" + pac, uilink)
                     return paclink
                 })
                 net.push({ name, ip, controller, subsubSeg, uilink, pacs, dashboards })
