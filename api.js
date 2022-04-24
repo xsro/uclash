@@ -239,10 +239,13 @@ export async function exec(uclashProfile, options) {
     const net = [];
     const _ips = Object.entries(ips);
     const previousIp = fs.readdirSync(ui.subFolder).map(haship.decode).filter(a => a)
-    _ips.unshift(["uclash previous ips", previousIp])
+    _ips.push(["uclash previous ips", previousIp])
 
     for (const [name, address] of _ips) {
         for (const ip of address) {
+            const idx = net.findIndex(val => val.ip === ip)
+            if (idx > -1) continue
+
             const controller = profileObj["external-controller"]
                 ? new URL("http://" + profileObj["external-controller"].replace("0.0.0.0", ip))
                 : undefined;
@@ -276,7 +279,9 @@ export async function exec(uclashProfile, options) {
                     const paclink = new URL(ui.subFolderSeg + '/' + subsubSeg + "/" + pac, uilink)
                     return paclink
                 })
-                net.push({ name, ip, controller, subsubSeg, uilink, pacs, dashboards })
+
+                const info = { name, ip, controller, subsubSeg, uilink, pacs, dashboards }
+                net.push(info)
             } else {
                 net.push({ name, ip, controller, pacs: [], dashboards: [] })
             }
