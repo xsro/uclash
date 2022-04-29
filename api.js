@@ -134,7 +134,7 @@ fi
         console.log(paths.cache(script))
     } else {
         fs.writeFileSync(paths.cache("uclash-service.crontab"),
-            `${schedule} bash ${script} >>"${config.get("crontab-log")}" 2>&1` + os.EOL,
+            `${schedule} sh ${script} >>"${config.get("crontab-log")}" 2>&1` + os.EOL,
             "utf-8")
         execSync(`crontab ` + paths.cache("uclash-service.crontab"), execOpts)
     }
