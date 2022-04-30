@@ -112,6 +112,7 @@ export async function cron(profile, options) {
     const script = config.get("uclash-service");
     const cprofile = await getClashConfig(profile)
     fs.writeFileSync(script, `
+alias uclash="node ${paths.projectFolder}/bin/uclash.js"
 if [[ "$(curl -s baidu.com)" == *"www.baidu.com"* ]];then
     echo "" 
     echo -e "\\033[31m==>\\033[0m update profile  \\033[32m$(date)\\033[0m"
