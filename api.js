@@ -125,7 +125,7 @@ if [[ "$(ps aux | grep clash | wc -l)" -eq "1" ]];then
     echo "clash is not started, try to start it"
     uclash exec ${profile} --daemon "nohup&"
 elif [ "$generated" -eq "0" ];then
-    uclash restart ${profile}
+    uclash reload ${profile}
     echo -e "\\033[31m==>\\033[0mrestarted clash $(uclash ip -x 7890)"
 fi
 `, "utf-8")
