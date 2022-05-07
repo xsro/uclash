@@ -10,6 +10,9 @@ parser:
   #文件最终写入的路径，如果使用相对路径为相对于本文件
   destination: "../tmp/0.yml"
 
+external-controller: 127.0.0.1:9090
+log-level: debug
+
 proxies:
   # 使用如下链接中包含的节点，可以使用数组，链接如果是github的raw/blob格式会自动转化为githubusercontent格式和一些镜像链接
   - use: "https://github.com/yu-steven/openit/blob/main/Clash.yaml"

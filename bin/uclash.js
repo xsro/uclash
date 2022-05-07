@@ -74,6 +74,10 @@ program.command("ip")
         getPublicIP(options.proxy).then(console.log)
     })
 
+program.command("reload")
+    .argument("<profile>")
+    .action(api.reload)
+
 program.parse()
 
 

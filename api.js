@@ -12,6 +12,7 @@ import { terminalProxyCMD } from "./lib/terminal.js";
 import updateClashProfile from "./lib/update.js";
 import { config, paths, pack } from "./lib/util.js";
 import * as haship from "./lib/haship.js"
+import { Controller } from "./lib/controller.js";
 
 const execOpts = { cwd: paths.projectFolder, stdio: "inherit", encoding: "utf-8" };
 
@@ -124,9 +125,7 @@ if [[ "$(ps aux | grep clash | wc -l)" -eq "1" ]];then
     echo "clash is not started, try to start it"
     uclash exec ${profile} --daemon "nohup&"
 elif [ "$generated" -eq "0" ];then
-    curl -X PUT -H "Content-Type: application/json" \\
-        -d '{"path":"${cprofile.config.parser.destination}"}'\\
-        http://127.0.0.1:9090/configs
+    uclash restart ${profile}
     echo -e "\\033[31m==>\\033[0mrestarted clash $(uclash ip -x 7890)"
 fi
 `, "utf-8")
@@ -139,6 +138,22 @@ fi
             "utf-8")
         execSync(`crontab ` + paths.cache("uclash-service.crontab"), execOpts)
     }
+}
+
+export async function reload(profile) {
+    const cprofile = await getClashConfig(profile)
+    let url = new URL("http://127.0.0.1:9090")
+    const extCtl = cprofile.config["external-controller"]
+    if (extCtl) {
+        const _url = new URL("http://" + extCtl)
+        if (_url.port)
+            url.port = _url.port
+    } else {
+        console.log("no external-controller defined, try " + url)
+    }
+    const c = new Controller(url, cprofile.config["secret"])
+    await c.reload(cprofile.config.parser.destination)
+    console.log("posted")
 }
 
 export async function generate(uclashProfile, options) {
