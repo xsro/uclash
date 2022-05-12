@@ -1,6 +1,6 @@
 {
   "name": "uclash",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Clash for Termux, a nodejs CLI tool to manage clash, originally for my use in Termux",
   "type": "module",
   "main": "api.js",
@@ -9,10 +9,10 @@
     "cft":"./bin/cft.sh"
   },
   "files": [
-    "resources",
-    "index.js",
-    "api.js",
+    "resources/",
+    "bin/",
     "lib/**/*.js",
+    "api.js",
     "config/",
     "tmp/http*"
   ],
