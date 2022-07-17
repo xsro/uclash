@@ -32,16 +32,18 @@ jobs:
           
       - name: "install clash"
         run: |
+          mkdir ./tmp/
           bash scripts/install-clash.sh ./tmp/
           ./tmp/clash -t -f ./tmp/0.yml
               
       - name: "test"
         run: |
-          echo "clash.razord.top/" >> _ui/CNAME
-          node bin/uclash.js exec 0 --dryrun
-          node bin/uclash.js exec 0 --dryrun --daemon screen
-          node bin/uclash.js find
-          node bin/uclash.js ip
+          node bin/uclash.js  config ui-folder {project}/tmp
+          echo clash.razord.top/ >> tmp/CNAME
+          node bin/uclash.js  exec 0 --dryrun
+          node bin/uclash.js  exec 0 --dryrun --daemon screen
+          node bin/uclash.js  find
+          node bin/uclash.js  ip
           
       - run: yarn publish
         if: success() && startsWith( github.ref, 'refs/tags/') 
