@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 import { program } from "commander";
-import * as api from "../api.js";
+import { api } from "../api.js";
 import { getPublicIP } from "../lib/ip.js";
 import { config, pack } from "../lib/util.js";
 
-program
-    .version(api.version)
-    .description(pack.description)
+program.version(pack.version)
+program.description(pack.description)
 
 program
     .command("config [key] [value]")

@@ -9,11 +9,12 @@
     "config-branch": "main",
     "config-folder": "{HOME}/.config/uclash/clash/",
     "cache-folder": "{project}/tmp/",
-    "ui-subfolder": "c",
     "download-timeout": "1min",
     "downloader": "curl -fsSL --max-time {timeout:s} -o {dst} {url}",
     "pacs-cache":"30d",
+    "ui-subfolder": "c",
     "profile-cache":"no",
+    "port":7895,
     "pacs": [
         {
             "_": "https://github.com/petronny/gfwlist2pac",
