@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import { program } from "commander";
 import { api } from "../api.js";
-import { getPublicIP } from "../lib/ip.js";
 import { config, pack } from "../lib/util.js";
 
 program.version(pack.version)
@@ -75,9 +74,7 @@ program.command("find")
 
 program.command("ip")
     .option("-x,--proxy <string>")
-    .action(function (options) {
-        getPublicIP(options.proxy).then(console.log)
-    })
+    .action(api.ip)
 
 program.command("reload")
     .argument("<profile>")

@@ -10,6 +10,7 @@ import { init } from "./lib/init.js"
 import { reload } from "./lib/reload.js"
 import { reset } from "./lib/reset.js"
 import { uclash_config } from "./lib/uclash_config.js"
+import { ip } from "./lib/ip.js"
 
 export const version = `
 ██╗   ██╗ ██████╗██╗      █████╗ ███████╗██╗  ██╗
@@ -33,5 +34,6 @@ export const api = {
     reload,
     reset,
     uclash_config,
+    ip,
 }
 
