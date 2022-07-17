@@ -75,6 +75,8 @@ program.command("ip")
 
 program.command("reload")
     .argument("<profile>")
+    .option("-c,--isclash")
+    .option("-e,--extCtl <string>")
     .action(api.reload)
 
 program.parse()

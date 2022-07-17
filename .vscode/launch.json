@@ -10,7 +10,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "type": "pwa-node"
+            "type": "node"
         },
         {
             "name": "Launch exec Program",
@@ -23,7 +23,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "type": "pwa-node"
+            "type": "node"
         },
         {
             "name": "find proxy ",
@@ -35,7 +35,19 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "type": "pwa-node"
+            "type": "node"
+        },
+        {
+            "name": "dev test",
+            "program": "${workspaceFolder}/lib/exec/serve.js",
+            "args": [
+                "find"
+            ],
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
         },
     ]
 }

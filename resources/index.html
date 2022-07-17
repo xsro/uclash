@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 
 <head>
     <meta charset="utf-8">
@@ -18,13 +18,37 @@
     </header>
     <section>
         <h2>networks</h2>
-        <p>If you are in following networks. you can connect with following configuration</p>
-        {net}
-        <script>
-            const url = new URL(document.location);
-            const ele = document.getElementById(url.hostname);
-            ele && (ele.style.backgroundColor = "aqua")
-        </script>
+        <div id="${net.ip}" }>
+            <h3>${net.name}: <a href="#${net.ip}">${net.ip}</a></h3>
+            <p>
+            <ul>
+                <li>
+                    RESTful Api: <a href="${net.controller}">${net.controller}</a> ,
+                    <a href="${net.uilink}">external-ui</a>
+                </li>
+                <li>
+                    dashboard:{dashboards}
+                </li>
+            </ul>
+            </p>
+
+            <p>
+                PAC
+<ul>
+    <li>匹配规则的链接走代理：<a href="black.pac">black.pac</a></li>
+    <li>未匹配规则的链接走代理：
+        <a href="white.pac">white.pac</a>
+        <a href="w2.pac">w2.pac</a></li>
+</ul>
+            </p>
+
+            <details>
+                <summary> 终端命令
+                </summary>
+                <textarea style="width:40%;height:60px">${terminalProxy.cmd}</textarea>
+                <br>
+                <textarea style="width:40%;height:60px">${terminalProxy.sh}</textarea>
+            </details>
     </section>
 
     <aside>

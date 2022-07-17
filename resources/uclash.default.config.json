@@ -9,6 +9,7 @@
     "config-branch": "main",
     "config-folder": "{HOME}/.config/uclash/clash/",
     "cache-folder": "{project}/tmp/",
+    "tmp-folder":"<ostmp>",
     "download-timeout": "1min",
     "downloader": "curl -fsSL --max-time {timeout:s} -o {dst} {url}",
     "pacs-cache":"30d",
