@@ -60,6 +60,12 @@ program
     .option("-s,--silent", "don't print message for net")
     .action(api.exec)
 
+program
+    .command("serve")
+    .argument("[port]", "port to serve, default 7895")
+    .description("serve a webpage for pacs and index")
+    .action(api.serve)
+
 program.command("find")
     .description("find proxy in the local network, powered by system command `arp -a`, can't work in termux")
     .argument('[ip-filter]', "the ip to find, or a expression for filter `arp -a` ips ")

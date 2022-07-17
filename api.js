@@ -3,6 +3,7 @@ import { paths, pack } from "./lib/util.js";
 
 import { cron } from "./lib/cron.js"
 import { exec } from "./lib/exec/exec.js"
+import { serve } from "./lib/exec/serve.js"
 import { find } from "./lib/find.js"
 import { generate } from "./lib/generate.js"
 import { init } from "./lib/init.js"
@@ -25,6 +26,7 @@ os version:   ${os.version()}
 export const api = {
     cron,
     exec,
+    serve,
     find,
     generate,
     init,
