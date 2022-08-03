@@ -1,0 +1,1 @@
+res.end(fs.readFileSync(path.resolve(__dirname, "live.html"), "utf-8"))

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <img src="https://www.baidu.com/img/PCfb_5bf082d29588c07f842ccde3f97243ea.png" id="live shot" style="height:100vh"></img>
+        <!-- <img src="http://127.0.0.1:7895/shot" id="live shot" style="height:100vh"></img> -->
+        <script>
+            document.getElementById("live shot").addEventListener("load",()=>{
+                setTimeout(
+                    location.reload,
+                    1000*10
+                )
+            })
+        </script>
+    </body>
+</html>
