@@ -8,6 +8,7 @@
     "ui-folder": "{HOME}/.config/uclash/ui",
     "config-branch": "main",
     "config-folder": "{HOME}/.config/uclash/clash/",
+    "serve-folder": "{HOME}/.config/uclash/serve/",
     "cache-folder": "{tmpdir}/uclash/cache",
     "tmp-folder":"{tmpdir}/uclash/",
     "download-timeout": "1min",

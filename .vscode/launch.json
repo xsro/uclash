@@ -38,10 +38,10 @@
             "type": "node"
         },
         {
-            "name": "dev test",
-            "program": "${workspaceFolder}/lib/exec/serve.js",
+            "name": "serve",
+            "program": "${workspaceFolder}/bin/uclash.js",
             "args": [
-                "find"
+                "serve"
             ],
             "request": "launch",
             "skipFiles": [
