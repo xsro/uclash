@@ -1,16 +1,6 @@
 const fs = require("fs");
 const os = require("os");
 
-const mime = {
-    html: 'text/html',
-    txt: 'text/plain',
-    css: 'text/css',
-    gif: 'image/gif',
-    jpg: 'image/jpeg',
-    png: 'image/png',
-    svg: 'image/svg+xml',
-    js: 'application/javascript'
-};
 
 const link1 = "https://www.baidu.com/img/PCfb_5bf082d29588c07f842ccde3f97243ea.png"
 const link2 = "https://assets.new.siemens.com/siemens/assets/api/uuid:a2219da4-b350-4b2c-9c2e-33ae61a305ac/width:2000/crop:0,204:0,11682:0,764:0,88084/quality:high/snc-keyvisual-cmyk.jpg"
@@ -18,7 +8,7 @@ const link2 = "https://assets.new.siemens.com/siemens/assets/api/uuid:a2219da4-b
 
 module.exports = function (req, res) {
     const { path, fetch, cp } = this.preloaded
-    const reqUrl = new URL(this.context.reqUrl);
+    const { reqUrl, mime } = this.context;
 
     let type = mime.jpg
 
@@ -57,7 +47,6 @@ module.exports = function (req, res) {
             });
         }
         else {
-
             fetch(link1).then(
                 response => {
                     if (!response.ok) throw new Error(`unexpected response ${response.statusText}`);
