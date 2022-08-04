@@ -5,6 +5,6 @@ function hook(req, res) {
     }
 }
 
-hook["bind-url"] = "/"
+hook["bind-url"] = /^\/$/
 
 module.exports = hook
