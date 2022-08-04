@@ -5,7 +5,6 @@ function hook(req, res) {
     }
 }
 
-module.exports = {
-    hook,
-    bind: "/"
-}
+hook["bind-url"] = "/"
+
+module.exports = hook
