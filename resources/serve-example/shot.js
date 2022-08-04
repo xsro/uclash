@@ -10,8 +10,6 @@ module.exports = function (req, res) {
     const { path, fetch, cp } = this.preloaded
     const { reqUrl, mime } = this.context;
 
-    let type = mime.jpg
-
     if (reqUrl.searchParams.has("link")) {
         let link = reqUrl.searchParams.get("link")
         if (link === "1") {
@@ -29,15 +27,17 @@ module.exports = function (req, res) {
     }
     else {
         let file = path.resolve(os.tmpdir(), Date.now().toString() + ".jpg")
+        console.log("termux-camera-photo " + file)
         try {
             cp.execSync(`termux-camera-photo  ${file}`);
         } catch (e) {
             console.log(e)
         }
+        console.log(fs.existsSync(file) ? "exist" : "miss")
         if (fs.existsSync(file)) {
             let s = fs.createReadStream(file);
             s.on('open', function () {
-                res.setHeader('Content-Type', type);
+                res.setHeader('Content-Type', mime.jpg);
                 s.pipe(res);
             });
             s.on('error', function () {
