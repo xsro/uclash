@@ -9,6 +9,7 @@
     "config-branch": "main",
     "config-folder": "{HOME}/.config/uclash/clash/",
     "serve-folder": "{HOME}/.config/uclash/serve/",
+    "serve-hook-folder": "{HOME}/.config/uclash/serve-hook/",
     "cache-folder": "{tmpdir}/uclash/cache",
     "tmp-folder":"{tmpdir}/uclash/",
     "download-timeout": "1min",
