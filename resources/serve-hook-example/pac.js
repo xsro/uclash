@@ -35,5 +35,5 @@ async function hook(req, res) {
     }
 }
 
-hook["bind-url"] = /.*\.pac/
+hook["bind-url"] = /^.*\.pac$/
 module.exports = hook
