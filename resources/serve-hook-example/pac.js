@@ -4,7 +4,6 @@ const os = require("os")
 // https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file
 
 async function callback(req, res) {
-    this.prevent()
     const { existsSync, readFileSync } = this.preloaded["fs"]
     const { resolve } = this.preloaded["path"]
     const { ip, download2, config, paths, reqUrl } = this.context
@@ -34,6 +33,7 @@ async function callback(req, res) {
         const pacName = reqUrl.pathname.replace(".pac", "").replace("/", "")
         const pacText = await genPAC(pacName, ip, undefined)
         res.end("//" + pacName + "\t" + new Date().toLocaleString() + "\n" + pacText)
+        this.prevent()
     }
 }
 
