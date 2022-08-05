@@ -1,15 +1,59 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
-    <body>
-        <img src="/shot" id="live shot" style="height:100vh"></img>
-        <script>
-            document.getElementById("live shot").addEventListener("load",()=>{
-                setTimeout(
-                    location.reload,
-                    1000*10
-                )
-            })
-        </script>
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <title>实时拍摄</title>
+</head>
+
+<body>
+    <input type="range" name="test" min="0" max="100000" value="10000" id="interval-range">
+    <input type="text" id="interval-text">
+    <label for="camera-id">camera id</label>
+    <input type="text" id="camera-id">
+    <br>
+    <p id="shotUrl"></p>
+
+    <img src="/shot" id="live shot" style="height:80vh"></img>
+    <script>
+
+        const ele = {
+            intervalRange: document.getElementById("interval-range"),
+            intervalText: document.getElementById("interval-text"),
+            reload: document.getElementById("reload"),
+            cameraId: document.getElementById("camera-id"),
+            shot: document.getElementById("live shot"),
+            shotUrl: document.getElementById("shotUrl")
+        }
+
+        // https://stackoverflow.com/questions/1077041/refresh-image-with-a-new-one-at-the-same-url
+        function cb() {
+            const url = new URL(ele.shot.src)
+            url.searchParams.set("date", new Date().getTime())
+            ele.cameraId.value && url.searchParams.set("id", ele.cameraId.value)
+            ele.shot.src = url.toString()
+            ele.shotUrl.innerHTML = url.toString()
+            console.log("reload")
+        }
+
+        let interval = ele.intervalRange.value
+        ele.intervalText.value = ele.intervalRange.value
+        let id = setInterval(cb, interval)
+        cb()
+
+        function reload(){
+            clearInterval(id)
+            interval = ele.intervalRange.value
+            id = setInterval(cb, interval)
+        }
+
+        ele.intervalRange.addEventListener("change", (e) => {
+            ele.intervalText.value = ele.intervalRange.value
+            reload()
+        })
+
+        ele.cameraId.addEventListener("change",reload)
+    </script>
+</body>
+
 </html>
