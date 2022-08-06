@@ -2,8 +2,8 @@
     "$schema": "./uclash.config.schema.json",
     "log-level": 4,
     "clash-log": "{tmpdir}/uclash/clash.log",
-    "crontab-log":"{HOME}/.config/uclash/uclash-service.log",
-    "uclash-service":"{HOME}/.config/uclash/uclash-service.sh",
+    "crontab-log": "{HOME}/.config/uclash/uclash-service.log",
+    "uclash-service": "{HOME}/.config/uclash/uclash-service.sh",
     "ui-branch": "gh-pages",
     "ui-folder": "{HOME}/.config/uclash/ui",
     "config-branch": "main",
@@ -11,13 +11,13 @@
     "serve-folder": "{HOME}/.config/uclash/serve/",
     "serve-hook-folder": "{HOME}/.config/uclash/serve-hook/",
     "cache-folder": "{tmpdir}/uclash/cache",
-    "tmp-folder":"{tmpdir}/uclash/",
+    "tmp-folder": "{tmpdir}/uclash/",
     "download-timeout": "1min",
     "downloader": "curl -fsSL --max-time {timeout:s} -o {dst} {url}",
-    "pacs-cache":"30d",
+    "pacs-cache": "30d",
     "ui-subfolder": "c",
-    "profile-cache":"no",
-    "port":7895,
+    "profile-cache": "no",
+    "port": 7895,
     "pacs": [
         {
             "_": "https://github.com/petronny/gfwlist2pac",
@@ -36,8 +36,16 @@
                 "https://cdn.jsdelivr.net/gh/breakwa11/gfw_whitelist@master/whitelist.pac",
                 "https://raw.githubusercontent.com/breakwa11/gfw_whitelist/master/whitelist.pac"
             ],
-            "replace": "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080",
-            "to": "SOCKS5 @ip:@socks; SOCKS @ip:@socks; HTTPS @ip:@port; HTTP @ip:@port; PROXY @ip:@port"
+            "replace": [
+                [
+                    "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080;",
+                    "SOCKS5 @ip:@socks; SOCKS @ip:@socks;"
+                ],
+                [
+                    "host=\"\"+host;",
+                    "host = '' + host;if (host === 'clash') { return 'PROXY 192.168.1.6:7890'; }"
+                ]
+            ]
         },
         {
             "_": "https://github.com/MatcherAny/whitelist.pac/",
@@ -56,5 +64,5 @@
             "to": "SOCKS5 @ip:@socks; SOCKS @ip:@socks; HTTPS @ip:@port; HTTP @ip:@port; PROXY @ip:@port"
         }
     ],
-    "githubusercontent-mirror":[]
+    "githubusercontent-mirror": []
 }
