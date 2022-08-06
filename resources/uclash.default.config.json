@@ -17,7 +17,7 @@
     "pacs-cache": "30d",
     "ui-subfolder": "c",
     "profile-cache": "no",
-    "port": 7895,
+    "port": 7899,
     "pacs": [
         {
             "_": "https://github.com/petronny/gfwlist2pac",
