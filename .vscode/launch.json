@@ -4,7 +4,7 @@
             "name": "generate",
             "program": "${workspaceFolder}/bin/uclash.js",
             "args": [
-                "generate -1"
+                "generate 0"
             ],
             "request": "launch",
             "skipFiles": [

@@ -1,0 +1,1605 @@
+#uclash 0.5.4
+#undefined:2022/8/6 22:58:03
+external-controller: 127.0.0.1:9090
+log-level: debug
+proxies:
+  - name: BG 1 → TG@SCINV
+    server: 83.150.217.62
+    port: 44612
+    type: trojan
+    password: dbdd4673-06e7-4a53-adb7-aa4232df529e
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: CZ 1 → TG@SCINV
+    server: v2cross.com.01.v2ce.com
+    port: 443
+    type: trojan
+    password: mMQ6qJB9xbhiRvgg
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: CZ 2 → TG@SCINV
+    server: v2cross.com.02.v2ce.com
+    port: 443
+    type: trojan
+    password: 3gLlCYBipVwr6Y5F
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: RW 1 → TG@SCINV
+    server: 209.209.9.149
+    port: 46539
+    type: trojan
+    password: 2Q74kEsaZq
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: UA 1 → TG@SCINV
+    server: v2cross.com.05.v2ce.com
+    port: 443
+    type: trojan
+    password: kGrwqmB1nEKUsDwE
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: UA 2 → TG@SCINV
+    server: ce.rutracker-cn.com
+    port: 443
+    type: trojan
+    password: 5y8y3CwxRVYhyfSY
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: UA 3 → TG@SCINV
+    server: cz5.v2ce.com
+    port: 443
+    type: trojan
+    password: HTrovQkamDxNfaD5
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: UA 4 → TG@SCINV
+    server: v2cross.com.03.v2ce.com
+    port: 443
+    type: trojan
+    password: ZD4dLSBXiMrmzdLd
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: UA 5 → TG@SCINV
+    server: v2cross.com.04.v2ce.com
+    port: 443
+    type: trojan
+    password: vGWCNNfBHwSY6m6M
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: unknown 1 → TG@SCINV
+    server: 103.152.226.224
+    port: 47257
+    type: vmess
+    uuid: f91ecc38-bad5-4045-ab9c-723aa7d7996d
+    alterId: 0
+    cipher: auto
+    tls: false
+    skip-cert-verify: true
+    network: ws
+    ws-opts:
+      path: /var/lib/docker/overlay2
+    udp: true
+    _origin_label: null
+  - name: 🇦🇺 AU 1 → TG@SCINV
+    server: jgwxn2.gaox.ml
+    port: 443
+    type: trojan
+    password: c2b60d6a-a2f5-40ff-b7f9-f7658abcbf26
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇦🇺 AU 2 → TG@SCINV
+    server: jgwxn3.gaox.ml
+    port: 443
+    type: trojan
+    password: cb43b7c2-b744-41c5-bcc2-fd7467b332cf
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇨🇦 CA 1 → TG@SCINV
+    server: 727tw02.ok365.cyou
+    port: 25689
+    type: trojan
+    password: a37bd567-ae37-4e78-8d9d-0f414d3628de
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 1 → TG@SCINV
+    server: cm.spacez.cloud
+    port: 30003
+    type: trojan
+    password: c9a3a61d-5d49-4158-9e60-6fa32684b122
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 17 → TG@SCINV
+    server: 103.56.62.145
+    port: 3381
+    type: trojan
+    password: ab29af390ff9f4a7
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 19 → TG@SCINV
+    server: 14.29.124.168
+    port: 24008
+    type: ss
+    cipher: aes-128-cfb
+    password: QazEdcTgb159@$*
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 2 → TG@SCINV
+    server: cm.spacez.cloud
+    port: 30002
+    type: trojan
+    password: c9a3a61d-5d49-4158-9e60-6fa32684b122
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 3 → TG@SCINV
+    server: 14.29.124.168
+    port: 24007
+    type: ss
+    cipher: aes-128-cfb
+    password: QazEdcTgb159@$*
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 30 → TG@SCINV
+    server: sg-cn-relay-6-689145.dk-3a4e.com
+    port: 9306
+    type: trojan
+    password: f2a28b26-3462-11e9-96d3-020b85e0a428
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 36 → TG@SCINV
+    server: kanao.xyz
+    port: 58820
+    type: trojan
+    password: 93e89295-5654-42fc-bb93-622c27e80f42
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 58
+    server: 14.29.124.168
+    port: 24001
+    type: ss
+    cipher: aes-128-cfb
+    password: QazEdcTgb159@$*
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 60
+    server: 183.232.141.117
+    port: 562
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 61
+    server: 183.232.141.93
+    port: 562
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 63
+    server: 183.232.141.93
+    port: 601
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 64
+    server: 183.232.141.109
+    port: 562
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 65
+    server: 139.227.191.180
+    port: 561
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 66
+    server: 183.232.141.105
+    port: 561
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 67
+    server: 183.232.141.93
+    port: 563
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 69
+    server: 183.232.141.105
+    port: 560
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 70
+    server: 183.232.141.109
+    port: 561
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 71
+    server: 183.232.141.82
+    port: 560
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 72
+    server: 116.162.120.26
+    port: 561
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 73
+    server: 183.232.141.82
+    port: 561
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 76
+    server: 139.227.191.180
+    port: 563
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 78
+    server: 139.227.191.180
+    port: 560
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 79
+    server: 116.162.120.24
+    port: 561
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 80
+    server: 183.232.141.109
+    port: 560
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 81
+    server: 116.162.120.26
+    port: 560
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 82
+    server: 223.166.125.211
+    port: 561
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 83
+    server: 139.227.191.180
+    port: 563
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 84
+    server: 116.162.120.24
+    port: 562
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 85
+    server: 140.206.198.245
+    port: 567
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 86
+    server: 140.206.198.245
+    port: 566
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 87
+    server: 139.227.191.180
+    port: 562
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 89
+    server: 140.206.198.245
+    port: 568
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 90
+    server: 223.166.125.211
+    port: 560
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 91
+    server: 140.206.198.245
+    port: 569
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 92
+    server: 140.206.198.245
+    port: 565
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇨🇳 CN 93
+    server: 183.232.141.117
+    port: 559
+    type: ssr
+    cipher: chacha20-ietf
+    password: mblank1port
+    protocol: auth_aes128_md5
+    obfs: plain
+    protocol-param: 35195:123510
+    obfs-param: ""
+    udp: true
+    _origin_label: null
+  - name: 🇫🇷 FR 1 → TG@SCINV
+    server: kr-01.licom.ml
+    port: 11050
+    type: trojan
+    password: ce433528-39fa-4711-bc0d-25a5b1579574
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇬🇧 GB 1 → TG@SCINV
+    server: us-05.licom.ml
+    port: 12501
+    type: trojan
+    password: ce433528-39fa-4711-bc0d-25a5b1579574
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇬🇧 GB 2 → TG@SCINV
+    server: jgwld1.gaox.ml
+    port: 443
+    type: trojan
+    password: 02e653c9-7c93-46a9-999d-11834bd0c577
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇬🇧 GB 3 → TG@SCINV
+    server: moon.gd1214b.icu
+    port: 443
+    type: vmess
+    uuid: 4f60f6e9-c4b5-4939-9d5f-a9117067b8bc
+    alterId: 0
+    cipher: auto
+    tls: true
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇭🇰 HK 1 → TG@SCINV
+    server: hk.vc3.hyperlinkvpn.xyz
+    port: 52000
+    type: trojan
+    password: 0aa9e572-ca8b-4d2c-bef6-501fc3eacbb8
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇭🇰 HK 2 → TG@SCINV
+    server: 223.17.43.52
+    port: 44601
+    type: trojan
+    password: dbdd4673-06e7-4a53-adb7-aa4232df529e
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇮🇳 IN 1 → TG@SCINV
+    server: in-02.licom.ml
+    port: 40000
+    type: trojan
+    password: ce433528-39fa-4711-bc0d-25a5b1579574
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇮🇳 IN 2 → TG@SCINV
+    server: in-03.licom.ml
+    port: 40000
+    type: trojan
+    password: ce433528-39fa-4711-bc0d-25a5b1579574
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇯🇵 JP 1 → TG@SCINV
+    server: in-01.licom.ml
+    port: 8443
+    type: trojan
+    password: ce433528-39fa-4711-bc0d-25a5b1579574
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇯🇵 JP 2 → TG@SCINV
+    server: jgw2.gaox.ml
+    port: 443
+    type: trojan
+    password: f2117e99-9b6e-47fd-b0a9-634a0b15b998
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇯🇵 JP 3 → TG@SCINV
+    server: in-04.licom.ml
+    port: 8443
+    type: trojan
+    password: ce433528-39fa-4711-bc0d-25a5b1579574
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇯🇵 JP 4 → TG@SCINV
+    server: trs07.bolab.net
+    port: 443
+    type: trojan
+    password: 6990ca1bdccb0de3d9a0c5640634e29c
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇳🇱 NL 1 → TG@SCINV
+    server: 41.216.177.41
+    port: 443
+    type: trojan
+    password: 274c1b23-2bfe-40ac-943c-ebc1aa044b22
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇷🇺 RU 1 → TG@SCINV
+    server: t03.ssrsub.com
+    port: 852
+    type: trojan
+    password: 2e5f1241-e72e-4016-81e8-9d5c52ee0a16
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇸🇬 SG 1 → TG@SCINV
+    server: s4.hazz.win
+    port: 12340
+    type: trojan
+    password: dfbf0d67-f03d-4184-a224-c2d64a571f99
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇸🇬 SG 2 → TG@SCINV
+    server: 730hk003.ok365.cyou
+    port: 443
+    type: trojan
+    password: a37bd567-ae37-4e78-8d9d-0f414d3628de
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 1 → TG@SCINV
+    server: s162.s2022.xyz
+    port: 23802
+    type: trojan
+    password: d724e4d0-841b-3b92-ac0d-70fcbbb7e934
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 10 → TG@SCINV
+    server: fhcamd1.gaox.ml
+    port: 443
+    type: trojan
+    password: e23f408a-012e-4030-8b31-02022031cb50
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 11 → TG@SCINV
+    server: fhcarm2.gaox.ml
+    port: 443
+    type: trojan
+    password: f39bd244-f5fe-415c-8b98-a1e5250bf178
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 12 → TG@SCINV
+    server: jgwxn4.gaox.ml
+    port: 443
+    type: trojan
+    password: e8c1ab3c-89b3-4933-92df-682e6dce7819
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 13 → TG@SCINV
+    server: lsj02.wangxd.life
+    port: 3052
+    type: trojan
+    password: 3a2c0c6c-9ee5-c05f-c951-fcd73831983e
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 14 → TG@SCINV
+    server: fhcarm1.gaox.ml
+    port: 443
+    type: trojan
+    password: 05742120-ce23-4cc8-88f5-6d221ce45bf4
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 15 → TG@SCINV
+    server: jgwdb4.gaox.ml
+    port: 443
+    type: trojan
+    password: d06a3f01-1ff0-4792-9b8e-a5a604bc74a2
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 16 → TG@SCINV
+    server: jgwdj4.gaox.ml
+    port: 443
+    type: trojan
+    password: c09eb137-bf68-4658-84e0-102d94b74168
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 17 → TG@SCINV
+    server: jgwdj3.gaox.ml
+    port: 443
+    type: trojan
+    password: da777aae-defb-41d0-a183-2c27da2b4677
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 18 → TG@SCINV
+    server: jgwhdlb3.gaox.ml
+    port: 443
+    type: trojan
+    password: 006baa3f-4bc3-4915-b60d-c8c5dae11a11
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 19 → TG@SCINV
+    server: jgwdb3.gaox.ml
+    port: 443
+    type: trojan
+    password: 8d2d5953-d649-4034-94f2-72f2df2623da
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 2 → TG@SCINV
+    server: us.bw2.hyperlinkvpn.xyz
+    port: 50500
+    type: trojan
+    password: 220281b3-650f-4cdf-93f4-8a222e2dff27
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 20 → TG@SCINV
+    server: jgwhdlb2.gaox.ml
+    port: 443
+    type: trojan
+    password: 54080134-2cba-4535-8599-95650bd9aa54
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 21 → TG@SCINV
+    server: cd.rutracker-cn.com
+    port: 443
+    type: trojan
+    password: ukMzuFSmIXDvgW0h
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 22 → TG@SCINV
+    server: us23.567568.ml
+    port: 443
+    type: trojan
+    password: 3df66137-a428-429c-a858-8b150721b354
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 23 → TG@SCINV
+    server: jgwcc2.gaox.ml
+    port: 443
+    type: trojan
+    password: 9c822f05-cfdc-479a-9534-60f3d4127435
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 24 → TG@SCINV
+    server: jgwdb2.gaox.ml
+    port: 443
+    type: trojan
+    password: c19d1432-8b3e-4818-8837-3d160cf65908
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 25 → TG@SCINV
+    server: jgwcc3.gaox.ml
+    port: 443
+    type: trojan
+    password: b291d129-ee55-4801-a9b8-b5316e5c37b7
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 26 → TG@SCINV
+    server: listener.freetrade.link
+    port: 443
+    type: trojan
+    password: Z9TS0AeB8S5ZlpFNRea3aypDaXISOyzY67xCO33lF4gKq38jw2uDEnDYRCCxAc
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 27 → TG@SCINV
+    server: jgwhdlb1.gaox.ml
+    port: 443
+    type: trojan
+    password: e05c749b-7c6b-41b8-9c71-9dcf685edf4a
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 28 → TG@SCINV
+    server: purchases.freetrade.link
+    port: 443
+    type: trojan
+    password: ZeYaxlxBNuyjgp736e8l4I32aAZSOYRcqD3ESC8pwADKSCFDynO3a0FXTzC5R9
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 29 → TG@SCINV
+    server: 199.19.109.30
+    port: 50330
+    type: trojan
+    password: ad9ee6b5-4707-478a-ba5c-0fc7a4b0314c
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 3 → TG@SCINV
+    server: s1.hazz.win
+    port: 12340
+    type: trojan
+    password: dfbf0d67-f03d-4184-a224-c2d64a571f99
+    sni: s1.hazz.win
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 30 → TG@SCINV
+    server: 104.168.144.215
+    port: 443
+    type: trojan
+    password: srGSKqR5Fv
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 31 → TG@SCINV
+    server: 193.123.65.213
+    port: 44616
+    type: trojan
+    password: dbdd4673-06e7-4a53-adb7-aa4232df529e
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 4 → TG@SCINV
+    server: 150.230.23.0
+    port: 44616
+    type: trojan
+    password: dbdd4673-06e7-4a53-adb7-aa4232df529e
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 5 → TG@SCINV
+    server: jgwld3.gaox.ml
+    port: 443
+    type: trojan
+    password: 71b55a84-3fac-4458-abff-eaad79219c91
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 6 → TG@SCINV
+    server: kr05.wangxd.life
+    port: 3052
+    type: trojan
+    password: 3a2c0c6c-9ee5-c05f-c951-fcd73831983e
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 7 → TG@SCINV
+    server: jgwld4.gaox.ml
+    port: 443
+    type: trojan
+    password: 58d32c66-43b1-4561-9951-d87c9123774e
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 8 → TG@SCINV
+    server: us23.567568.ml
+    port: 27956
+    type: trojan
+    password: 3df66137-a428-429c-a858-8b150721b354
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+  - name: 🇺🇸 US 9 → TG@SCINV
+    server: fhcamd2.gaox.ml
+    port: 443
+    type: trojan
+    password: dbf9bf9c-2c3f-474a-8031-d4c00666a989
+    skip-cert-verify: true
+    udp: true
+    _origin_label: null
+proxy-groups:
+  - name: auto
+    type: url-test
+    proxies:
+      - BG 1 → TG@SCINV
+      - CZ 1 → TG@SCINV
+      - CZ 2 → TG@SCINV
+      - RW 1 → TG@SCINV
+      - UA 1 → TG@SCINV
+      - UA 2 → TG@SCINV
+      - UA 3 → TG@SCINV
+      - UA 4 → TG@SCINV
+      - UA 5 → TG@SCINV
+      - unknown 1 → TG@SCINV
+      - 🇦🇺 AU 1 → TG@SCINV
+      - 🇦🇺 AU 2 → TG@SCINV
+      - 🇨🇦 CA 1 → TG@SCINV
+      - 🇨🇳 CN 1 → TG@SCINV
+      - 🇨🇳 CN 17 → TG@SCINV
+      - 🇨🇳 CN 19 → TG@SCINV
+      - 🇨🇳 CN 2 → TG@SCINV
+      - 🇨🇳 CN 3 → TG@SCINV
+      - 🇨🇳 CN 30 → TG@SCINV
+      - 🇨🇳 CN 36 → TG@SCINV
+      - 🇨🇳 CN 58
+      - 🇨🇳 CN 60
+      - 🇨🇳 CN 61
+      - 🇨🇳 CN 63
+      - 🇨🇳 CN 64
+      - 🇨🇳 CN 65
+      - 🇨🇳 CN 66
+      - 🇨🇳 CN 67
+      - 🇨🇳 CN 69
+      - 🇨🇳 CN 70
+      - 🇨🇳 CN 71
+      - 🇨🇳 CN 72
+      - 🇨🇳 CN 73
+      - 🇨🇳 CN 76
+      - 🇨🇳 CN 78
+      - 🇨🇳 CN 79
+      - 🇨🇳 CN 80
+      - 🇨🇳 CN 81
+      - 🇨🇳 CN 82
+      - 🇨🇳 CN 83
+      - 🇨🇳 CN 84
+      - 🇨🇳 CN 85
+      - 🇨🇳 CN 86
+      - 🇨🇳 CN 87
+      - 🇨🇳 CN 89
+      - 🇨🇳 CN 90
+      - 🇨🇳 CN 91
+      - 🇨🇳 CN 92
+      - 🇨🇳 CN 93
+      - 🇫🇷 FR 1 → TG@SCINV
+      - 🇬🇧 GB 1 → TG@SCINV
+      - 🇬🇧 GB 2 → TG@SCINV
+      - 🇬🇧 GB 3 → TG@SCINV
+      - 🇭🇰 HK 1 → TG@SCINV
+      - 🇭🇰 HK 2 → TG@SCINV
+      - 🇮🇳 IN 1 → TG@SCINV
+      - 🇮🇳 IN 2 → TG@SCINV
+      - 🇯🇵 JP 1 → TG@SCINV
+      - 🇯🇵 JP 2 → TG@SCINV
+      - 🇯🇵 JP 3 → TG@SCINV
+      - 🇯🇵 JP 4 → TG@SCINV
+      - 🇳🇱 NL 1 → TG@SCINV
+      - 🇷🇺 RU 1 → TG@SCINV
+      - 🇸🇬 SG 1 → TG@SCINV
+      - 🇸🇬 SG 2 → TG@SCINV
+      - 🇺🇸 US 1 → TG@SCINV
+      - 🇺🇸 US 10 → TG@SCINV
+      - 🇺🇸 US 11 → TG@SCINV
+      - 🇺🇸 US 12 → TG@SCINV
+      - 🇺🇸 US 13 → TG@SCINV
+      - 🇺🇸 US 14 → TG@SCINV
+      - 🇺🇸 US 15 → TG@SCINV
+      - 🇺🇸 US 16 → TG@SCINV
+      - 🇺🇸 US 17 → TG@SCINV
+      - 🇺🇸 US 18 → TG@SCINV
+      - 🇺🇸 US 19 → TG@SCINV
+      - 🇺🇸 US 2 → TG@SCINV
+      - 🇺🇸 US 20 → TG@SCINV
+      - 🇺🇸 US 21 → TG@SCINV
+      - 🇺🇸 US 22 → TG@SCINV
+      - 🇺🇸 US 23 → TG@SCINV
+      - 🇺🇸 US 24 → TG@SCINV
+      - 🇺🇸 US 25 → TG@SCINV
+      - 🇺🇸 US 26 → TG@SCINV
+      - 🇺🇸 US 27 → TG@SCINV
+      - 🇺🇸 US 28 → TG@SCINV
+      - 🇺🇸 US 29 → TG@SCINV
+      - 🇺🇸 US 3 → TG@SCINV
+      - 🇺🇸 US 30 → TG@SCINV
+      - 🇺🇸 US 31 → TG@SCINV
+      - 🇺🇸 US 4 → TG@SCINV
+      - 🇺🇸 US 5 → TG@SCINV
+      - 🇺🇸 US 6 → TG@SCINV
+      - 🇺🇸 US 7 → TG@SCINV
+      - 🇺🇸 US 8 → TG@SCINV
+      - 🇺🇸 US 9 → TG@SCINV
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+  - name: Proxy
+    type: select
+    proxies:
+      - auto
+      - BG 1 → TG@SCINV
+      - CZ 1 → TG@SCINV
+      - CZ 2 → TG@SCINV
+      - RW 1 → TG@SCINV
+      - UA 1 → TG@SCINV
+      - UA 2 → TG@SCINV
+      - UA 3 → TG@SCINV
+      - UA 4 → TG@SCINV
+      - UA 5 → TG@SCINV
+      - unknown 1 → TG@SCINV
+      - 🇦🇺 AU 1 → TG@SCINV
+      - 🇦🇺 AU 2 → TG@SCINV
+      - 🇨🇦 CA 1 → TG@SCINV
+      - 🇨🇳 CN 1 → TG@SCINV
+      - 🇨🇳 CN 17 → TG@SCINV
+      - 🇨🇳 CN 19 → TG@SCINV
+      - 🇨🇳 CN 2 → TG@SCINV
+      - 🇨🇳 CN 3 → TG@SCINV
+      - 🇨🇳 CN 30 → TG@SCINV
+      - 🇨🇳 CN 36 → TG@SCINV
+      - 🇨🇳 CN 58
+      - 🇨🇳 CN 60
+      - 🇨🇳 CN 61
+      - 🇨🇳 CN 63
+      - 🇨🇳 CN 64
+      - 🇨🇳 CN 65
+      - 🇨🇳 CN 66
+      - 🇨🇳 CN 67
+      - 🇨🇳 CN 69
+      - 🇨🇳 CN 70
+      - 🇨🇳 CN 71
+      - 🇨🇳 CN 72
+      - 🇨🇳 CN 73
+      - 🇨🇳 CN 76
+      - 🇨🇳 CN 78
+      - 🇨🇳 CN 79
+      - 🇨🇳 CN 80
+      - 🇨🇳 CN 81
+      - 🇨🇳 CN 82
+      - 🇨🇳 CN 83
+      - 🇨🇳 CN 84
+      - 🇨🇳 CN 85
+      - 🇨🇳 CN 86
+      - 🇨🇳 CN 87
+      - 🇨🇳 CN 89
+      - 🇨🇳 CN 90
+      - 🇨🇳 CN 91
+      - 🇨🇳 CN 92
+      - 🇨🇳 CN 93
+      - 🇫🇷 FR 1 → TG@SCINV
+      - 🇬🇧 GB 1 → TG@SCINV
+      - 🇬🇧 GB 2 → TG@SCINV
+      - 🇬🇧 GB 3 → TG@SCINV
+      - 🇭🇰 HK 1 → TG@SCINV
+      - 🇭🇰 HK 2 → TG@SCINV
+      - 🇮🇳 IN 1 → TG@SCINV
+      - 🇮🇳 IN 2 → TG@SCINV
+      - 🇯🇵 JP 1 → TG@SCINV
+      - 🇯🇵 JP 2 → TG@SCINV
+      - 🇯🇵 JP 3 → TG@SCINV
+      - 🇯🇵 JP 4 → TG@SCINV
+      - 🇳🇱 NL 1 → TG@SCINV
+      - 🇷🇺 RU 1 → TG@SCINV
+      - 🇸🇬 SG 1 → TG@SCINV
+      - 🇸🇬 SG 2 → TG@SCINV
+      - 🇺🇸 US 1 → TG@SCINV
+      - 🇺🇸 US 10 → TG@SCINV
+      - 🇺🇸 US 11 → TG@SCINV
+      - 🇺🇸 US 12 → TG@SCINV
+      - 🇺🇸 US 13 → TG@SCINV
+      - 🇺🇸 US 14 → TG@SCINV
+      - 🇺🇸 US 15 → TG@SCINV
+      - 🇺🇸 US 16 → TG@SCINV
+      - 🇺🇸 US 17 → TG@SCINV
+      - 🇺🇸 US 18 → TG@SCINV
+      - 🇺🇸 US 19 → TG@SCINV
+      - 🇺🇸 US 2 → TG@SCINV
+      - 🇺🇸 US 20 → TG@SCINV
+      - 🇺🇸 US 21 → TG@SCINV
+      - 🇺🇸 US 22 → TG@SCINV
+      - 🇺🇸 US 23 → TG@SCINV
+      - 🇺🇸 US 24 → TG@SCINV
+      - 🇺🇸 US 25 → TG@SCINV
+      - 🇺🇸 US 26 → TG@SCINV
+      - 🇺🇸 US 27 → TG@SCINV
+      - 🇺🇸 US 28 → TG@SCINV
+      - 🇺🇸 US 29 → TG@SCINV
+      - 🇺🇸 US 3 → TG@SCINV
+      - 🇺🇸 US 30 → TG@SCINV
+      - 🇺🇸 US 31 → TG@SCINV
+      - 🇺🇸 US 4 → TG@SCINV
+      - 🇺🇸 US 5 → TG@SCINV
+      - 🇺🇸 US 6 → TG@SCINV
+      - 🇺🇸 US 7 → TG@SCINV
+      - 🇺🇸 US 8 → TG@SCINV
+      - 🇺🇸 US 9 → TG@SCINV
+  - name: Others
+    type: select
+    proxies:
+      - DIRECT
+      - Proxy
+      - auto
+rules:
+  - DOMAIN-SUFFIX,mathpix.com,DIRECT
+  - DOMAIN-SUFFIX,jable.tv,Proxy
+  - DOMAIN-SUFFIX,pornhub.com,Proxy
+  - DOMAIN-SUFFIX,telemetr.io,Proxy
+  - DOMAIN-SUFFIX,cdn.jsdelivr.net,Proxy
+  - DOMAIN-SUFFIX,regex101.com,Proxy
+  - DOMAIN-SUFFIX,npmjs.com,Proxy
+  - DOMAIN-SUFFIX,azureedge.net,Proxy
+  - DOMAIN,t.co,Proxy
+  - DOMAIN,edge.activity.windows.com,DIRECT
+  - DOMAIN-SUFFIX,bing.com,DIRECT
+  - DOMAIN,safebrowsing.urlsec.qq.com,DIRECT
+  - DOMAIN,safebrowsing.googleapis.com,DIRECT
+  - DOMAIN,developer.apple.com,Proxy
+  - DOMAIN-SUFFIX,digicert.com,Proxy
+  - DOMAIN,ocsp.apple.com,Proxy
+  - DOMAIN,ocsp.comodoca.com,Proxy
+  - DOMAIN,ocsp.usertrust.com,Proxy
+  - DOMAIN,ocsp.sectigo.com,Proxy
+  - DOMAIN,ocsp.verisign.net,Proxy
+  - DOMAIN-SUFFIX,apple-dns.net,Proxy
+  - DOMAIN,testflight.apple.com,Proxy
+  - DOMAIN,sandbox.itunes.apple.com,Proxy
+  - DOMAIN,itunes.apple.com,Proxy
+  - DOMAIN-SUFFIX,apps.apple.com,Proxy
+  - DOMAIN-SUFFIX,blobstore.apple.com,Proxy
+  - DOMAIN,cvws.icloud-content.com,Proxy
+  - DOMAIN-SUFFIX,mzstatic.com,DIRECT
+  - DOMAIN-SUFFIX,itunes.apple.com,DIRECT
+  - DOMAIN-SUFFIX,icloud.com,DIRECT
+  - DOMAIN-SUFFIX,icloud-content.com,DIRECT
+  - DOMAIN-SUFFIX,me.com,DIRECT
+  - DOMAIN-SUFFIX,aaplimg.com,DIRECT
+  - DOMAIN-SUFFIX,cdn20.com,DIRECT
+  - DOMAIN-SUFFIX,cdn-apple.com,DIRECT
+  - DOMAIN-SUFFIX,akadns.net,DIRECT
+  - DOMAIN-SUFFIX,akamaiedge.net,DIRECT
+  - DOMAIN-SUFFIX,edgekey.net,DIRECT
+  - DOMAIN-SUFFIX,mwcloudcdn.com,DIRECT
+  - DOMAIN-SUFFIX,mwcname.com,DIRECT
+  - DOMAIN-SUFFIX,apple.com,DIRECT
+  - DOMAIN-SUFFIX,apple-cloudkit.com,DIRECT
+  - DOMAIN-SUFFIX,apple-mapkit.com,DIRECT
+  - DOMAIN-SUFFIX,cn,DIRECT
+  - DOMAIN-KEYWORD,-cn,DIRECT
+  - DOMAIN-SUFFIX,126.com,DIRECT
+  - DOMAIN-SUFFIX,126.net,DIRECT
+  - DOMAIN-SUFFIX,127.net,DIRECT
+  - DOMAIN-SUFFIX,163.com,DIRECT
+  - DOMAIN-SUFFIX,360buyimg.com,DIRECT
+  - DOMAIN-SUFFIX,36kr.com,DIRECT
+  - DOMAIN-SUFFIX,acfun.tv,DIRECT
+  - DOMAIN-SUFFIX,air-matters.com,DIRECT
+  - DOMAIN-SUFFIX,aixifan.com,DIRECT
+  - DOMAIN-KEYWORD,alicdn,DIRECT
+  - DOMAIN-KEYWORD,alipay,DIRECT
+  - DOMAIN-KEYWORD,taobao,DIRECT
+  - DOMAIN-SUFFIX,amap.com,DIRECT
+  - DOMAIN-SUFFIX,autonavi.com,DIRECT
+  - DOMAIN-KEYWORD,baidu,DIRECT
+  - DOMAIN-SUFFIX,bdimg.com,DIRECT
+  - DOMAIN-SUFFIX,bdstatic.com,DIRECT
+  - DOMAIN-SUFFIX,bilibili.com,DIRECT
+  - DOMAIN-SUFFIX,bilivideo.com,DIRECT
+  - DOMAIN-SUFFIX,caiyunapp.com,DIRECT
+  - DOMAIN-SUFFIX,clouddn.com,DIRECT
+  - DOMAIN-SUFFIX,cnbeta.com,DIRECT
+  - DOMAIN-SUFFIX,cnbetacdn.com,DIRECT
+  - DOMAIN-SUFFIX,cootekservice.com,DIRECT
+  - DOMAIN-SUFFIX,csdn.net,DIRECT
+  - DOMAIN-SUFFIX,ctrip.com,DIRECT
+  - DOMAIN-SUFFIX,dgtle.com,DIRECT
+  - DOMAIN-SUFFIX,dianping.com,DIRECT
+  - DOMAIN-SUFFIX,douban.com,DIRECT
+  - DOMAIN-SUFFIX,doubanio.com,DIRECT
+  - DOMAIN-SUFFIX,duokan.com,DIRECT
+  - DOMAIN-SUFFIX,easou.com,DIRECT
+  - DOMAIN-SUFFIX,ele.me,DIRECT
+  - DOMAIN-SUFFIX,feng.com,DIRECT
+  - DOMAIN-SUFFIX,fir.im,DIRECT
+  - DOMAIN-SUFFIX,frdic.com,DIRECT
+  - DOMAIN-SUFFIX,g-cores.com,DIRECT
+  - DOMAIN-SUFFIX,godic.net,DIRECT
+  - DOMAIN-SUFFIX,gtimg.com,DIRECT
+  - DOMAIN,cdn.hockeyapp.net,DIRECT
+  - DOMAIN-SUFFIX,hongxiu.com,DIRECT
+  - DOMAIN-SUFFIX,hxcdn.net,DIRECT
+  - DOMAIN-SUFFIX,iciba.com,DIRECT
+  - DOMAIN-SUFFIX,ifeng.com,DIRECT
+  - DOMAIN-SUFFIX,ifengimg.com,DIRECT
+  - DOMAIN-SUFFIX,ipip.net,DIRECT
+  - DOMAIN-SUFFIX,iqiyi.com,DIRECT
+  - DOMAIN-SUFFIX,jd.com,DIRECT
+  - DOMAIN-SUFFIX,jianshu.com,DIRECT
+  - DOMAIN-SUFFIX,knewone.com,DIRECT
+  - DOMAIN-SUFFIX,le.com,DIRECT
+  - DOMAIN-SUFFIX,lecloud.com,DIRECT
+  - DOMAIN-SUFFIX,lemicp.com,DIRECT
+  - DOMAIN-SUFFIX,licdn.com,DIRECT
+  - DOMAIN-SUFFIX,luoo.net,DIRECT
+  - DOMAIN-SUFFIX,meituan.com,DIRECT
+  - DOMAIN-SUFFIX,meituan.net,DIRECT
+  - DOMAIN-SUFFIX,mi.com,DIRECT
+  - DOMAIN-SUFFIX,miaopai.com,DIRECT
+  - DOMAIN-SUFFIX,microsoft.com,DIRECT
+  - DOMAIN-SUFFIX,microsoftonline.com,DIRECT
+  - DOMAIN-SUFFIX,miui.com,DIRECT
+  - DOMAIN-SUFFIX,miwifi.com,DIRECT
+  - DOMAIN-SUFFIX,mob.com,DIRECT
+  - DOMAIN-SUFFIX,netease.com,DIRECT
+  - DOMAIN-SUFFIX,office.com,DIRECT
+  - DOMAIN-SUFFIX,office365.com,DIRECT
+  - DOMAIN-KEYWORD,officecdn,DIRECT
+  - DOMAIN-SUFFIX,oschina.net,DIRECT
+  - DOMAIN-SUFFIX,ppsimg.com,DIRECT
+  - DOMAIN-SUFFIX,pstatp.com,DIRECT
+  - DOMAIN-SUFFIX,qcloud.com,DIRECT
+  - DOMAIN-SUFFIX,qdaily.com,DIRECT
+  - DOMAIN-SUFFIX,qdmm.com,DIRECT
+  - DOMAIN-SUFFIX,qhimg.com,DIRECT
+  - DOMAIN-SUFFIX,qhres.com,DIRECT
+  - DOMAIN-SUFFIX,qidian.com,DIRECT
+  - DOMAIN-SUFFIX,qihucdn.com,DIRECT
+  - DOMAIN-SUFFIX,qiniu.com,DIRECT
+  - DOMAIN-SUFFIX,qiniucdn.com,DIRECT
+  - DOMAIN-SUFFIX,qiyipic.com,DIRECT
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+  - DOMAIN-SUFFIX,qqurl.com,DIRECT
+  - DOMAIN-SUFFIX,rarbg.to,DIRECT
+  - DOMAIN-SUFFIX,ruguoapp.com,DIRECT
+  - DOMAIN-SUFFIX,segmentfault.com,DIRECT
+  - DOMAIN-SUFFIX,sinaapp.com,DIRECT
+  - DOMAIN-SUFFIX,smzdm.com,DIRECT
+  - DOMAIN-SUFFIX,snapdrop.net,DIRECT
+  - DOMAIN-SUFFIX,sogou.com,DIRECT
+  - DOMAIN-SUFFIX,sogoucdn.com,DIRECT
+  - DOMAIN-SUFFIX,sohu.com,DIRECT
+  - DOMAIN-SUFFIX,soku.com,DIRECT
+  - DOMAIN-SUFFIX,speedtest.net,DIRECT
+  - DOMAIN-SUFFIX,sspai.com,DIRECT
+  - DOMAIN-SUFFIX,suning.com,DIRECT
+  - DOMAIN-SUFFIX,taobao.com,DIRECT
+  - DOMAIN-SUFFIX,tencent.com,DIRECT
+  - DOMAIN-SUFFIX,tenpay.com,DIRECT
+  - DOMAIN-SUFFIX,tianyancha.com,DIRECT
+  - DOMAIN-SUFFIX,tmall.com,DIRECT
+  - DOMAIN-SUFFIX,tudou.com,DIRECT
+  - DOMAIN-SUFFIX,umetrip.com,DIRECT
+  - DOMAIN-SUFFIX,upaiyun.com,DIRECT
+  - DOMAIN-SUFFIX,upyun.com,DIRECT
+  - DOMAIN-SUFFIX,veryzhun.com,DIRECT
+  - DOMAIN-SUFFIX,weather.com,DIRECT
+  - DOMAIN-SUFFIX,weibo.com,DIRECT
+  - DOMAIN-SUFFIX,xiami.com,DIRECT
+  - DOMAIN-SUFFIX,xiami.net,DIRECT
+  - DOMAIN-SUFFIX,xiaomicp.com,DIRECT
+  - DOMAIN-SUFFIX,ximalaya.com,DIRECT
+  - DOMAIN-SUFFIX,xmcdn.com,DIRECT
+  - DOMAIN-SUFFIX,xunlei.com,DIRECT
+  - DOMAIN-SUFFIX,yhd.com,DIRECT
+  - DOMAIN-SUFFIX,yihaodianimg.com,DIRECT
+  - DOMAIN-SUFFIX,yinxiang.com,DIRECT
+  - DOMAIN-SUFFIX,ykimg.com,DIRECT
+  - DOMAIN-SUFFIX,youdao.com,DIRECT
+  - DOMAIN-SUFFIX,youku.com,DIRECT
+  - DOMAIN-SUFFIX,zealer.com,DIRECT
+  - DOMAIN-SUFFIX,zhihu.com,DIRECT
+  - DOMAIN-SUFFIX,zhimg.com,DIRECT
+  - DOMAIN-SUFFIX,zimuzu.tv,DIRECT
+  - DOMAIN-SUFFIX,zoho.com,DIRECT
+  - DOMAIN-KEYWORD,amazon,Proxy
+  - DOMAIN-KEYWORD,google,Proxy
+  - DOMAIN-KEYWORD,gmail,Proxy
+  - DOMAIN-KEYWORD,youtube,Proxy
+  - DOMAIN-KEYWORD,facebook,Proxy
+  - DOMAIN-SUFFIX,fb.me,Proxy
+  - DOMAIN-SUFFIX,fbcdn.net,Proxy
+  - DOMAIN-KEYWORD,twitter,Proxy
+  - DOMAIN-KEYWORD,instagram,Proxy
+  - DOMAIN-KEYWORD,dropbox,Proxy
+  - DOMAIN-SUFFIX,twimg.com,Proxy
+  - DOMAIN-KEYWORD,blogspot,Proxy
+  - DOMAIN-SUFFIX,youtu.be,Proxy
+  - DOMAIN-KEYWORD,whatsapp,Proxy
+  - DOMAIN-KEYWORD,admarvel,REJECT
+  - DOMAIN-KEYWORD,admaster,REJECT
+  - DOMAIN-KEYWORD,adsage,REJECT
+  - DOMAIN-KEYWORD,adsmogo,REJECT
+  - DOMAIN-KEYWORD,adsrvmedia,REJECT
+  - DOMAIN-KEYWORD,adwords,REJECT
+  - DOMAIN-KEYWORD,adservice,REJECT
+  - DOMAIN-SUFFIX,appsflyer.com,REJECT
+  - DOMAIN-KEYWORD,domob,REJECT
+  - DOMAIN-SUFFIX,doubleclick.net,REJECT
+  - DOMAIN-KEYWORD,duomeng,REJECT
+  - DOMAIN-KEYWORD,dwtrack,REJECT
+  - DOMAIN-KEYWORD,guanggao,REJECT
+  - DOMAIN-KEYWORD,lianmeng,REJECT
+  - DOMAIN-SUFFIX,mmstat.com,REJECT
+  - DOMAIN-KEYWORD,mopub,REJECT
+  - DOMAIN-KEYWORD,omgmta,REJECT
+  - DOMAIN-KEYWORD,openx,REJECT
+  - DOMAIN-KEYWORD,partnerad,REJECT
+  - DOMAIN-KEYWORD,pingfore,REJECT
+  - DOMAIN-KEYWORD,supersonicads,REJECT
+  - DOMAIN-KEYWORD,uedas,REJECT
+  - DOMAIN-KEYWORD,umeng,REJECT
+  - DOMAIN-KEYWORD,usage,REJECT
+  - DOMAIN-SUFFIX,vungle.com,REJECT
+  - DOMAIN-KEYWORD,wlmonitor,REJECT
+  - DOMAIN-KEYWORD,zjtoolbar,REJECT
+  - DOMAIN-SUFFIX,9to5mac.com,Proxy
+  - DOMAIN-SUFFIX,abpchina.org,Proxy
+  - DOMAIN-SUFFIX,adblockplus.org,Proxy
+  - DOMAIN-SUFFIX,adobe.com,Proxy
+  - DOMAIN-SUFFIX,akamaized.net,Proxy
+  - DOMAIN-SUFFIX,alfredapp.com,Proxy
+  - DOMAIN-SUFFIX,amplitude.com,Proxy
+  - DOMAIN-SUFFIX,ampproject.org,Proxy
+  - DOMAIN-SUFFIX,android.com,Proxy
+  - DOMAIN-SUFFIX,angularjs.org,Proxy
+  - DOMAIN-SUFFIX,aolcdn.com,Proxy
+  - DOMAIN-SUFFIX,apkpure.com,Proxy
+  - DOMAIN-SUFFIX,appledaily.com,Proxy
+  - DOMAIN-SUFFIX,appshopper.com,Proxy
+  - DOMAIN-SUFFIX,appspot.com,Proxy
+  - DOMAIN-SUFFIX,arcgis.com,Proxy
+  - DOMAIN-SUFFIX,archive.org,Proxy
+  - DOMAIN-SUFFIX,armorgames.com,Proxy
+  - DOMAIN-SUFFIX,aspnetcdn.com,Proxy
+  - DOMAIN-SUFFIX,att.com,Proxy
+  - DOMAIN-SUFFIX,awsstatic.com,Proxy
+  - DOMAIN-SUFFIX,azurewebsites.net,Proxy
+  - DOMAIN-SUFFIX,bintray.com,Proxy
+  - DOMAIN-SUFFIX,bit.com,Proxy
+  - DOMAIN-SUFFIX,bit.ly,Proxy
+  - DOMAIN-SUFFIX,bitbucket.org,Proxy
+  - DOMAIN-SUFFIX,bjango.com,Proxy
+  - DOMAIN-SUFFIX,bkrtx.com,Proxy
+  - DOMAIN-SUFFIX,blog.com,Proxy
+  - DOMAIN-SUFFIX,blogcdn.com,Proxy
+  - DOMAIN-SUFFIX,blogger.com,Proxy
+  - DOMAIN-SUFFIX,blogsmithmedia.com,Proxy
+  - DOMAIN-SUFFIX,blogspot.com,Proxy
+  - DOMAIN-SUFFIX,blogspot.hk,Proxy
+  - DOMAIN-SUFFIX,bloomberg.com,Proxy
+  - DOMAIN-SUFFIX,box.com,Proxy
+  - DOMAIN-SUFFIX,box.net,Proxy
+  - DOMAIN-SUFFIX,cachefly.net,Proxy
+  - DOMAIN-SUFFIX,chromium.org,Proxy
+  - DOMAIN-SUFFIX,cl.ly,Proxy
+  - DOMAIN-SUFFIX,cloudflare.com,Proxy
+  - DOMAIN-SUFFIX,cloudfront.net,Proxy
+  - DOMAIN-SUFFIX,cloudmagic.com,Proxy
+  - DOMAIN-SUFFIX,cmail19.com,Proxy
+  - DOMAIN-SUFFIX,cnet.com,Proxy
+  - DOMAIN-SUFFIX,cocoapods.org,Proxy
+  - DOMAIN-SUFFIX,comodoca.com,Proxy
+  - DOMAIN-SUFFIX,crashlytics.com,Proxy
+  - DOMAIN-SUFFIX,culturedcode.com,Proxy
+  - DOMAIN-SUFFIX,d.pr,Proxy
+  - DOMAIN-SUFFIX,danilo.to,Proxy
+  - DOMAIN-SUFFIX,dayone.me,Proxy
+  - DOMAIN-SUFFIX,db.tt,Proxy
+  - DOMAIN-SUFFIX,deskconnect.com,Proxy
+  - DOMAIN-SUFFIX,disq.us,Proxy
+  - DOMAIN-SUFFIX,disqus.com,Proxy
+  - DOMAIN-SUFFIX,disquscdn.com,Proxy
+  - DOMAIN-SUFFIX,dnsimple.com,Proxy
+  - DOMAIN-SUFFIX,docker.com,Proxy
+  - DOMAIN-SUFFIX,dribbble.com,Proxy
+  - DOMAIN-SUFFIX,droplr.com,Proxy
+  - DOMAIN-SUFFIX,duckduckgo.com,Proxy
+  - DOMAIN-SUFFIX,dueapp.com,Proxy
+  - DOMAIN-SUFFIX,dytt8.net,Proxy
+  - DOMAIN-SUFFIX,edgecastcdn.net,Proxy
+  - DOMAIN-SUFFIX,edgekey.net,Proxy
+  - DOMAIN-SUFFIX,edgesuite.net,Proxy
+  - DOMAIN-SUFFIX,engadget.com,Proxy
+  - DOMAIN-SUFFIX,entrust.net,Proxy
+  - DOMAIN-SUFFIX,eurekavpt.com,Proxy
+  - DOMAIN-SUFFIX,evernote.com,Proxy
+  - DOMAIN-SUFFIX,fabric.io,Proxy
+  - DOMAIN-SUFFIX,fast.com,Proxy
+  - DOMAIN-SUFFIX,fastly.net,Proxy
+  - DOMAIN-SUFFIX,fc2.com,Proxy
+  - DOMAIN-SUFFIX,feedburner.com,Proxy
+  - DOMAIN-SUFFIX,feedly.com,Proxy
+  - DOMAIN-SUFFIX,feedsportal.com,Proxy
+  - DOMAIN-SUFFIX,fiftythree.com,Proxy
+  - DOMAIN-SUFFIX,firebaseio.com,Proxy
+  - DOMAIN-SUFFIX,flexibits.com,Proxy
+  - DOMAIN-SUFFIX,flickr.com,Proxy
+  - DOMAIN-SUFFIX,flipboard.com,Proxy
+  - DOMAIN-SUFFIX,g.co,Proxy
+  - DOMAIN-SUFFIX,gabia.net,Proxy
+  - DOMAIN-SUFFIX,geni.us,Proxy
+  - DOMAIN-SUFFIX,gfx.ms,Proxy
+  - DOMAIN-SUFFIX,ggpht.com,Proxy
+  - DOMAIN-SUFFIX,ghostnoteapp.com,Proxy
+  - DOMAIN-SUFFIX,git.io,Proxy
+  - DOMAIN-KEYWORD,github,Proxy
+  - DOMAIN-SUFFIX,globalsign.com,Proxy
+  - DOMAIN-SUFFIX,gmodules.com,Proxy
+  - DOMAIN-SUFFIX,godaddy.com,Proxy
+  - DOMAIN-SUFFIX,golang.org,Proxy
+  - DOMAIN-SUFFIX,gongm.in,Proxy
+  - DOMAIN-SUFFIX,goo.gl,Proxy
+  - DOMAIN-SUFFIX,goodreaders.com,Proxy
+  - DOMAIN-SUFFIX,goodreads.com,Proxy
+  - DOMAIN-SUFFIX,gravatar.com,Proxy
+  - DOMAIN-SUFFIX,gstatic.com,Proxy
+  - DOMAIN-SUFFIX,gvt0.com,Proxy
+  - DOMAIN-SUFFIX,hockeyapp.net,Proxy
+  - DOMAIN-SUFFIX,hotmail.com,Proxy
+  - DOMAIN-SUFFIX,icons8.com,Proxy
+  - DOMAIN-SUFFIX,ifixit.com,Proxy
+  - DOMAIN-SUFFIX,ift.tt,Proxy
+  - DOMAIN-SUFFIX,ifttt.com,Proxy
+  - DOMAIN-SUFFIX,iherb.com,Proxy
+  - DOMAIN-SUFFIX,imageshack.us,Proxy
+  - DOMAIN-SUFFIX,img.ly,Proxy
+  - DOMAIN-SUFFIX,imgur.com,Proxy
+  - DOMAIN-SUFFIX,imore.com,Proxy
+  - DOMAIN-SUFFIX,instapaper.com,Proxy
+  - DOMAIN-SUFFIX,ipn.li,Proxy
+  - DOMAIN-SUFFIX,is.gd,Proxy
+  - DOMAIN-SUFFIX,issuu.com,Proxy
+  - DOMAIN-SUFFIX,itgonglun.com,Proxy
+  - DOMAIN-SUFFIX,itun.es,Proxy
+  - DOMAIN-SUFFIX,ixquick.com,Proxy
+  - DOMAIN-SUFFIX,j.mp,Proxy
+  - DOMAIN-SUFFIX,js.revsci.net,Proxy
+  - DOMAIN-SUFFIX,jshint.com,Proxy
+  - DOMAIN-SUFFIX,jtvnw.net,Proxy
+  - DOMAIN-SUFFIX,justgetflux.com,Proxy
+  - DOMAIN-SUFFIX,kat.cr,Proxy
+  - DOMAIN-SUFFIX,klip.me,Proxy
+  - DOMAIN-SUFFIX,libsyn.com,Proxy
+  - DOMAIN-SUFFIX,linkedin.com,Proxy
+  - DOMAIN-SUFFIX,linode.com,Proxy
+  - DOMAIN-SUFFIX,lithium.com,Proxy
+  - DOMAIN-SUFFIX,littlehj.com,Proxy
+  - DOMAIN-SUFFIX,live.com,Proxy
+  - DOMAIN-SUFFIX,live.net,Proxy
+  - DOMAIN-SUFFIX,livefilestore.com,Proxy
+  - DOMAIN-SUFFIX,llnwd.net,Proxy
+  - DOMAIN-SUFFIX,macid.co,Proxy
+  - DOMAIN-SUFFIX,macromedia.com,Proxy
+  - DOMAIN-SUFFIX,macrumors.com,Proxy
+  - DOMAIN-SUFFIX,mashable.com,Proxy
+  - DOMAIN-SUFFIX,mathjax.org,Proxy
+  - DOMAIN-SUFFIX,medium.com,Proxy
+  - DOMAIN-SUFFIX,mega.co.nz,Proxy
+  - DOMAIN-SUFFIX,mega.nz,Proxy
+  - DOMAIN-SUFFIX,megaupload.com,Proxy
+  - DOMAIN-SUFFIX,microsofttranslator.com,Proxy
+  - DOMAIN-SUFFIX,mindnode.com,Proxy
+  - DOMAIN-SUFFIX,mobile01.com,Proxy
+  - DOMAIN-SUFFIX,modmyi.com,Proxy
+  - DOMAIN-SUFFIX,msedge.net,Proxy
+  - DOMAIN-SUFFIX,myfontastic.com,Proxy
+  - DOMAIN-SUFFIX,name.com,Proxy
+  - DOMAIN-SUFFIX,nextmedia.com,Proxy
+  - DOMAIN-SUFFIX,nsstatic.net,Proxy
+  - DOMAIN-SUFFIX,nssurge.com,Proxy
+  - DOMAIN-SUFFIX,nyt.com,Proxy
+  - DOMAIN-SUFFIX,nytimes.com,Proxy
+  - DOMAIN-SUFFIX,omnigroup.com,Proxy
+  - DOMAIN-SUFFIX,onedrive.com,Proxy
+  - DOMAIN-SUFFIX,onenote.com,Proxy
+  - DOMAIN-SUFFIX,ooyala.com,Proxy
+  - DOMAIN-SUFFIX,openvpn.net,Proxy
+  - DOMAIN-SUFFIX,openwrt.org,Proxy
+  - DOMAIN-SUFFIX,orkut.com,Proxy
+  - DOMAIN-SUFFIX,osxdaily.com,Proxy
+  - DOMAIN-SUFFIX,outlook.com,Proxy
+  - DOMAIN-SUFFIX,ow.ly,Proxy
+  - DOMAIN-SUFFIX,paddleapi.com,Proxy
+  - DOMAIN-SUFFIX,parallels.com,Proxy
+  - DOMAIN-SUFFIX,parse.com,Proxy
+  - DOMAIN-SUFFIX,pdfexpert.com,Proxy
+  - DOMAIN-SUFFIX,periscope.tv,Proxy
+  - DOMAIN-SUFFIX,pinboard.in,Proxy
+  - DOMAIN-SUFFIX,pinterest.com,Proxy
+  - DOMAIN-SUFFIX,pixelmator.com,Proxy
+  - DOMAIN-SUFFIX,pixiv.net,Proxy
+  - DOMAIN-SUFFIX,playpcesor.com,Proxy
+  - DOMAIN-SUFFIX,playstation.com,Proxy
+  - DOMAIN-SUFFIX,playstation.com.hk,Proxy
+  - DOMAIN-SUFFIX,playstation.net,Proxy
+  - DOMAIN-SUFFIX,playstationnetwork.com,Proxy
+  - DOMAIN-SUFFIX,pushwoosh.com,Proxy
+  - DOMAIN-SUFFIX,rime.im,Proxy
+  - DOMAIN-SUFFIX,servebom.com,Proxy
+  - DOMAIN-SUFFIX,sfx.ms,Proxy
+  - DOMAIN-SUFFIX,shadowsocks.org,Proxy
+  - DOMAIN-SUFFIX,sharethis.com,Proxy
+  - DOMAIN-SUFFIX,shazam.com,Proxy
+  - DOMAIN-SUFFIX,skype.com,Proxy
+  - DOMAIN-SUFFIX,smartdnsProxy.com,Proxy
+  - DOMAIN-SUFFIX,smartmailcloud.com,Proxy
+  - DOMAIN-SUFFIX,sndcdn.com,Proxy
+  - DOMAIN-SUFFIX,sony.com,Proxy
+  - DOMAIN-SUFFIX,soundcloud.com,Proxy
+  - DOMAIN-SUFFIX,sourceforge.net,Proxy
+  - DOMAIN-SUFFIX,spotify.com,Proxy
+  - DOMAIN-SUFFIX,squarespace.com,Proxy
+  - DOMAIN-SUFFIX,sstatic.net,Proxy
+  - DOMAIN-SUFFIX,st.luluku.pw,Proxy
+  - DOMAIN-SUFFIX,stackoverflow.com,Proxy
+  - DOMAIN-SUFFIX,startpage.com,Proxy
+  - DOMAIN-SUFFIX,staticflickr.com,Proxy
+  - DOMAIN-SUFFIX,steamcommunity.com,Proxy
+  - DOMAIN-SUFFIX,symauth.com,Proxy
+  - DOMAIN-SUFFIX,symcb.com,Proxy
+  - DOMAIN-SUFFIX,symcd.com,Proxy
+  - DOMAIN-SUFFIX,tapbots.com,Proxy
+  - DOMAIN-SUFFIX,tapbots.net,Proxy
+  - DOMAIN-SUFFIX,tdesktop.com,Proxy
+  - DOMAIN-SUFFIX,techcrunch.com,Proxy
+  - DOMAIN-SUFFIX,techsmith.com,Proxy
+  - DOMAIN-SUFFIX,thepiratebay.org,Proxy
+  - DOMAIN-SUFFIX,theverge.com,Proxy
+  - DOMAIN-SUFFIX,time.com,Proxy
+  - DOMAIN-SUFFIX,timeinc.net,Proxy
+  - DOMAIN-SUFFIX,tiny.cc,Proxy
+  - DOMAIN-SUFFIX,tinypic.com,Proxy
+  - DOMAIN-SUFFIX,tmblr.co,Proxy
+  - DOMAIN-SUFFIX,todoist.com,Proxy
+  - DOMAIN-SUFFIX,trello.com,Proxy
+  - DOMAIN-SUFFIX,trustasiassl.com,Proxy
+  - DOMAIN-SUFFIX,tumblr.co,Proxy
+  - DOMAIN-SUFFIX,tumblr.com,Proxy
+  - DOMAIN-SUFFIX,tweetdeck.com,Proxy
+  - DOMAIN-SUFFIX,tweetmarker.net,Proxy
+  - DOMAIN-SUFFIX,twitch.tv,Proxy
+  - DOMAIN-SUFFIX,txmblr.com,Proxy
+  - DOMAIN-SUFFIX,typekit.net,Proxy
+  - DOMAIN-SUFFIX,ubertags.com,Proxy
+  - DOMAIN-SUFFIX,ublock.org,Proxy
+  - DOMAIN-SUFFIX,ubnt.com,Proxy
+  - DOMAIN-SUFFIX,ulyssesapp.com,Proxy
+  - DOMAIN-SUFFIX,urchin.com,Proxy
+  - DOMAIN-SUFFIX,usertrust.com,Proxy
+  - DOMAIN-SUFFIX,v.gd,Proxy
+  - DOMAIN-SUFFIX,v2ex.com,Proxy
+  - DOMAIN-SUFFIX,vimeo.com,Proxy
+  - DOMAIN-SUFFIX,vimeocdn.com,Proxy
+  - DOMAIN-SUFFIX,vine.co,Proxy
+  - DOMAIN-SUFFIX,vivaldi.com,Proxy
+  - DOMAIN-SUFFIX,vox-cdn.com,Proxy
+  - DOMAIN-SUFFIX,vsco.co,Proxy
+  - DOMAIN-SUFFIX,vultr.com,Proxy
+  - DOMAIN-SUFFIX,w.org,Proxy
+  - DOMAIN-SUFFIX,w3schools.com,Proxy
+  - DOMAIN-SUFFIX,webtype.com,Proxy
+  - DOMAIN-SUFFIX,wikiwand.com,Proxy
+  - DOMAIN-SUFFIX,wikileaks.org,Proxy
+  - DOMAIN-SUFFIX,wikimedia.org,Proxy
+  - DOMAIN-SUFFIX,wikipedia.com,Proxy
+  - DOMAIN-SUFFIX,wikipedia.org,Proxy
+  - DOMAIN-SUFFIX,windows.com,Proxy
+  - DOMAIN-SUFFIX,windows.net,Proxy
+  - DOMAIN-SUFFIX,wire.com,Proxy
+  - DOMAIN-SUFFIX,wordpress.com,Proxy
+  - DOMAIN-SUFFIX,workflowy.com,Proxy
+  - DOMAIN-SUFFIX,wp.com,Proxy
+  - DOMAIN-SUFFIX,wsj.com,Proxy
+  - DOMAIN-SUFFIX,wsj.net,Proxy
+  - DOMAIN-SUFFIX,xda-developers.com,Proxy
+  - DOMAIN-SUFFIX,xeeno.com,Proxy
+  - DOMAIN-SUFFIX,xiti.com,Proxy
+  - DOMAIN-SUFFIX,yahoo.com,Proxy
+  - DOMAIN-SUFFIX,yimg.com,Proxy
+  - DOMAIN-SUFFIX,ying.com,Proxy
+  - DOMAIN-SUFFIX,yoyo.org,Proxy
+  - DOMAIN-SUFFIX,ytimg.com,Proxy
+  - DOMAIN-SUFFIX,telegra.ph,Proxy
+  - DOMAIN-SUFFIX,telegram.org,Proxy
+  - IP-CIDR,91.108.4.0/22,Proxy
+  - IP-CIDR,91.108.8.0/21,Proxy
+  - IP-CIDR,91.108.16.0/22,Proxy
+  - IP-CIDR,91.108.56.0/22,Proxy
+  - IP-CIDR,149.154.160.0/20,Proxy
+  - IP-CIDR6,2001:67c:4e8::/48,Proxy
+  - IP-CIDR6,2001:b28:f23d::/48,Proxy
+  - IP-CIDR6,2001:b28:f23f::/48,Proxy
+  - DOMAIN,injections.adguard.org,DIRECT
+  - DOMAIN,local.adguard.org,DIRECT
+  - DOMAIN-SUFFIX,local,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,17.0.0.0/8,DIRECT
+  - IP-CIDR,100.64.0.0/10,DIRECT
+  - IP-CIDR,224.0.0.0/4,DIRECT
+  - IP-CIDR6,fe80::/10,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,Others
