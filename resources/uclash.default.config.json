@@ -21,6 +21,7 @@
     "pacs": [
         {
             "_": "https://github.com/petronny/gfwlist2pac",
+            "description":"无法正常访问的网址列入黑名单，pac对黑名单网址使用代理，其余不代理，容易漏过一些网站，但理论更快速",
             "name": "black.pac",
             "base": [
                 "https://cdn.jsdelivr.net/gh/petronny/gfwlist2pac@master/gfwlist.pac",
@@ -31,6 +32,7 @@
         },
         {
             "_": "https://github.com/breakwa11/gfw_whitelist",
+            "description":"确认可以正常访问的网址列入白名单，pac对白名单网址直连，其余走代理",
             "name": "w2.pac",
             "base": [
                 "https://cdn.jsdelivr.net/gh/breakwa11/gfw_whitelist@master/whitelist.pac",
