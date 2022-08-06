@@ -1,10 +1,10 @@
 {
     "configurations": [
         {
-            "name": "Launch Program",
+            "name": "generate",
             "program": "${workspaceFolder}/bin/uclash.js",
             "args": [
-                "generate 0"
+                "generate -1"
             ],
             "request": "launch",
             "skipFiles": [
