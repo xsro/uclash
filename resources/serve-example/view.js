@@ -16,6 +16,7 @@ module.exports = function (req, res) {
             });
             s.on('error', function () {
                 res.setHeader('Content-Type', 'text/plain');
+
                 res.statusCode = 404;
                 res.end('Not found');
             });
@@ -26,9 +27,10 @@ module.exports = function (req, res) {
             const links = subs.map(f => {
                 const u = new URL(reqUrl);
                 u.searchParams.set("path", path.resolve(file, f))
-                return u.toString()
+                return u.absLink()
             })
             const text = subs.map((val, idx) => `<li><a href="${links[idx]}">${val}</a></li>`)
+            res.setHeader('x-content-type-options', 'nosniff');
             res.setHeader('Content-Type', 'text/html');
             const home = new URL(reqUrl);
             home.searchParams.set("path", os.homedir())
@@ -37,8 +39,8 @@ module.exports = function (req, res) {
             res.end(`
 <html>
 <body>
-<a href="${home}">HOME</a>
-<a href="${tmp}">tmp</a>
+<a href="${home.absLink()}">HOME</a>
+<a href="${tmp.absLink()}">tmp</a>
 <ol>
 ${text.join("\n")}
 </ol>
