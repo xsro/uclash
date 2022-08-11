@@ -2,6 +2,9 @@ log-level: debug
 port: 7890
 socks-port: 7891
 allow-lan: true
+hosts:
+  "clash": 127.0.0.1
+  "*.clash": 127.0.0.1
 bind-address: "*"
 mode: DIRECT
 external-controller: 0.0.0.0:9090
