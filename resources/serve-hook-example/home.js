@@ -8,4 +8,4 @@ function hook(req, res) {
 
 hook["bind-url"] = /^\/$/
 
-module.exports = hook
+export default hook

@@ -45,7 +45,7 @@
                 ],
                 [
                     "host=\"\"+host;",
-                    "host = '' + host;if (host === 'clash') { return 'PROXY 192.168.1.6:7890'; }"
+                    "host = '' + host;if (@host) { return 'PROXY 192.168.1.6:7890'; }"
                 ]
             ]
         },

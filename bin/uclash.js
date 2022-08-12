@@ -61,7 +61,8 @@ program
 
 program
     .command("serve")
-    .argument("[port]", "port to serve, default 7895")
+    .option("-p,--port <string>", "port to serve, default 7895")
+    .option("-c,--profile <string>")
     .description("serve a webpage for pacs and index")
     .action(api.serve)
 
@@ -78,7 +79,6 @@ program.command("ip")
 
 program.command("reload")
     .argument("<profile>")
-    .option("-c,--isclash")
     .option("-e,--extCtl <string>")
     .action(api.reload)
 

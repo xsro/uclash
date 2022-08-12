@@ -41,14 +41,16 @@
             "name": "serve",
             "program": "${workspaceFolder}/bin/uclash.js",
             "args": [
-                "serve"
+                "serve","-c","x0"
             ],
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "type": "node",            
-            "preLaunchTask": "preserve"
+            "env": {
+                "DEBUG_serve_example":"yes"
+            },
         },
     ]
 }

@@ -13,6 +13,10 @@ parser:
 external-controller: 127.0.0.1:9090
 log-level: debug
 
+hosts:
+  clash: 127.0.0.1
+  "*.clash.dev": 127.0.0.1
+
 proxies:
   # 使用如下链接中包含的节点，可以使用数组，链接如果是github的raw/blob格式会自动转化为githubusercontent格式和一些镜像链接
   - use: "https://github.com/yu-steven/openit/blob/main/Clash.yaml"

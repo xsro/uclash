@@ -28,7 +28,7 @@ jobs:
         run: |
           node bin/uclash.js -V
           node bin/uclash.js init
-          node bin/uclash.js generate 0
+          node bin/uclash.js generate x0
           
       - name: "install clash"
         run: |
@@ -40,8 +40,8 @@ jobs:
         run: |
           node bin/uclash.js  config ui-folder {project}/tmp
           echo clash.razord.top/ >> tmp/CNAME
-          node bin/uclash.js  exec 0 --dryrun
-          node bin/uclash.js  exec 0 --dryrun --daemon screen
+          node bin/uclash.js  exec x0 --dryrun
+          node bin/uclash.js  exec x0 --dryrun --daemon screen
           node bin/uclash.js  find
           node bin/uclash.js  ip
           

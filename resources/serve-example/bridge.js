@@ -4,7 +4,7 @@ const os = require("os");
 const link1 = "https://www.baidu.com/img/PCfb_5bf082d29588c07f842ccde3f97243ea.png"
 const link2 = "https://assets.new.siemens.com/siemens/assets/api/uuid:a2219da4-b350-4b2c-9c2e-33ae61a305ac/width:2000/crop:0,204:0,11682:0,764:0,88084/quality:high/snc-keyvisual-cmyk.jpg"
 
-module.exports = async function (req, res) {
+async function cb(req, res) {
     const { path } = this.preloaded
     const { reqUrl, getMime, download } = this.context;
 
@@ -31,5 +31,7 @@ module.exports = async function (req, res) {
         });
     }
 }
+
+export default cb
 
 

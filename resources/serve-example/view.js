@@ -1,7 +1,7 @@
 const os = require("os");
 // const fs = require("fs");
 
-module.exports = function (req, res) {
+function cb(req, res) {
     const { path, fetch, cp, fs } = this.preloaded;
     const { reqUrl, getMime } = this.context;
     const params = new URL(reqUrl).searchParams
@@ -55,3 +55,4 @@ ${text.join("\n")}
         res.end('Not found');
     }
 }
+export default cb
