@@ -1,5 +1,6 @@
 module.exports = {
   'parser': '@typescript-eslint/parser',
+  'files':'src/**.ts',
   'extends': [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -9,5 +10,5 @@ module.exports = {
   },
   'plugins': [
     '@typescript-eslint',
-  ]
+  ],
 };
