@@ -1,7 +1,7 @@
-TypeScript npm Package Template
+Clash Utilities
 ===============================
 
-A template for developing a npm package that supports multiple module formats (CommonJS, ES Modules and UMD).
+Some Utilities to manage clash
 
 ### File Structure
 
@@ -27,6 +27,6 @@ umd/ # UMD format, bundled JS file
 ### How to Develop
 
 ```zsh
-$ npm install
-$ npm run build # generates `lib`, `esm`, and `umd`
+$ pnpm install
+$ pnpm run build # generates `lib`, `esm`, and `umd`
 ```

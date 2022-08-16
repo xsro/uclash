@@ -6,7 +6,7 @@
   "module": "esm/index.js",
   "types": "lib/index.d.js",
   "scripts": {
-    "build": "npm run build:cjs && npm run build:esm && npm run build:umd",
+    "build": "pnpm run build:cjs && pnpm run build:esm && pnpm run build:umd",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:umd": "webpack",
