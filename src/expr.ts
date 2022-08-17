@@ -8,3 +8,5 @@ export function expr(str:string) {
   const a =eval(str);
   return a ;
 }
+
+export default expr

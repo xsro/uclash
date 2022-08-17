@@ -1,3 +1,4 @@
-import { expr } from "./expr";
+import  expr  from "./expr";
+import config from "./util/config"
 
-export { expr };
+export { expr,config };

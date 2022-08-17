@@ -5,7 +5,7 @@ module.exports = {
   entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, "umd"),
-    filename: "my-typescript-package.js",
+    filename: "uclash.js",
     library: "MyTsPackage",
     libraryTarget: "umd"
   },
