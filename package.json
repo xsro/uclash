@@ -1,6 +1,6 @@
 {
   "name": "clash-utilities",
-  "version": "0.0.1",
+  "version": "1.0.0-dev0.1",
   "description": "nodejs wrapper for management of clash cli and api",
   "bin": "bin/main.js",
   "main": "lib/index.js",

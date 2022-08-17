@@ -35,14 +35,20 @@ program.command("config")
   .option("-d, --default","print default config")
   .option("-c, --custom","print custom config")
   .option("-m, --merged","print merged config")
+  .option("-p, --path","print custom config path")
   .action(cli.config)
+
+program.command("profile")
+  .alias("p")
+  .action(cli.profile)
+
+program.command("ip")
+  .argument('[proxy]')
+  .action(cli.ip)
 
 program.command("generate")
   .alias("g")
-  .argument("<config>","the config to use")
-  // .option("")
-  .action(function(){
-
-  });
+  .argument("<profile>","the profile to use")
+  .action(cli.generate);
 
 program.parse();
