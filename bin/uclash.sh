@@ -14,7 +14,7 @@ alias uclash="node $project_dir/bin/uclash.js"
 
 case $1 in 
     install-clash)
-        bash $project_dir/scripts/install-clash.sh
+        bash $project_dir/scripts/install-clash.sh $2 $3
         ;;
     install-premium)
         bash $project_dir/scripts/install-premium-in-termux.sh

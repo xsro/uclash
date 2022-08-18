@@ -24,14 +24,15 @@ jobs:
 
       - name: "build"
         run: |
-          pnpm i
+          pnpm install
           pnpm build
               
       - name: "test"
         run: |
-          node bin/uclash.js generate x1
+          alias uc="sh bin/uclash.sh"
+          uc generate x1
           mkdir ./tmp/
-          bash scripts/install-clash.sh ./tmp/
+          uc install-clash ./tmp/
           ./tmp/clash -t -f ./tmp/0.yml
           node bin/uclash.js  ip
           

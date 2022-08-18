@@ -1,9 +1,9 @@
 import fs from "fs";
-import { Paths } from "./paths";
-import default_config, { AppConfig } from "./default";
+import { Paths } from "./util/paths";
+import default_config, { AppConfig } from "./util/default";
 import YAML from "yaml";
-import { curl, cURL } from "./curl";
-import logger, { LogLevel } from "./logger";
+import { curl, cURL } from "./util/curl";
+import logger, { LogLevel } from "./util/logger";
 
 class Config {
     _projectFolder = "";
@@ -49,11 +49,13 @@ class Config {
             }
         }
         this.merged = { ...this.default, ...this.custom } as AppConfig;
-        const name = this.get<keyof typeof LogLevel>("log");
+        const name = this.get<keyof typeof LogLevel>("log", "info");
         logger.baseLogLevel = LogLevel[name];
     }
 
-    get<T>(longKey: string, default_val?: T): T {
+    get<T>(longKey: string, default_val: T): T
+    get<T>(longKey: string): T | undefined
+    get<T>(longKey: string, default_val?: T): T | undefined {
         let target: any = this.custom;
         for (const key of longKey.split(".")) {
             if (key in target) {
@@ -64,7 +66,7 @@ class Config {
                 break
             }
         }
-        let default_target:any = this.default
+        let default_target: any = this.default
         for (const key of longKey.split(".")) {
             if (key in default_target) {
                 default_target = default_target[key]
@@ -74,9 +76,12 @@ class Config {
                 break
             }
         }
-        const isObject=(obj:any)=>typeof obj==="object" && obj !==null
-        if(isObject(target)&&isObject(default_target)){
-            return {...default_target,...target} as T
+        const isObject = (obj: any) => typeof obj === "object" && obj !== null
+        if (isObject(target) && isObject(default_target)) {
+            return { ...default_target, ...target } as T
+        }
+        if (target === undefined) {
+            return default_val;
         }
         return target as T
     }

@@ -10,35 +10,40 @@ export function getAppProfiles() {
         profileMap.set("x1", config.paths.resolve("{project}/profiles/" + "example.js"))
     }
 
-    const configFolder = config.paths.abs(config.get("profiles.folder"));
-    if (fs.existsSync(configFolder)) {
-        const files = fs.readdirSync(configFolder);
-        const cfgs = files
-            .filter(file => !file.startsWith("_") && (file.endsWith(".yml") || file.endsWith(".js")))
-            .map(file => resolve(configFolder, file));
-        const offset = 1
-        cfgs.forEach((val, idx) => profileMap.set((idx + offset).toString(), val))
+    const _configFolder = config.get<string>("profiles.folder")
+    if (_configFolder) {
+        const configFolder = config.paths.abs(_configFolder);
+        if (fs.existsSync(configFolder)) {
+            const files = fs.readdirSync(configFolder);
+            const cfgs = files
+                .filter(file => !file.startsWith("_") && (file.endsWith(".yml") || file.endsWith(".js")))
+                .map(file => resolve(configFolder, file));
+            const offset = 1
+            cfgs.forEach((val, idx) => profileMap.set((idx + offset).toString(), val))
+        }
+
     }
+
     return profileMap;
 }
 
-export enum ProfileType{
-    clash=0,
+export enum ProfileType {
+    clash = 0,
     sourceBase,
     use,
     js,
 }
 
 export interface ProfileInfo {
-    path:string,
-    clashPath:string,
+    path: string,
+    clashPath: string,
     type: ProfileType,
     clash?: any,
     uclash?: any,
 }
 
 
-export async function getAppProfile(label: string):Promise<ProfileInfo> {
+export async function getAppProfile(label: string): Promise<ProfileInfo> {
     const profileMap = getAppProfiles();
     let profilePath: string | undefined = undefined;
     if (profileMap.has(label)) {
@@ -83,13 +88,13 @@ export async function getAppProfile(label: string):Promise<ProfileInfo> {
                 parser[key] = parser[process.platform][key];
             }
         }
-        if (parser.type===undefined){
-            parser.type=ProfileType.use
+        if (parser.type === undefined) {
+            parser.type = ProfileType.use
         }
         const r = {
             path: profilePath,
-            clashPath:parser.destination,
-            type:parser.type as ProfileType,
+            clashPath: parser.destination,
+            type: parser.type as ProfileType,
             clash: undefined,
             uclash: obj,
         }
@@ -102,7 +107,7 @@ export async function getAppProfile(label: string):Promise<ProfileInfo> {
     else {
         return {
             path: profilePath,
-            clashPath:profilePath,
+            clashPath: profilePath,
             type: ProfileType.clash,
             clash: obj,
             uclash: undefined,

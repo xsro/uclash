@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import config from "./config";
+import config from "../config";
 import logger from "./logger";
 
 type CurlOpts={[id:string]:string}
@@ -14,7 +14,7 @@ function optionString(opts:CurlOpts={}):string{
 }
 
 function cURL(url:string,options:CurlOpts={}){
-    const optsFromConfig:CurlOpts=config.get("curl");
+    const optsFromConfig:CurlOpts=config.get("curl",{});
     const opts={...optsFromConfig,...options};
     const optsStr=optionString(opts);
     let command="curl "+optsStr+" "+url;

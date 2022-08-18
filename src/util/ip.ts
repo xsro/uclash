@@ -1,5 +1,5 @@
 import { NetworkInterfaceInfo, networkInterfaces } from 'os';
-import config from './config';
+import config from '../config';
 
 export function systemIp(): { [id: string]: string[] } {
     const nets = networkInterfaces();

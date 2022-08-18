@@ -1,8 +1,8 @@
 import YAML from "yaml";
 import { dirname } from "path";
 import ip from "../util/ip";
-import { ProfileInfo, ProfileType } from "../util/profile";
-import config from "../util/config";
+import { ProfileInfo, ProfileType } from "../profile";
+import config from "../config";
 
 interface ProfileParsed {
     json: any,
