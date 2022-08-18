@@ -1,4 +1,3 @@
-import { EOL } from "os";
 import YAML from "yaml";
 import { dirname } from "path";
 import ip from "../util/ip";
@@ -15,7 +14,7 @@ async function parse(info: ProfileInfo):Promise<ProfileParsed> {
     const { uclash, path, type } = info
     let parsed: ProfileParsed = await uclash.gen.call(
         {
-            config, YAML, fetch, ip,
+            config, YAML, ip,
             __dirname: dirname(path),
             __filename: path,
             info

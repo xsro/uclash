@@ -32,6 +32,8 @@ program.command('expr')
   .action(cli.expr);
 
 program.command("config")
+  .option("-k, --key <string>","get config of key")
+  .option("-a, --abs","with -k, get config as abspath")
   .option("-d, --default","print default config")
   .option("-c, --custom","print custom config")
   .option("-m, --merged","print merged config")

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 proxy_ips=$(arp -a | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ ')
 proxy_ui_port=9090
-TMPDIR=/tmp
+TMPDIR=$PREFIX/tmp
 for proxy_ip in $proxy_ips
 do
     mkdir -p "$TMPDIR/uclash.findproxy/"
