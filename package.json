@@ -2,7 +2,10 @@
   "name": "clash-utilities",
   "version": "1.0.0-dev0.1",
   "description": "nodejs wrapper for management of clash cli and api",
-  "bin": "bin/main.js",
+  "bin": {
+    "uclash":"bin/uclash.js",
+    "uc":"bin/uclash.sh"
+  },
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.js",

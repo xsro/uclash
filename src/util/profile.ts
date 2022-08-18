@@ -32,6 +32,7 @@ export enum ProfileType{
 
 export interface ProfileInfo {
     path:string,
+    clashPath:string,
     type: ProfileType,
     clash?: any,
     uclash?: any,
@@ -88,6 +89,7 @@ export async function getAppProfile(label: string):Promise<ProfileInfo> {
         }
         const r = {
             path: profilePath,
+            clashPath:parser.destination,
             type:parser.type as ProfileType,
             clash: undefined,
             uclash: obj,
@@ -101,6 +103,7 @@ export async function getAppProfile(label: string):Promise<ProfileInfo> {
     else {
         return {
             path: profilePath,
+            clashPath:profilePath,
             type: ProfileType.clash,
             clash: obj,
             uclash: undefined,

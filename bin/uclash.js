@@ -40,6 +40,8 @@ program.command("config")
 
 program.command("profile")
   .alias("p")
+  .argument("[profile]")
+  .option("-c,--clash-path")
   .action(cli.profile)
 
 program.command("ip")

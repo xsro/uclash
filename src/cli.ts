@@ -19,11 +19,20 @@ export function config(options: { default: boolean, custom: boolean, merged: boo
     }
 }
 
-export async function profile() {
+export async function profile(label?:string,options?:{clashPath:boolean}) {
     const profileMap = api.getAppProfiles()
-    for (const [s,l] of Array.from(profileMap.entries())){
-        const info=await api.getAppProfile(s);
-        console.log(s,info.type,l)
+    if(label){
+        const p=await api.getAppProfile(label)
+        if(options?.clashPath){
+            console.log(p.clashPath)
+        }else{
+            console.log(p)
+        }
+    }else{
+        for (const [s,l] of Array.from(profileMap.entries())){
+            const info=await api.getAppProfile(s);
+            console.log(s,info.type,l)
+        }
     }
 }
 
