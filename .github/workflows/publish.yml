@@ -24,6 +24,7 @@ jobs:
 
       - name: "build"
         run: |
+          pnpm i
           pnpm build
               
       - name: "test"
