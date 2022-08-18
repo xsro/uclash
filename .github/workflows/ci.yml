@@ -29,11 +29,11 @@ jobs:
               
       - name: "test"
         run: |
-          alias uc="sh bin/uclash.sh"
-          uc generate x1
+          sh bin/uclash.sh p
+          sh bin/uclash.sh generate x1
           mkdir ./tmp/
-          uc install-clash ./tmp/
-          ./tmp/clash -t -f ./tmp/0.yml
+          sh bin/uclash.sh install-clash ./tmp/
+          ./tmp/clash -t -f example.js.yml
           node bin/uclash.js  ip
           
       - run: pnpm publish

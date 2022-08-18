@@ -13,7 +13,7 @@ async function gen() {
 module.exports= {
     parser: {
         type: 3,
-        destination: "./examplejs_gen.yml",
+        destination: "../example.js.yml",
         updateTime: {
             "ibcn": new Date().toString()
         }
