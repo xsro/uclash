@@ -81,6 +81,9 @@ class Config {
             return { ...default_target, ...target } as T
         }
         if (target === undefined) {
+            if (default_target !== undefined) {
+                return default_target
+            }
             return default_val;
         }
         return target as T

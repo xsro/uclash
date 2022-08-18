@@ -33,7 +33,7 @@ jobs:
           sh bin/uclash.sh generate x1
           mkdir ./tmp/
           sh bin/uclash.sh install-clash ./tmp/
-          ./tmp/clash -t -f example.js.yml
+          # ./tmp/clash -t -f example.js.yml
           node bin/uclash.js  ip
           
       - run: pnpm publish

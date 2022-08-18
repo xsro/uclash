@@ -3,7 +3,7 @@
 import { LogLevel } from "./logger";
 
 export interface AppConfig {
-    log:keyof typeof LogLevel
+    log: keyof typeof LogLevel
     "curl": { [id: string]: string };
     "profiles": {
         "folder": string,
@@ -13,12 +13,12 @@ export interface AppConfig {
 }
 
 const default_config: AppConfig = {
-    log:"info",
+    log: "info",
     curl: {
-        "location":""
+        "location": ""
     },
     profiles: {
-        folder: "{HOME}/.config/uclash/clash/",
+        folder: "{home}/.config/uclash/clash/",
         branch: "main",
         repository: ""
     }
