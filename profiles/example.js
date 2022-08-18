@@ -1,10 +1,10 @@
 async function gen() {
-    const { download2, YAML, ip192 } = this;
-    console.log(this)
-    const text_ = await download2("https://github.com/yu-steven/openit/blob/raw/Clash.yaml")
+    const { config, YAML, ip } = this;
+    console.log(Object.keys(this))
+    const text_ = config.cURL("https://github.com/Hackl0us/SS-Rule-Snippet/raw/main/LAZY_RULES/clash.yaml")
     const json = YAML.parse(text_)
     json["allow-lan"] = true
-    json["hosts"] = { clash: ip192 }
+    json["hosts"] = { clash: ip.systemIp192() }
     const text = YAML.stringify(json)
     return { json, text }
 

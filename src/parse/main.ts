@@ -11,7 +11,7 @@ interface ProfileParsed {
 
 
 async function parse(info: ProfileInfo):Promise<ProfileParsed> {
-    const { uclash, path, type } = info
+    const { uclash, path } = info
     let parsed: ProfileParsed = await uclash.gen.call(
         {
             config, YAML, ip,

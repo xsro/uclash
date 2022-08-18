@@ -4,6 +4,7 @@ const {cli, api} = require("../lib/index");
 const fs=require("fs");
 const path = require("path");
 const os=require("os");
+const { execSync } = require("child_process");
 
 const projectFolder=path.dirname(__dirname);
 cli.setProjectFolder(projectFolder)
@@ -13,7 +14,7 @@ const pack=JSON.parse(fs.readFileSync(path.resolve(__dirname,"..","package.json"
 const program = new Command();
 
 program
-  .name(pack.name)
+  // .name(pack.name)
   .description(pack.description)
   .version(pack.version)
   .addHelpText("before",`
@@ -23,7 +24,7 @@ program
   ██║   ██║██║     ██║     ██╔══██║╚════██║██╔══██║
   ╚██████╔╝╚██████╗███████╗██║  ██║███████║██║  ██║ ${pack.version}
    ╚═════╝  ╚═════╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ${os.platform}-${os.arch}
-folder:  ${projectFolder}   
+folder:  ${projectFolder}
 `);
 
 program.command('expr')
@@ -44,6 +45,7 @@ program.command("profile")
   .alias("p")
   .argument("[profile]")
   .option("-c,--clash-path")
+  .option("-k,--key <string>")
   .action(cli.profile)
 
 program.command("ip")

@@ -8,7 +8,6 @@ export function getAppProfiles() {
     if (config.paths.valueMap.has("project")) {
         profileMap.set("x0", config.paths.resolve("{project}/profiles/" + "empty.yml"))
         profileMap.set("x1", config.paths.resolve("{project}/profiles/" + "example.js"))
-        profileMap.set("x2", config.paths.resolve("{project}/profiles/" + "example.yml"))
     }
 
     const configFolder = config.paths.abs(config.get("profiles.folder"));

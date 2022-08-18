@@ -1,6 +1,7 @@
 import * as api from "./api"
 import { PublicIpProvider } from "./util/ip";
 import fs from "fs";
+import logger from "./util/logger";
 
 export function expr(str: string) {
     console.log(api.expr(str))
@@ -14,9 +15,9 @@ export function config(options: {
     path: boolean
 }) {
     if (options.key) {
-        let out=api.config.get(options.key)
-        if(options.abs){
-            out=api.config.paths.abs(out as string)
+        let out = api.config.get(options.key)
+        if (options.abs) {
+            out = api.config.paths.abs(out as string)
         }
         console.log(out)
     }
@@ -30,13 +31,27 @@ export function config(options: {
     }
 }
 
-export async function profile(label?: string, options?: { clashPath: boolean }) {
+export async function profile(label?: string, options?: { clashPath: boolean, key: string }) {
     const profileMap = api.getAppProfiles()
     if (label) {
         const p = await api.getAppProfile(label)
-        if (options?.clashPath) {
-            console.log(p.clashPath)
-        } else {
+        if (options?.key || options?.clashPath) {
+            if (options?.clashPath) {
+                console.log(p.clashPath)
+            }
+            let target: any = p;
+            for (const key of options.key.split(".")) {
+                if (key in target) {
+                    target = target[key]
+                }
+                else {
+                    target = undefined
+                    break
+                }
+            }
+            console.log(target)
+        }
+        else {
             console.log(p)
         }
     } else {
@@ -71,6 +86,11 @@ export async function ip(proxys: string[] | string | undefined) {
 
 export async function generate(profile: string) {
     const info = await api.getAppProfile(profile)
-    const parsed = await api.parse(info)
-    fs.writeFileSync(info.uclash.parser.destination as string, parsed.text)
+    if(info.type===api.ProfileType.clash){
+        logger.info("skip. it's a clash profile")
+        return undefined;
+    }else{
+        const parsed = await api.parse(info)
+        fs.writeFileSync(info.uclash.parser.destination as string, parsed.text)
+    }
 }

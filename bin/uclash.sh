@@ -33,6 +33,10 @@ case $1 in
         git commit -m"$emoji $message"
         git push
         cd -
+        if (command -v clash)
+        then
+            clash -t -f $(uclash p -c $2)
+        fi
         ;;
     cron)
         profile=$2
