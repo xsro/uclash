@@ -2,6 +2,7 @@ import config from "./config";
 import * as fs from "fs";
 import { extname, resolve, isAbsolute, dirname } from "path";
 import YAML from "yaml";
+import { Profile, ProfileType } from "./profile.def";
 
 export function getAppProfiles() {
     const profileMap = new Map();
@@ -21,17 +22,8 @@ export function getAppProfiles() {
             const offset = 1
             cfgs.forEach((val, idx) => profileMap.set((idx + offset).toString(), val))
         }
-
     }
-
     return profileMap;
-}
-
-export enum ProfileType {
-    clash = 0,
-    sourceBase,
-    use,
-    js,
 }
 
 export interface ProfileInfo {
@@ -39,9 +31,8 @@ export interface ProfileInfo {
     clashPath: string,
     type: ProfileType,
     clash?: any,
-    uclash?: any,
+    uclash?: Profile,
 }
-
 
 export async function getAppProfile(label: string): Promise<ProfileInfo> {
     const profileMap = getAppProfiles();

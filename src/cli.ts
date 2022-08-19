@@ -86,11 +86,15 @@ export async function ip(proxys: string[] | string | undefined) {
 
 export async function generate(profile: string) {
     const info = await api.getAppProfile(profile)
-    if(info.type===api.ProfileType.clash){
+    if (info.type === api.ProfileType.clash) {
         logger.info("skip. it's a clash profile")
         return undefined;
-    }else{
+    }
+    else if (info.uclash) {
         const parsed = await api.parse(info)
         fs.writeFileSync(info.uclash.parser.destination as string, parsed.text)
+    }
+    else {
+        console.log(info, "not generated")
     }
 }

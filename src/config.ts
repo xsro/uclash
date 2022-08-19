@@ -5,7 +5,7 @@ import YAML from "yaml";
 import { curl, cURL } from "./util/curl";
 import logger, { LogLevel } from "./util/logger";
 
-class Config {
+export class Config {
     _projectFolder = "";
     custom_Config_Paths = [
         "{home}/.config/uclash/config.",
