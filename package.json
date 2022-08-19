@@ -3,8 +3,8 @@
   "version": "1.0.0-dev0.3",
   "description": "utilities for management of clash cli and api",
   "bin": {
-    "uclash":"bin/uclash.js",
-    "uc":"bin/uclash.sh"
+    "uclash":"bin/uclash",
+    "uc":"bin/uc"
   },
   "main": "lib/index.js",
   "module": "esm/index.js",

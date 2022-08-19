@@ -1,16 +1,17 @@
 #!/usr/bin/env sh
-current_path=$(readlink $0)
-if [ -z $current_path ]
-then current_path=$0
-fi
-project_dir=$(dirname $current_path)
+binname=$0
+while (readlink $binname > /dev/null)
+do
+    binname=$(readlink -f $binname)
+done
+
+project_dir=$(dirname $binname)
 project_dir=$(dirname $project_dir)
 
-cd $project_dir
-project_dir=`pwd -P`
-cd - >/dev/null
-
-alias uclash="node $project_dir/bin/uclash.js"
+uclash_src=$(command -v uclash)
+if [ -z "$uclash_src" ]
+then alias uclash="node $project_dir/bin/uclash"
+fi
 
 case $1 in 
     install-clash)

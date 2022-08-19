@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+const mod=require("../lib/main.js")
+mod.default(process.argv)
