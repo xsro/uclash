@@ -3,6 +3,11 @@ import * as fs from "fs";
 import { extname, resolve, isAbsolute, dirname } from "path";
 import YAML from "yaml";
 import { Profile, ProfileType } from "./profile.def";
+import { compileTs } from "./util/compileTs";
+
+const acceptExt = [
+    "yml", "yaml", "js", "ts"
+]
 
 export function getAppProfiles() {
     const profileMap = new Map();
@@ -17,7 +22,7 @@ export function getAppProfiles() {
         if (fs.existsSync(configFolder)) {
             const files = fs.readdirSync(configFolder);
             const cfgs = files
-                .filter(file => !file.startsWith("_") && (file.endsWith(".yml") || file.endsWith(".js")))
+                .filter(file => !file.startsWith("_") && acceptExt.some(ext => file.endsWith(ext)))
                 .map(file => resolve(configFolder, file));
             const offset = 1
             cfgs.forEach((val, idx) => profileMap.set((idx + offset).toString(), val))
@@ -52,7 +57,8 @@ export async function getAppProfile(label: string): Promise<ProfileInfo> {
     }
     const configText = fs.readFileSync(profilePath, { encoding: "utf-8" });
     let obj = null;
-    switch (extname(profilePath).toLowerCase()) {
+    const ext = extname(profilePath).toLowerCase()
+    switch (ext) {
         case ".yml":
         case ".yaml":
             obj = YAML.parse(configText);
@@ -60,10 +66,11 @@ export async function getAppProfile(label: string): Promise<ProfileInfo> {
         case ".json":
             obj = JSON.parse(configText);
             break;
+        case ".ts":
         case ".js":
-            const mod = await import(profilePath);
+            let modPath = ext === ".ts" ? compileTs(profilePath) : profilePath
+            const mod = await import(modPath);
             obj = mod.default
-            // console.log(obj);
             break;
     }
     if (obj === null) {

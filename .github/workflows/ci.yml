@@ -29,12 +29,7 @@ jobs:
               
       - name: "test"
         run: |
-          sh bin/uc p
-          sh bin/uc generate x1
-          mkdir ./tmp/
-          sh bin/uc install-clash ./tmp/
-          # ./tmp/clash -t -f example.js.yml
-          node bin/uclash.js  ip
+          sh .github/workflows/test.sh
           
       - run: pnpm publish
         if: success() && startsWith( github.ref, 'refs/tags/') 
