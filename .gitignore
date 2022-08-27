@@ -3,6 +3,7 @@ esm
 umd
 package
 *.yml
+tmp
 
 # Logs
 logs

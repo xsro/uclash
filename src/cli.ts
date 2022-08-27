@@ -95,13 +95,16 @@ export async function generate(profile: string) {
     }
     else if (info.uclash) {
         const parsed = await api.parse(info)
-        const former = fs.readFileSync(info.uclash.parser.destination, "utf-8")
+        const dest = info.uclash.parser.destination;
+        const former = fs.existsSync(dest)
+            ? fs.readFileSync(dest, "utf-8")
+            : "";
         const formerObj = YAML.parse(former)
         if (JSON.stringify(formerObj) === JSON.stringify(parsed.json)) {
             console.log("[profile unchanged]")
             process.exit(200)
         } else {
-            fs.writeFileSync(info.uclash.parser.destination as string, parsed.text)
+            fs.writeFileSync(dest, parsed.text)
         }
     }
     else {

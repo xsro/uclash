@@ -30,8 +30,9 @@ jobs:
       - name: "test"
         run: |
           sh .github/workflows/test.sh
+          git status
           
-      - run: pnpm publish
+      - run: pnpm publish --no-git-checks
         if: success() && startsWith( github.ref, 'refs/tags/') 
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
