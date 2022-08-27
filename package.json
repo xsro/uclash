@@ -1,6 +1,6 @@
 {
   "name": "uclash",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "utilities for management of clash cli and api",
   "bin": {
     "uclash": "bin/uclash",

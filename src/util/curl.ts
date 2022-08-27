@@ -33,4 +33,6 @@ function curl(str: string) {
     return r;
 }
 
-export { curl, cURL }
+const curlOpts = optionString(config.get("curl", {}));
+
+export { curl, cURL, curlOpts }

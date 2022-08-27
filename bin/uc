@@ -83,6 +83,9 @@ EOF
             -H "Content-Type:application/json" \
             -d "{\"path\":\"$file\"}"
         ;;
+    curl)
+        curl `uclash expr cO` $2 $3 $4
+        ;;
     *)
         uclash $*
 esac
