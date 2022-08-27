@@ -14,6 +14,15 @@ then alias uclash="node $project_dir/bin/uclash"
 fi
 
 case $1 in 
+    "")
+        echo "uc.sh is a wrapper of of uclash.js for more functionalities"
+        uclash
+        echo "  install-clash      "
+        echo "  install-premium    "
+        echo "  f|find             "
+        echo "  g|gen              generate profile with git pull and push"
+        echo "  cron               "
+        ;;
     install-clash)
         bash $project_dir/scripts/install-clash.sh $2 $3
         ;;
@@ -26,18 +35,32 @@ case $1 in
     g|gen)
         profiles=$(uclash config -a -k profiles.folder)
         emoji=$(uclash expr "rE()")
-        message=$(uname -mnrs)
+        message_file=".message"
         cd $profiles
-        git pull
-        uclash g $2 $3 $4 $5
-        git add .
-        git commit -m"$emoji $message"
-        git push
-        cd -
-        if (command -v clash)
-        then
-            clash -t -f $(uclash p -c $2)
+        if git pull
+        then 
+            uclash g $2 $3 $4 $5
+            code=$?
+        else 
+            code=201
         fi
+        if [ "$code" -eq 0 ]
+        then
+            git add .
+            cat <<EOF >$message_file
+$emoji $(uname -mnrs)
+uptime: $(uptime)
+EOF
+            git commit --file $message_file
+            rm $message_file
+            git push
+
+            if (command -v clash)
+            then
+                clash -t -f $(uclash p -c $2)
+            fi
+        fi
+        exit $code
         ;;
     cron)
         profile=$2

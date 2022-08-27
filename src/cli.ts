@@ -2,6 +2,7 @@ import * as api from "./api"
 import { PublicIpProvider } from "./util/ip";
 import fs from "fs";
 import logger from "./util/logger";
+import YAML from "yaml"
 
 export function expr(str: string) {
     console.log(api.expr(str))
@@ -39,17 +40,19 @@ export async function profile(label?: string, options?: { clashPath: boolean, ke
             if (options?.clashPath) {
                 console.log(p.clashPath)
             }
-            let target: any = p;
-            for (const key of options.key.split(".")) {
-                if (key in target) {
-                    target = target[key]
+            if (options.key) {
+                let target: any = p;
+                for (const key of options.key.split(".")) {
+                    if (key in target) {
+                        target = target[key]
+                    }
+                    else {
+                        target = undefined
+                        break
+                    }
                 }
-                else {
-                    target = undefined
-                    break
-                }
+                console.log(target)
             }
-            console.log(target)
         }
         else {
             console.log(p)
@@ -92,7 +95,14 @@ export async function generate(profile: string) {
     }
     else if (info.uclash) {
         const parsed = await api.parse(info)
-        fs.writeFileSync(info.uclash.parser.destination as string, parsed.text)
+        const former = fs.readFileSync(info.uclash.parser.destination, "utf-8")
+        const formerObj = YAML.parse(former)
+        if (JSON.stringify(formerObj) === JSON.stringify(parsed.json)) {
+            console.log("[profile unchanged]")
+            process.exit(200)
+        } else {
+            fs.writeFileSync(info.uclash.parser.destination as string, parsed.text)
+        }
     }
     else {
         console.log(info, "not generated")
