@@ -19,7 +19,13 @@ function cURL(url: string, options: CurlOpts = {}) {
     const optsStr = optionString(opts);
     let command = "curl " + optsStr + " " + url;
     logger.debug(command)
-    return execSync(command, { encoding: "utf-8" })
+    try {
+        const r = execSync(command, { encoding: "utf-8" })
+        return r
+    } catch (e) {
+        console.error((<any>e).stderr)
+    }
+    throw new Error()
 }
 
 function curl(str: string) {

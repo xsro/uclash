@@ -4,7 +4,7 @@ import config from "./config";
 import { systemIp, systemIp192, publicIP } from "./util/ip";
 import { getAppProfiles, getAppProfile, ProfileInfo } from "./profile";
 import { ProfileType } from "./profile.def";
-
+import { ClashDashBoard } from "./util/default";
 
 export {
      expr,
@@ -12,5 +12,5 @@ export {
      getAppProfiles, getAppProfile,
      systemIp, systemIp192, publicIP,
      parse,
-     ProfileInfo, ProfileType
+     ProfileInfo, ProfileType, ClashDashBoard
 };

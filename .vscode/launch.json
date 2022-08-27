@@ -11,8 +11,21 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/bin/uclash.js",
-            "args": ["g 1"],
+            "program": "${workspaceFolder}/bin/uclash",
+            "args": ["ui -au -i ui"],
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "exp",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/test.js",
+            "args": ["ui -au -i ui"],
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]

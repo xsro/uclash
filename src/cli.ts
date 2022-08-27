@@ -3,6 +3,7 @@ import { PublicIpProvider } from "./util/ip";
 import fs from "fs";
 import logger from "./util/logger";
 import YAML from "yaml"
+import { clashDashboradInit } from "./clash_dashboard";
 
 export function expr(str: string) {
     console.log(api.expr(str))
@@ -110,4 +111,19 @@ export async function generate(profile: string) {
     else {
         console.log(info, "not generated")
     }
+}
+
+export function ui(options: { list: boolean, init: string, unzip: boolean, allowReuse: boolean }) {
+    const uis = api.config.get<api.ClashDashBoard>("ui", {})
+    console.log(options)
+    if (options.list) {
+        console.table(uis)
+    }
+    else if (options.init) {
+        clashDashboradInit(uis, options.init, options.unzip, options.allowReuse)
+    }
+}
+
+export function curl() {
+
 }

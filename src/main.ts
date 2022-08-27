@@ -55,6 +55,14 @@ program.command("generate")
     .argument("<profile>", "the profile to use")
     .action(cli.generate);
 
+program.command("clash-dashboard")
+    .alias("ui")
+    .option("-l,--list")
+    .option("-i,--init <ui>")
+    .option("-u,--unzip")
+    .option("-a,--allow-reuse")
+    .action(cli.ui);
+
 function main(argv: string[]) {
     program.parse(argv);
 }

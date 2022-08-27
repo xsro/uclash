@@ -2,6 +2,13 @@
 
 import { LogLevel } from "./logger";
 
+export type ClashDashBoard = {
+    [id: string]: {
+        url: string,
+        dest: string,
+        root?: string
+    }
+}
 export interface AppConfig {
     log: keyof typeof LogLevel
     "curl": { [id: string]: string };
@@ -9,7 +16,8 @@ export interface AppConfig {
         "folder": string,
         "branch": string,
         "repository": string,
-    }
+    },
+    "ui": ClashDashBoard
 }
 
 const default_config: AppConfig = {
@@ -21,6 +29,18 @@ const default_config: AppConfig = {
         folder: "{home}/.config/uclash/clash/",
         branch: "main",
         repository: ""
+    },
+    ui: {
+        "yacd": {
+            url: "https://github.com/haishanh/yacd/archive/gh-pages.zip",
+            dest: "{home}/.config/uclash/yacd",
+
+        },
+        "ui": {
+            url: "https://github.com/Dreamacro/clash-dashboard/archive/gh-pages.zip",
+            dest: "{home}/.config/uclash/cd",
+            root: "clash-dashboard-gh-pages/"
+        }
     }
 }
 
