@@ -65,9 +65,10 @@ EOF
     cron)
         profile=$2
         cat <<EOF >$HOME/.clash-update.sh
-if (sh $project_dir/bin/uclash.sh gen $profile)
+alias uc="sh $0"
+if (uc gen $profile)
 then
-    sh $project_dir/bin/uclash.sh reload $profile
+    uc reload $profile
 fi
 EOF
         echo "* */4 * * * sh $HOME/.clash-update.sh >>$HOME/.clash-update.log" >$PREFIX/tmp/uclash.crontab
