@@ -1,5 +1,7 @@
 import { NetworkInterfaceInfo, networkInterfaces } from 'os';
 import config from '../config';
+import { PublicIpProviders } from './default';
+import logger from './logger';
 
 export function systemIp(): { [id: string]: string[] } {
     const nets = networkInterfaces();
@@ -30,11 +32,8 @@ export function systemIp192() {
     }
 }
 
-
-export enum PublicIpProvider {
-    ipipNet = "http://myip.ipip.net",
-    myipLaEn = "https://api.myip.la/en?json",
-    myipLaCn = "https://api.myip.la/cn?json"
+export function getPublicIpProviders() {
+    return config.get<PublicIpProviders>("ip", {})
 }
 
 /**
@@ -42,7 +41,7 @@ export enum PublicIpProvider {
  * @param {string|undefined} proxy proxy for curl
  * @returns 
  */
-export function publicIP(provider: PublicIpProvider = PublicIpProvider.ipipNet, proxy?: string) {
+export function publicIP(_provider?: string, proxy?: string) {
     const result: { ip?: string, text?: string, json?: any } = {};
     const opts: any = {
         silent: "",
@@ -51,12 +50,23 @@ export function publicIP(provider: PublicIpProvider = PublicIpProvider.ipipNet, 
         proxy = "127.0.0.1:" + proxy
     opts.proxy = proxy;
 
-    switch (provider) {
-        case PublicIpProvider.ipipNet:
-            result.text = config.cURL(provider, opts);
+    const providers = getPublicIpProviders()
+    const provider = _provider ? providers[_provider] : Object.values(providers)[0]
+
+    if (provider) {
+        try {
+            result.text = config.cURL(provider.url, opts);
+        } catch (e) {
+            logger.error("fetch error")
+            process.exit()
+        }
+        if (provider.type === "text") {
             const re = /\d+\.\d+\.\d+\.\d+/.exec(result.text);
             if (re) result.ip = re[0]
-            break
+        }
+        else if (provider.type === "json") {
+            result.json = JSON.parse(result.text)
+        }
     }
     return result
 }

@@ -2,8 +2,9 @@ import YAML from "yaml";
 import { dirname } from "path";
 import ip from "../util/ip";
 import { ProfileInfo } from "../profile";
-import config, { Config } from "../config";
+import config from "../config";
 import { ProfileParsed } from "../profile.def";
+import { Config } from "../util/config";
 
 export interface genApi {
     __filename: string,

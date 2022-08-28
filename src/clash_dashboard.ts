@@ -1,25 +1,26 @@
 import path from "path";
 import config from "./config";
-import { ClashDashBoard } from "./util/default";
+import { ClashDashBoards } from "./util/default";
 import os from "os";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import jszip from "jszip";
+import logger from "./util/logger";
 
-export async function clashDashboradInit(uis: ClashDashBoard, key: string, unzip: boolean, allowReuse: boolean) {
+export async function clashDashboradInit(uis: ClashDashBoards, key: string, unzip: boolean, allowReuse: boolean) {
     if (uis[key]) {
         const { url: _url, dest: _dest, root } = uis[key]
         const url = new URL(_url);
         const dest = config.paths.abs(_dest)
         const output = path.resolve(os.tmpdir(), path.basename(url.pathname))
         if (existsSync(output) && allowReuse) {
-            console.log("reused " + output)
+            logger.info("reused " + output)
         }
         else {
             config.cURL(_url, { output, location: "" })
         }
 
         if (!unzip) {
-            console.log("unzip skipped, please unzip file " + output)
+            logger.info("unzip skipped, please unzip file " + output)
         }
         else {
             if (!existsSync(dest)) {
@@ -37,7 +38,7 @@ export async function clashDashboradInit(uis: ClashDashBoard, key: string, unzip
                         });
                     }
                     writeFileSync(p, data)
-                    console.log("writed " + p)
+                    logger.info("writed " + p)
                 }
                 for (const filename of Object.keys(files)) {
                     let rel = filename;

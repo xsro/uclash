@@ -1,12 +1,25 @@
 import * as api from "./api"
-import { PublicIpProvider } from "./util/ip";
 import fs from "fs";
 import logger from "./util/logger";
 import YAML from "yaml"
 import { clashDashboradInit } from "./clash_dashboard";
 
+function readJson(p: any, keys: string) {
+    let target: any = p;
+    for (const key of keys.split(".")) {
+        if (key in target) {
+            target = target[key]
+        }
+        else {
+            target = undefined
+            break
+        }
+    }
+    return target
+}
+
 export function expr(str: string) {
-    console.log(api.expr(str))
+    logger.display(api.expr(str))
 }
 
 export const setProjectFolder = (str: string) => api.config.projectFolder = str;
@@ -21,15 +34,15 @@ export function config(options: {
         if (options.abs) {
             out = api.config.paths.abs(out as string)
         }
-        console.log(out)
+        logger.display(out)
     }
     const keys: ("default" | "custom" | "merged")[] = ["default", "custom", "merged"]
     for (const key of keys)
         if (options[key]) {
-            console.log(api.config[key])
+            logger.display(api.config[key])
         }
     if (options.path) {
-        console.log(api.config.custom_path)
+        logger.display(api.config.custom_path)
     }
 }
 
@@ -39,53 +52,60 @@ export async function profile(label?: string, options?: { clashPath: boolean, ke
         const p = await api.getAppProfile(label)
         if (options?.key || options?.clashPath) {
             if (options?.clashPath) {
-                console.log(p.clashPath)
+                logger.display(p.clashPath)
             }
             if (options.key) {
-                let target: any = p;
-                for (const key of options.key.split(".")) {
-                    if (key in target) {
-                        target = target[key]
-                    }
-                    else {
-                        target = undefined
-                        break
-                    }
-                }
-                console.log(target)
+                logger.display(readJson(p, options.key))
             }
         }
         else {
-            console.log(p)
+            logger.display(p)
         }
     } else {
         for (const [s, l] of Array.from(profileMap.entries())) {
             const info = await api.getAppProfile(s);
-            console.log(s, info.type, l)
+            logger.display(s, info.type, l)
         }
     }
 }
 
-export async function ip(proxys: string[] | string | undefined) {
-    const ip192 = api.systemIp192()
-    const ipPublic = api.publicIP()
-    const ips = api.systemIp()
-    let ipProxies = "";
-    if (proxys) {
-        if (!Array.isArray(proxys)) {
-            proxys = [proxys]
+export async function ip(proxy: string | undefined,
+    options: { provider: string, key: string, list: boolean }) {
+
+    if (options.list) {
+        console.table(api.getPublicIpProviders())
+    }
+    else if (options.provider) {
+        const r = api.publicIP(options.provider, proxy)
+        if (r.json) {
+            if (options.key) {
+                logger.display(readJson(r.json, options.key))
+            } else {
+                logger.display(r.json)
+            }
+        } else {
+            logger.display(r.text)
         }
-        ipProxies = proxys.map(p => {
-            const i = api.publicIP(PublicIpProvider.ipipNet, p).text;
-            return p + " " + i?.trim()
-        }).join("\n")
     }
-    console.log(ipPublic.text?.trim()
-        + "\n常用 " + ip192
-        + "\n代理 " + ipProxies);
-    for (const name in ips) {
-        console.log("网卡" + name + " " + ips[name])
+    else {
+        const ip192 = api.systemIp192()
+        const ipPublic = api.publicIP()
+        const ips = api.systemIp()
+        let ipProxies = "";
+        if (proxy) {
+            ipProxies = [proxy].map(p => {
+                const i = api.publicIP(undefined, p).text;
+                return p + " " + i?.trim()
+            }).join("\n")
+        }
+        logger.display(ipPublic.text?.trim()
+            + "\n常用 " + ip192
+            + "\n代理 " + ipProxies);
+        for (const name in ips) {
+            logger.display("网卡" + name + " " + ips[name])
+        }
     }
+
 }
 
 export async function generate(profile: string) {
@@ -102,20 +122,20 @@ export async function generate(profile: string) {
             : "";
         const formerObj = YAML.parse(former)
         if (JSON.stringify(formerObj) === JSON.stringify(parsed.json)) {
-            console.log("[profile unchanged]")
+            logger.display("[profile unchanged]")
             process.exit(200)
         } else {
             fs.writeFileSync(dest, parsed.text)
         }
     }
     else {
-        console.log(info, "not generated")
+        logger.display(info, "not generated")
     }
 }
 
 export function ui(options: { list: boolean, init: string, unzip: boolean, allowReuse: boolean }) {
     const uis = api.config.get<api.ClashDashBoard>("ui", {})
-    console.log(options)
+    logger.display(options)
     if (options.list) {
         console.table(uis)
     }

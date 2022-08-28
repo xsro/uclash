@@ -48,6 +48,9 @@ program.command("profile")
 
 program.command("ip")
     .argument('[proxy]')
+    .option("-l,--list")
+    .option("-k,--key <string>")
+    .option("-p,--provider <string>")
     .action(cli.ip)
 
 program.command("generate")

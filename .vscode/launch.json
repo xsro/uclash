@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/bin/uclash",
-            "args": ["ui -au -i ui"],
+            "args": ["ip -p myip"],
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]

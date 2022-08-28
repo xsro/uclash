@@ -2,13 +2,20 @@
 
 import { LogLevel } from "./logger";
 
-export type ClashDashBoard = {
+export type ClashDashBoards = {
     [id: string]: {
         url: string,
         dest: string,
         root?: string
     }
 }
+export type PublicIpProviders = {
+    [id: string]: {
+        url: string,
+        type: "json" | "text"
+    }
+}
+
 export interface AppConfig {
     log: keyof typeof LogLevel
     "curl": { [id: string]: string };
@@ -17,7 +24,8 @@ export interface AppConfig {
         "branch": string,
         "repository": string,
     },
-    "ui": ClashDashBoard
+    "ui": ClashDashBoards,
+    "ip": PublicIpProviders
 }
 
 const default_config: AppConfig = {
@@ -40,6 +48,20 @@ const default_config: AppConfig = {
             url: "https://github.com/Dreamacro/clash-dashboard/archive/gh-pages.zip",
             dest: "{home}/.config/uclash/cd",
             root: "clash-dashboard-gh-pages/"
+        }
+    },
+    ip: {
+        "ipip": {
+            url: "http://myip.ipip.net",
+            type: "text"
+        },
+        "myip": {
+            url: "https://api.myip.la/en?json",
+            type: "json"
+        },
+        "myipCn": {
+            url: "https://api.myip.la/cn?json",
+            type: "json"
         }
     }
 }

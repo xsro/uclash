@@ -1,6 +1,5 @@
-import { curlOpts } from "./util/curl";
+import { config } from "./config";
 import getRandomEmoji from "./util/randomEmoji";
-
 
 export function add(a: number, b: number) {
   return a + b;
@@ -8,7 +7,8 @@ export function add(a: number, b: number) {
 
 export function expr(str: string) {
   const rE = getRandomEmoji
-  const cO = curlOpts
+  const cO = config.curl ? config.curl.appOpts : undefined
+
   const a = eval(str);
   return a;
 }

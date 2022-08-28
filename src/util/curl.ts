@@ -1,38 +1,40 @@
 import { execSync } from "child_process";
-import config from "../config";
+import { CurlOpts, CURL } from "./config";
 import logger from "./logger";
 
-type CurlOpts = { [id: string]: string }
-
-function optionString(opts: CurlOpts = {}): string {
-    let str = "";
-    for (const key in opts) {
-        if (opts[key] !== undefined)
-            str += ` --${key} ${opts[key]}`
+export class curlCp implements CURL {
+    static optionString(opts: CurlOpts = {}): string {
+        let str = "";
+        for (const key in opts) {
+            if (opts[key] !== undefined)
+                str += ` --${key} ${opts[key]}`
+        }
+        return str
     }
-    return str
-}
-
-function cURL(url: string, options: CurlOpts = {}) {
-    const optsFromConfig: CurlOpts = config.get("curl", {});
-    const opts = { ...optsFromConfig, ...options };
-    const optsStr = optionString(opts);
-    let command = "curl " + optsStr + " " + url;
-    logger.debug(command)
-    try {
-        const r = execSync(command, { encoding: "utf-8" })
+    constructor(public optsFromConfig: CurlOpts) { }
+    get appOpts() {
+        return curlCp.optionString(this.optsFromConfig)
+    }
+    cURL(url: string, options: CurlOpts = {}) {
+        const optsFromConfig: CurlOpts = this.optsFromConfig;
+        const opts = { ...optsFromConfig, ...options };
+        const optsStr = curlCp.optionString(opts);
+        let command = "curl " + optsStr + " " + url;
+        logger.debug(command)
+        let r: string = ""
+        try {
+            r = execSync(command, { encoding: "utf-8" })
+        } catch (e) {
+            logger.info("[error]")
+            console.error(e)
+            process.exit()
+        }
         return r
-    } catch (e) {
-        console.error((<any>e).stderr)
     }
-    throw new Error()
+
+    curl(str: string) {
+        const r = execSync("curl " + str, { encoding: "utf-8" })
+        return r;
+    }
 }
 
-function curl(str: string) {
-    const r = execSync("curl " + str, { encoding: "utf-8" })
-    return r;
-}
-
-const curlOpts = optionString(config.get("curl", {}));
-
-export { curl, cURL, curlOpts }
