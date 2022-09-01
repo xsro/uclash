@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-proxy_ips=$(arp -a | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ ')
+proxy_ips=$(arp -a | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
 proxy_ui_port=9090
 TMPDIR=$PREFIX/tmp
 previous_path=$HOME/.config/uclash/previous_proxy.txt

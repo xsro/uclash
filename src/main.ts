@@ -27,6 +27,7 @@ folder:  ${projectFolder}
 
 program.command('expr')
     .alias("e")
+    .option("-R, --no-replace-at")
     .argument('<string>', 'string to eval as expression')
     .action(cli.expr);
 

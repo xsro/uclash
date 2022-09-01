@@ -15,13 +15,13 @@ fi
 
 case $1 in 
     "")
-        echo "uc.sh is a wrapper of of uclash.js for more functionalities"
         uclash
+        echo "  ------uc.sh provides additional commands-----------    "
         echo "  install-clash      "
         echo "  install-premium    "
-        echo "  f|find             "
-        echo "  g|gen              generate profile with git pull and push"
-        echo "  cron               "
+        echo "  f|find             find possible proxy ip in arp or history"
+        echo "  g|gen [profile]    generate profile with git pull and push"
+        echo "  cron  [profile]    add a cron task to update and reload"
         ;;
     install-clash)
         bash $project_dir/scripts/install-clash.sh $2 $3
@@ -72,7 +72,15 @@ then
 fi
 EOF
         echo "* */4 * * * sh $HOME/.clash-update.sh >>$HOME/.clash-update.log" >$PREFIX/tmp/uclash.crontab
-        crontab $PREFIX/tmp/uclash.crontab
+        cat <<EOF
+script: $HOME/.clash-update.sh
+log:    $HOME/.clash-update.log
+tab:    $PREFIX/tmp/uclash.crontab
+EOF
+        if [ "$3"=="-d" ]
+        then echo "install: '-d' used, skip crontab install"
+        else crontab $PREFIX/tmp/uclash.crontab
+        fi
         ;;
     r|reload)
         file=$(uclash p -c $2)

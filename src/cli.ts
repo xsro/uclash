@@ -18,8 +18,8 @@ function readJson(p: any, keys: string) {
     return target
 }
 
-export function expr(str: string) {
-    logger.display(api.expr(str))
+export function expr(str: string, opts: { "replaceAt": boolean }) {
+    logger.display(api.expr(str, opts))
 }
 
 export const setProjectFolder = (str: string) => api.config.projectFolder = str;
@@ -88,24 +88,22 @@ export async function ip(proxy: string | undefined,
         }
     }
     else {
-        const ip192 = api.systemIp192()
-        const ipPublic = api.publicIP()
         const ips = api.systemIp()
-        let ipProxies = "";
-        if (proxy) {
-            ipProxies = [proxy].map(p => {
-                const i = api.publicIP(undefined, p).text;
-                return p + " " + i?.trim()
-            }).join("\n")
-        }
-        logger.display(ipPublic.text?.trim()
-            + "\n常用 " + ip192
-            + "\n代理 " + ipProxies);
         for (const name in ips) {
             logger.display("网卡" + name + " " + ips[name])
         }
-    }
 
+        const ip192 = api.systemIp192()
+        logger.display("192段：", ip192)
+
+        const ipPublic = api.publicIP()
+        logger.display(ipPublic.text?.trim())
+
+        if (proxy) {
+            const i = api.publicIP(undefined, proxy).text;
+            logger.display("代理：", proxy, i?.trim())
+        }
+    }
 }
 
 export async function generate(profile: string) {
