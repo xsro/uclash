@@ -24,13 +24,13 @@ case $1 in
         echo "  cron  [profile]    add a cron task to update and reload"
         ;;
     install-clash)
-        bash $project_dir/scripts/install-clash.sh $2 $3
+        sh $project_dir/scripts/install-clash.sh $2 $3
         ;;
     install-premium)
-        bash $project_dir/scripts/install-premium-in-termux.sh
+        sh $project_dir/scripts/install-premium-in-termux.sh
         ;;
     f|find)
-        bash $project_dir/scripts/find-proxy.sh
+        sh $project_dir/scripts/find-proxy.sh $2
         ;;
     g|gen)
         profiles=$(uclash config -a -k profiles.folder)
