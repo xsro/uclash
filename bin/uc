@@ -8,14 +8,14 @@ done
 project_dir=$(dirname $binname)
 project_dir=$(dirname $project_dir)
 
-uclash_src=$(command -v uclash)
-if [ -z "$uclash_src" ]
-then alias uclash="node $project_dir/bin/uclash"
+if (command -v uclash)
+then uclash="uclash"
+else uclash="node $project_dir/bin/uclash"
 fi
 
 case $1 in 
     "")
-        uclash
+        $uclash
         echo "  ------uc.sh provides additional commands-----------    "
         echo "  install-clash      "
         echo "  install-premium    "
@@ -33,13 +33,13 @@ case $1 in
         sh $project_dir/scripts/find-proxy.sh $2
         ;;
     g|gen)
-        profiles=$(uclash config -a -k profiles.folder)
-        emoji=$(uclash expr "rE()")
+        profiles=$($uclash config -a -k profiles.folder)
+        emoji=$($uclash expr "rE()")
         message_file=".message"
         cd $profiles
         if git pull
         then 
-            uclash g $2 $3 $4 $5
+            $uclash g $2 $3 $4 $5
             code=$?
         else 
             code=201
@@ -57,7 +57,7 @@ EOF
 
             if (command -v clash)
             then
-                clash -t -f $(uclash p -c $2)
+                clash -t -f $($uclash p -c $2)
             fi
         fi
         exit $code
@@ -83,7 +83,7 @@ EOF
         fi
         ;;
     r|reload)
-        file=$(uclash p -c $2)
+        file=$($uclash p -c $2)
         clash_controller=$3
         if [ -z $3 ]
         then clash_controller="127.0.0.1:9090"
@@ -93,8 +93,8 @@ EOF
             -d "{\"path\":\"$file\"}"
         ;;
     curl)
-        curl `uclash expr cO` $2 $3 $4
+        curl `$uclash expr cO` $2 $3 $4
         ;;
     *)
-        uclash $*
+        $uclash $*
 esac

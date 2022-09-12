@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/bin/uclash",
-            "args": ["expr","kM"],
+            "args": ["g","2"],
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]
