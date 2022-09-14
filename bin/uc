@@ -82,13 +82,13 @@ EOF
         else crontab $PREFIX/tmp/uclash.crontab
         fi
         ;;
-    r|reload)
+    r)
         file=$($uclash p -c $2)
         clash_controller=$3
         if [ -z $3 ]
         then clash_controller="127.0.0.1:9090"
         fi
-        curl -X PUT http://$clash_controller/configs \
+        echo curl -X PUT http://$clash_controller/configs \
             -H "Content-Type:application/json" \
             -d "{\"path\":\"$file\"}"
         ;;

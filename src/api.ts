@@ -6,6 +6,7 @@ import { getAppProfiles, getAppProfile, ProfileInfo } from "./profile";
 import { ProfileType } from "./profile.def";
 import { ClashDashBoards } from "./util/default";
 import { curlCp } from "./util/curl"
+import { Controller } from "./clash/controller"
 
 config.curl = new curlCp(config.get("curl", {}))
 config.cURL = config.curl.cURL.bind(config.curl)
@@ -16,5 +17,6 @@ export {
      getAppProfiles, getAppProfile,
      systemIp, systemIp192, publicIP, getPublicIpProviders,
      parse,
+     Controller,
      ProfileInfo, ProfileType, ClashDashBoards as ClashDashBoard
 };

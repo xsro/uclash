@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { cli } from "./index";
+import { api, cli } from "./index";
 import fs from "fs";
 import path from "path";
 import os from "os";
@@ -66,6 +66,23 @@ program.command("clash-dashboard")
     .option("-u,--unzip")
     .option("-a,--allow-reuse")
     .action(cli.ui);
+
+program.command("reload")
+    .argument("<profile>")
+    .option("-c,--controller [string]")
+    .action(cli.reload)
+
+program.command("get")
+    .argument("<name>")
+    .argument("[args...]")
+    .option("-c,--controller [string]")
+    .action(function (name: string, args: string[], options: { controller: string }) { cli.control("get", name, args, options) })
+
+program.command("put")
+    .argument("<name>")
+    .argument("[args...]")
+    .option("-c,--controller [string]")
+    .action(function (name: string, args: string[], options: { controller: string }) { cli.control("put", name, args, options) })
 
 function main(argv: string[]) {
     program.parse(argv);

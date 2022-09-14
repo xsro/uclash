@@ -142,6 +142,42 @@ export function ui(options: { list: boolean, init: string, unzip: boolean, allow
     }
 }
 
-export function curl() {
+export async function reload(profile: string, options: { controller: string }) {
+    let url = new URL("http://127.0.0.1:9090")
+    if (options.controller) {
+        let str = options.controller
+        if (str.match(/\d+/)) {
+            url.port = str
+        }
+        if (!str.startsWith("http")) {
+            url = new URL("http://" + str)
+        }
+    }
+    const p = await api.getAppProfile(profile)
+    const c = new api.Controller(url)
+    const res = await c.put.configs(p.clashPath)
+    console.log(
+        `${res.status} ${res.statusText}`)
+}
 
+export async function control(method: string, name: string, args: string[], options: { controller: string }) {
+    let url = new URL("http://127.0.0.1:9090")
+    if (options.controller) {
+        let str = options.controller
+        if (str.match(/\d+/)) {
+            url.port = str
+        }
+        if (!str.startsWith("http")) {
+            url = new URL("http://" + str)
+        }
+    }
+    const c = new api.Controller(url)
+    // @ts-ignore
+    const response = c[method][name](...args)
+    const res = await response;
+    console.log(
+        `${res.status} ${res.statusText}
+${JSON.stringify(res.data, undefined, 2)}
+`
+    )
 }
