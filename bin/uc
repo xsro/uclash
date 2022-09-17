@@ -35,7 +35,7 @@ case $1 in
     g|gen)
         profiles=$($uclash config -a -k profiles.folder)
         emoji=$($uclash expr "rE()")
-        message_file=".message"
+        message_file="$tmp/.message"
         cd $profiles
         if git pull
         then 
@@ -49,8 +49,10 @@ case $1 in
             git add .
             cat <<EOF >$message_file
 $emoji $(uname -mnrs)
-uptime: $(uptime)
 EOF
+            if command -v uptime
+            then uptime >> $message_file
+            fi
             git commit --file $message_file
             rm $message_file
             git push

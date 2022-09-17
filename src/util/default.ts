@@ -42,6 +42,7 @@ const default_config: AppConfig = {
         "yacd": {
             url: "https://github.com/haishanh/yacd/archive/gh-pages.zip",
             dest: "{home}/.config/uclash/yacd",
+            root: "yacd-gh-pages/"
 
         },
         "ui": {
