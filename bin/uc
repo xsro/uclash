@@ -32,6 +32,12 @@ case $1 in
     f|find)
         sh $project_dir/scripts/find-proxy.sh $2
         ;;
+    update)
+        profiles=$($uclash config -a -k profiles.folder)
+        cd $profiles
+        git pull
+        cd -
+        ;;
     g|gen)
         profiles=$($uclash config -a -k profiles.folder)
         emoji=$($uclash expr "rE()")
