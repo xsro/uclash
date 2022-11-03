@@ -34,7 +34,7 @@ const default_config: AppConfig = {
         "location": ""
     },
     profiles: {
-        folder: "{home}/.config/uclash/clash/",
+        folder: "{home}/.config/clash/",
         branch: "main",
         repository: ""
     },
