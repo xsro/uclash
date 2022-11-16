@@ -41,7 +41,7 @@ case $1 in
     g|gen)
         profiles=$($uclash config -a -k profiles.folder)
         emoji=$($uclash expr "rE()")
-        message_file="$tmp/.message"
+        message_file="/tmp/.message"
         cd $profiles
         if git pull
         then 
